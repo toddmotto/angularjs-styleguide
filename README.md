@@ -193,7 +193,7 @@
 
 ## Directives
 
-  - **Declaration restrictions**: Only use `custom element` and `custom attribute` methods for declaring your Directives
+  - **Declaration restrictions**: Only use `custom element` and `custom attribute` methods for declaring your Directives (`{ restrict: 'EA' }`) depending on the Directive's role
 
     ```html
     <!-- bad -->
@@ -429,4 +429,63 @@
     }
     ```
 
-  - This keeps resolve dependencies inside the same file as the Controller, which means more maintainable code and less logic in the router
+  - This keeps resolve dependencies inside the same file as the Controller and the router free from logic
+
+## Commenting
+
+  - **jsDoc**: Use jsDoc syntax to document function names, description, params and returns
+
+    ```javascript
+    /**
+     * @name SomeService
+     * @desc Main application Controller
+     */
+    function SomeService (SomeService) {
+
+      /**
+       * @name doSomething
+       * @desc Does something awesome
+       * @param {Number} x First number to do something with
+       * @param {Number} y Second number to do something with
+       * @returns {Number}
+       */
+      this.doSomething = function (x, y) {
+        return x * y;
+      };
+
+    }
+    angular
+      .module('app')
+      .service('SomeService', SomeService);
+    ```
+
+## Minification and annotation tooling
+
+  - **ng-annotate**: Use [ng-annotate](//github.com/olov/ng-annotate) for Gulp as `ng-min` is deprecated and comment functions that need automated dependency injection using `/** @ngInject */`
+
+    ```javascript
+    /**
+     * @ngInject
+     */
+    function MainCtrl (SomeService) {
+      this.doSomething = SomeService.doSomething;
+    }
+    angular
+      .module('app')
+      .controller('MainCtrl', MainCtrl);
+    ```
+
+  - Which produces the following output with the `$inject` annotation
+
+    ```javascript
+    /**
+     * @ngInject
+     */
+    function MainCtrl (SomeService) {
+      this.doSomething = SomeService.doSomething;
+    }
+    MainCtrl.$inject = ['SomeService'];
+    angular
+      .module('app')
+      .controller('MainCtrl', MainCtrl);
+    ```
