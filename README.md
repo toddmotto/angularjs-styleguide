@@ -437,10 +437,42 @@
 
 ## Publish and subscribe events
 
-  - **Promises**:
+  - **$scope**: use the `$emit` and `$broadcast` methods to trigger events to direct relationship scopes only
 
     ```javascript
+    // up the $scope
+    $scope.$emit('customEvent', data);
 
+    // down the $scope
+    $scope.$broadcast('customEvent', data);
+    ```
+
+  - **$rootScope**: use only `$emit` as an application-wide event bus and remember to unbind listeners
+
+    ```javascript
+    // all $rootScope.$on listeners
+    $rootScope.$emit('customEvent', data);
+    ```
+
+  - Hint: `$rootScope.$on` listeners are different to `$scope.$on` listeners and will always persist so they need destroying when the relevant `$scope` fires the `$destroy` event
+
+    ```javascript
+    // call the closure
+    var unbind = $rootScope.$on('customEvent'[, callback]);
+    $scope.$on('$destroy', unbind);
+    ```
+
+  - For multiple `$rootScope` listeners, use an Object literal and loop each one on the `$destroy` event to unbind all automatically
+
+    ```javascript
+    var rootListeners = {
+      'customEvent1': $rootScope.$on('customEvent1'[, callback]),
+      'customEvent2': $rootScope.$on('customEvent2'[, callback]),
+      '$customEvent3': $rootScope.$on('customEvent3'[, callback])
+    };
+    for (var unbind in rootListeners) {
+      $scope.$on('$destroy', rootListeners[unbind]);
+    }
     ```
 
 ## Angular wrapper references
