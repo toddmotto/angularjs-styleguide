@@ -34,32 +34,39 @@
       .module('app', [])
       .controller('MainCtrl', function MainCtrl () {
 
-    });
+      })
+      .service('SomeService', function SomeService () {
+
+      });
 
     // good
     function MainCtrl () {
 
     }
+    function SomeService () {
+
+    }
     angular
       .module('app', [])
-      .controller('MainCtrl', MainCtrl);
+      .controller('MainCtrl', MainCtrl)
+      .service('SomeService', SomeService);
     ```
 
   - This aids with readability and reduces the volume of code "wrapped" inside the Angular framework
 
-**[⬆ top](#table-of-contents)**
+**[top](#table-of-contents)**
 
 ## Controllers
 
-  - **controllerAs syntax**: Use the `controllerAs` syntax at all times
+  - **controllerAs syntax**: Controllers are classes, so use the `controllerAs` syntax at all times
 
     ```html
-    // bad
+    <!-- bad -->
     <div ng-controller="MainCtrl">
       {{ someObject }}
     </div>
 
-    // good
+    <!-- good -->
     <div ng-controller="MainCtrl as main">
       {{ main.someObject }}
     </div>
@@ -129,3 +136,126 @@
     }
     ```
 
+  - Think "skinny controller, fat service"
+
+**[top](#table-of-contents)**
+
+## Services
+
+  - Services are classes and are instantiated with the `new` keyword, use `this` for public methods and variables
+
+    ```javascript
+    function SomeService () {
+      this.someMethod = function () {
+
+      };
+    }
+    ```
+
+## Factory
+
+  - **Singletons**: Factories are singletons, return a host Object inside each Factory to avoid primitive binding issues
+
+    ```javascript
+    // bad
+    function AnotherService () {
+      var someValue = '';
+      var someMethod = function () {
+
+      };
+      return {
+        someValue: someValue,
+        someMethod: someMethod
+      };
+    }
+
+    // good
+    function AnotherService () {
+      var AnotherService = {};
+      AnotherService.someValue = '';
+      AnotherService.someMethod = function () {
+
+      };
+      return AnotherService;
+    }
+    ```
+
+  - This way bindings are mirrored across the host Object, primitive values cannot update alone using the revealing module pattern
+
+  ## Directives
+
+    - **Declaration restrictions**: Only use `custom element` and `custom attribute` methods for declaring your Directives
+
+      ```html
+      <!-- bad -->
+
+      <!-- directive: my-directive -->
+      <div class="my-directive"></div>
+
+      <!-- good -->
+
+      <my-directive></my-directive>
+      <div my-directive></div>
+      ```
+
+    - Comment and class name declarations are confusing and should be avoided. Comments do not play nicely with older versions of IE, using an attribute is the safest method for browser coverage.
+
+    - **Templating**: Use `Array.join()` for clean templating
+
+      ```javascript
+      // bad
+
+      // good
+
+      ```
+
+    - **DOM manipulation**: Only takes place inside Directives, never a controller/service
+
+      ```javascript
+      // bad
+      function UploadCtrl () {
+        $('.dragzone').on('dragend', function () {
+          // handle drop functionality
+        });
+      }
+      angular
+        .module('app')
+        .controller('UploadCtrl', UploadCtrl);
+
+      // good
+      function dragUpload () {
+        return {
+          restrict: 'EA',
+          link: function (scope, element, attrs) {
+            element.on('dragend', function () {
+              // handle drop functionality
+            });
+          }
+        };
+      }
+      angular
+        .module('app')
+        .directive('dragUpload', dragUpload);
+      ```
+
+    - **Naming conventions**: Never `ng-*` prefix custom directives, they might conflict future native directives
+
+      ```javascript
+      // bad
+      function ngUpload () {
+        return {};
+      }
+      angular
+        .module('app')
+        .directive('ngUpload', ngUpload);
+
+      // good
+      function dragUpload () {
+        return {};
+      }
+      angular
+        .module('app')
+        .directive('dragUpload', dragUpload);
+      ```
+
+    - Directives are the _only_ providers that we have the first letter as lowercase, this is due to strict naming conventions in the way Angular translates `camelCase` to hyphenated, so `focusFire` will become `<input focus-fire>` when used on an element.
