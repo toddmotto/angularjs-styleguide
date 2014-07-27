@@ -200,13 +200,28 @@
 
   - Comment and class name declarations are confusing and should be avoided. Comments do not play nicely with older versions of IE, using an attribute is the safest method for browser coverage.
 
-  - **Templating**: Use `Array.join()` for clean templating
+  - **Templating**: Use `Array.join('')` for clean templating
 
     ```javascript
     // bad
+    function someDirective () {
+      return {
+        template: '<div class="some-directive">' +
+          '<h1>My directive</h1>' +
+        '</div>'
+      };
+    }
 
     // good
-
+    function someDirective () {
+      return {
+        template: [
+          '<div class="some-directive">',
+            '<h1>My directive</h1>',
+          '</div>'
+        ].join('')
+      };
+    }
     ```
 
   - **DOM manipulation**: Only takes place inside Directives, never a controller/service
@@ -242,6 +257,7 @@
 
     ```javascript
     // bad
+    // <div ng-upload></div>
     function ngUpload () {
       return {};
     }
@@ -250,6 +266,7 @@
       .directive('ngUpload', ngUpload);
 
     // good
+    // <div drag-upload></div>
     function dragUpload () {
       return {};
     }
@@ -260,3 +277,64 @@
 
   - Directives are the _only_ providers that we have the first letter as lowercase, this is due to strict naming conventions in the way Angular translates `camelCase` to hyphenated, so `focusFire` will become `<input focus-fire>` when used on an element.
 
+## Filters
+
+  - **Global filters**: Create global filters only using `angular.filter()` never use local filters inside Controllers/Services
+
+    ```javascript
+    // bad
+    function SomeCtrl () {
+      this.startsWithLetterA = function () {
+        return items.filter(function (item) {
+          return /a/i.test(item.name.substring(0, 1));
+        });
+      };
+    }
+    angular
+      .module('app')
+      .controller('SomeCtrl', SomeCtrl);
+
+    // good
+    function startsWithLetterA () {
+      return function (items) {
+        return items.filter(function (item) {
+          return /a/i.test(item.name.substring(0, 1));
+        });
+      };
+    }
+    angular
+      .module('app')
+      .filter('startsWithLetterA', startsWithLetterA);
+    ```
+
+  - This enhances testing and reusability
+
+## Filters
+
+  - **Global filters**: Create global filters only using `angular.filter()` never use local filters inside Controllers/Services
+
+    ```javascript
+    // bad
+    function SomeCtrl () {
+      this.startsWithLetterA = function () {
+        return items.filter(function (item) {
+          return /a/i.test(item.name.substring(0, 1));
+        });
+      };
+    }
+    angular
+      .module('app')
+      .controller('SomeCtrl', SomeCtrl);
+
+    // good
+    function startsWithLetterA () {
+      return function (items) {
+        return items.filter(function (item) {
+          return /a/i.test(item.name.substring(0, 1));
+        });
+      };
+    }
+    angular
+      .module('app')
+      .filter('startsWithLetterA', startsWithLetterA);
+    ```
