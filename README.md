@@ -588,6 +588,9 @@
       .controller('MainCtrl', MainCtrl);
     ```
 
+## Angular docs
+For anything else, API reference, check the [Angular documentation](//docs.angularjs.org/api).
+
 ## Contributing
 
 Open an issue first to discuss potential changes/additions.
