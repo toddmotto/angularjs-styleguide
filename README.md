@@ -435,6 +435,8 @@
 
   - This keeps resolve dependencies inside the same file as the Controller and the router free from logic
 
+**[Back to top](#table-of-contents)**
+
 ## Publish and subscribe events
 
   - **$scope**: use the `$emit` and `$broadcast` methods to trigger events to direct relationship scopes only
@@ -474,6 +476,8 @@
       $scope.$on('$destroy', rootListeners[unbind]);
     }
     ```
+
+**[Back to top](#table-of-contents)**
 
 ## Angular wrapper references
 
@@ -529,6 +533,8 @@
     }
     ```
 
+**[Back to top](#table-of-contents)**
+
 ## Comment standards
 
   - **jsDoc**: Use jsDoc syntax to document function names, description, params and returns
@@ -556,6 +562,8 @@
       .module('app')
       .service('SomeService', SomeService);
     ```
+
+**[Back to top](#table-of-contents)**
 
 ## Minification and annotation
 
@@ -587,6 +595,8 @@
       .module('app')
       .controller('MainCtrl', MainCtrl);
     ```
+
+**[Back to top](#table-of-contents)**
 
 ## Angular docs
 For anything else, API reference, check the [Angular documentation](//docs.angularjs.org/api).
