@@ -275,7 +275,36 @@
       .directive('dragUpload', dragUpload);
     ```
 
-  - Directives are the _only_ providers that we have the first letter as lowercase, this is due to strict naming conventions in the way Angular translates `camelCase` to hyphenated, so `focusFire` will become `<input focus-fire>` when used on an element.
+  - Directives and Filters are the _only_ providers that we have the first letter as lowercase, this is due to strict naming conventions in Directives due to the way Angular translates `camelCase` to hyphenated, so `dragUpload` will become `<div drag-upload></div>` when used on an element.
+
+  - **controllerAs**: Use the `controllerAs` syntax inside Directives also
+
+    ```javascript
+    // bad
+    function dragUpload () {
+      return {
+        controller: function ($scope) {
+
+        }
+      };
+    }
+    angular
+      .module('app')
+      .directive('dragUpload', dragUpload);
+
+    // good
+    function dragUpload () {
+      return {
+        controllerAs: 'dragUpload',
+        controller: function () {
+
+        }
+      };
+    }
+    angular
+      .module('app')
+      .directive('dragUpload', dragUpload);
+    ```
 
 ## Filters
 
@@ -284,9 +313,9 @@
     ```javascript
     // bad
     function SomeCtrl () {
-      this.startsWithLetterA = function () {
+      this.startsWithLetterA = function (items) {
         return items.filter(function (item) {
-          return /a/i.test(item.name.substring(0, 1));
+          return /$a/i.test(item.name);
         });
       };
     }
@@ -298,7 +327,7 @@
     function startsWithLetterA () {
       return function (items) {
         return items.filter(function (item) {
-          return /a/i.test(item.name.substring(0, 1));
+          return /$a/i.test(item.name);
         });
       };
     }
@@ -338,3 +367,83 @@
       .module('app')
       .filter('startsWithLetterA', startsWithLetterA);
     ```
+
+## Route resolving
+
+  - **Promises**: Resolve dependencies of a Controller in the `$routeProvider` (or `$stateProvider` for `ui-router`) not the Controller itself
+
+    ```javascript
+    // bad
+    function MainCtrl (SomeService) {
+      var _this = this;
+      // unresolved
+      _this.something;
+      // resolved asynchronously
+      SomeService.doSomething().then(function (response) {
+        _this.something = response;
+      });
+    }
+    angular
+      .module('app')
+      .controller('MainCtrl', MainCtrl);
+
+    // good
+    function config ($routeProvider) {
+      $routeProvider
+      .when('/', {
+        templateUrl: 'views/main.html',
+        resolve: {
+          // resolve here
+        }
+      });
+    }
+    angular
+      .module('app')
+      .config(config);
+    ```
+
+  - **Controller.resolve property**: Never bind logic to the router itself, reference a `resolve` property for each Controller to couple the logic
+
+    ```javascript
+    // bad
+    function MainCtrl (SomeService) {
+      this.something = SomeService.something;
+    }
+
+    function config ($routeProvider) {
+      $routeProvider
+      .when('/', {
+        templateUrl: 'views/main.html',
+        controllerAs: 'main',
+        controller: 'MainCtrl'
+        resolve: {
+          doSomething: function () {
+            return SomeService.doSomething();
+          }
+        }
+      });
+    }
+
+    // good
+    function MainCtrl (SomeService) {
+      this.something = SomeService.something;
+    }
+
+    MainCtrl.resolve = {
+      doSomething: function () {
+        return SomeService.doSomething();
+      }
+    };
+
+    function config ($routeProvider) {
+      $routeProvider
+      .when('/', {
+        templateUrl: 'views/main.html',
+        controllerAs: 'main',
+        controller: 'MainCtrl'
+        resolve: MainCtrl.resolve
+      });
+    }
+    ```
+
+  - This keeps resolve dependencies inside the same file as the Controller, which means more maintainable code and less logic in the router
