@@ -6,6 +6,11 @@
 
   1. [Modules](#modules)
   1. [Controllers](#controllers)
+  1. [Services](#services)
+  1. [Factory](#factory)
+  1. [Directives](#directives)
+  1. [Filters](#filters)
+  1. [Routing resolves](#routing-resolves)
 
 ## Modules
 
@@ -54,7 +59,7 @@
 
   - This aids with readability and reduces the volume of code "wrapped" inside the Angular framework
 
-**[top](#table-of-contents)**
+**[Back to top](#table-of-contents)**
 
 ## Controllers
 
@@ -138,7 +143,7 @@
 
   - Think "skinny controller, fat service"
 
-**[top](#table-of-contents)**
+**[Back to top](#table-of-contents)**
 
 ## Services
 
@@ -151,6 +156,8 @@
       };
     }
     ```
+
+**[Back to top](#table-of-contents)**
 
 ## Factory
 
@@ -181,6 +188,8 @@
     ```
 
   - This way bindings are mirrored across the host Object, primitive values cannot update alone using the revealing module pattern
+
+**[Back to top](#table-of-contents)**
 
 ## Directives
 
@@ -306,6 +315,8 @@
       .directive('dragUpload', dragUpload);
     ```
 
+**[Back to top](#table-of-contents)**
+
 ## Filters
 
   - **Global filters**: Create global filters only using `angular.filter()` never use local filters inside Controllers/Services
@@ -338,37 +349,9 @@
 
   - This enhances testing and reusability
 
-## Filters
+**[Back to top](#table-of-contents)**
 
-  - **Global filters**: Create global filters only using `angular.filter()` never use local filters inside Controllers/Services
-
-    ```javascript
-    // bad
-    function SomeCtrl () {
-      this.startsWithLetterA = function () {
-        return items.filter(function (item) {
-          return /a/i.test(item.name.substring(0, 1));
-        });
-      };
-    }
-    angular
-      .module('app')
-      .controller('SomeCtrl', SomeCtrl);
-
-    // good
-    function startsWithLetterA () {
-      return function (items) {
-        return items.filter(function (item) {
-          return /a/i.test(item.name.substring(0, 1));
-        });
-      };
-    }
-    angular
-      .module('app')
-      .filter('startsWithLetterA', startsWithLetterA);
-    ```
-
-## Route resolving
+## Routing resolves
 
   - **Promises**: Resolve dependencies of a Controller in the `$routeProvider` (or `$stateProvider` for `ui-router`) not the Controller itself
 
