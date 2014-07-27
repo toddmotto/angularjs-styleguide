@@ -11,6 +11,10 @@
   1. [Directives](#directives)
   1. [Filters](#filters)
   1. [Routing resolves](#routing-resolves)
+  1. [Publish and subscribe events](#publish-and-subscribe-events)
+  1. [Angular wrapper references](#angular-wrapper-references)
+  1. [Comment standards](#comment-standards)
+  1. [Minification and annotation](#minification-and-annotation)
 
 ## Modules
 
@@ -431,7 +435,69 @@
 
   - This keeps resolve dependencies inside the same file as the Controller and the router free from logic
 
-## Commenting
+## Publish and subscribe events
+
+  - **Promises**:
+
+    ```javascript
+
+    ```
+
+## Angular wrapper references
+
+  - **$document and $window**: Use `$document` and `$window` at all times to aid testing and Angular references
+
+    ```javascript
+    // bad
+    function dragUpload () {
+      return {
+        link: function (scope, element, attrs) {
+          document.addEventListener('click', function () {
+
+          });
+        }
+      };
+    }
+
+    // good
+    function dragUpload () {
+      return {
+        link: function (scope, element, attrs, $document) {
+          $document.addEventListener('click', function () {
+
+          });
+        }
+      };
+    }
+    ```
+
+  - **$timeout and $interval**: Use `$timeout` and `$interval` over their native counterparts to keep Angular's two way data binding up to date
+
+    ```javascript
+    // bad
+    function dragUpload () {
+      return {
+        link: function (scope, element, attrs) {
+          setTimeout(function () {
+            //
+          }, 1000);
+        }
+      };
+    }
+
+    // good
+    function dragUpload () {
+      return {
+        link: function (scope, element, attrs, $timeout) {
+          $timeout(function () {
+            //
+          }, 1000);
+        }
+      };
+    }
+    ```
+
+## Comment standards
 
   - **jsDoc**: Use jsDoc syntax to document function names, description, params and returns
 
@@ -459,7 +525,7 @@
       .service('SomeService', SomeService);
     ```
 
-## Minification and annotation tooling
+## Minification and annotation
 
   - **ng-annotate**: Use [ng-annotate](//github.com/olov/ng-annotate) for Gulp as `ng-min` is deprecated and comment functions that need automated dependency injection using `/** @ngInject */`
 
@@ -489,3 +555,32 @@
       .module('app')
       .controller('MainCtrl', MainCtrl);
     ```
+
+## Contributing
+
+Open an issue first to discuss potential changes/additions.
+
+## License
+
+#### (The MIT License)
+
+Copyright (c) 2014 Todd Motto
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
