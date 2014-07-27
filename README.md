@@ -470,7 +470,7 @@
     var rootListeners = {
       'customEvent1': $rootScope.$on('customEvent1'[, callback]),
       'customEvent2': $rootScope.$on('customEvent2'[, callback]),
-      '$customEvent3': $rootScope.$on('customEvent3'[, callback])
+      'customEvent3': $rootScope.$on('customEvent3'[, callback])
     };
     for (var unbind in rootListeners) {
       $scope.$on('$destroy', rootListeners[unbind]);
