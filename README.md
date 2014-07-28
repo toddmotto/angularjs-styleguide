@@ -62,6 +62,38 @@
     ```
 
   - This aids with readability and reduces the volume of code "wrapped" inside the Angular framework
+  
+  - **IIFE scoping**: To avoid polluting the global scope with our function declarations which get passed into Angular, ensure build tasks wrap the concatenated files inside an IIFE
+  
+    ```javascript
+    (function () {
+
+      angular
+        .module('app', []);
+      
+      // MainCtrl.js
+      function MainCtrl () {
+
+      }
+      
+      angular
+        .module('app')
+        .controller('MainCtrl', MainCtrl);
+      
+      // SomeService.js
+      function SomeService () {
+
+      }
+      
+      angular
+        .module('app')
+        .service('SomeService', SomeService);
+        
+      // ...
+        
+    })();
+    ```
+
 
 **[Back to top](#table-of-contents)**
 
