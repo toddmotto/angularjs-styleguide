@@ -2,6 +2,10 @@
 
 *Opinionated AngularJS styleguide for teams by [@toddmotto](//twitter.com/toddmotto)*
 
+From my experience with [Angular](//angularjs.org), [several talks](https://speakerdeck.com/toddmotto) and working in teams, here's my opinionated styleguide for syntax, building and structuring Angular applications.
+
+> See the [original article](http://toddmotto.com/opinionated-angular-js-styleguide-for-teams)
+
 ## Table of Contents
 
   1. [Modules](#modules)
