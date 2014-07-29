@@ -2,7 +2,9 @@
 
 *Opinionated AngularJS styleguide for teams by [@toddmotto](//twitter.com/toddmotto)*
 
-From my experience with [Angular](//angularjs.org), [several talks](https://speakerdeck.com/toddmotto) and working in teams, here's my opinionated styleguide for syntax, building and structuring Angular applications.
+This styleguide comprises of my experience with [Angular](//angularjs.org), [several talks](https://speakerdeck.com/toddmotto) and working in teams, building and structuring Angular applications.
+
+[//twitter.com/John_Papa](John Papa) and I have discussed in depth styling patterns for Angular's structure, syntax, conventions and everything else! Thanks to those discussions, I've learned some great tips from John that have helped shapre this guide. We've both created our own take of a styleguide, I urge you to [check his out](//github.com/johnpapa/angularjs-styleguide) to compare thoughts.
 
 > See the [original article](http://toddmotto.com/opinionated-angular-js-styleguide-for-teams)
 
