@@ -18,6 +18,7 @@ This styleguide comprises of my experience with [Angular](//angularjs.org), [sev
   1. [Filters](#filters)
   1. [Routing resolves](#routing-resolves)
   1. [Publish and subscribe events](#publish-and-subscribe-events)
+  1. [Performance](#performance)
   1. [Angular wrapper references](#angular-wrapper-references)
   1. [Comment standards](#comment-standards)
   1. [Minification and annotation](#minification-and-annotation)
@@ -514,6 +515,22 @@ This styleguide comprises of my experience with [Angular](//angularjs.org), [sev
       $scope.$on('$destroy', rootListeners[unbind]);
     }
     ```
+
+**[Back to top](#table-of-contents)**
+
+## Performance
+
+  - **One-time binding syntax**: Use the one-time binding syntax `{{ ::value }}` newer versions of Angular (v1.3.0-beta.10+)
+
+    ```html
+    // bad
+    <h1>{{ vm.title }}</h1>
+
+    // good
+    <h1>{{ ::vm.title }}</h1>
+    ```
+    
+    *Why?* : Binding once removes the `$$watcher` count after the `undefined` variable becomes resolved, thus reducing performance in each dirty-check
 
 **[Back to top](#table-of-contents)**
 
