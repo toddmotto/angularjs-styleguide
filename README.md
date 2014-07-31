@@ -532,7 +532,7 @@ This styleguide comprises of my experience with [Angular](//angularjs.org), [sev
     
     *Why?* : Binding once removes the `$$watchers` count after the `undefined` variable becomes resolved, thus reducing performance in each dirty-check
     
-    - **Consider $scope.$digest**: Use `$scope.$digest` over `$scope.$apply` where it makes sense, child scopes will update only
+  - **Consider $scope.$digest**: Use `$scope.$digest` over `$scope.$apply` where it makes sense, child scopes will update only
 
     ```javascript
     $scope.$digest();
