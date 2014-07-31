@@ -530,7 +530,15 @@ This styleguide comprises of my experience with [Angular](//angularjs.org), [sev
     <h1>{{ ::vm.title }}</h1>
     ```
     
-    *Why?* : Binding once removes the `$$watcher` count after the `undefined` variable becomes resolved, thus reducing performance in each dirty-check
+    *Why?* : Binding once removes the `$$watchers` count after the `undefined` variable becomes resolved, thus reducing performance in each dirty-check
+    
+    - **Consider $scope.$digest**: Use `$scope.$digest` over `$scope.$apply` where it makes sense, child scopes will update only
+
+    ```javascript
+    $scope.$digest();
+    ```
+    
+    *Why?* : `$scope.$apply` will call `$rootScope.$digest`, which causes the entire application `$$watchers` to dirty-check again, using `$scope.$digest` will dirty check current and child scopes from the initiated `$scope`
 
 **[Back to top](#table-of-contents)**
 
