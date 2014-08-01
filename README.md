@@ -2,9 +2,9 @@
 
 *Opinionated AngularJS styleguide for teams by [@toddmotto](//twitter.com/toddmotto)*
 
-This styleguide comprises of my experience with [Angular](//angularjs.org), [several talks](https://speakerdeck.com/toddmotto) and working in teams, building and structuring Angular applications.
+This styleguide comprises my experience with [Angular](//angularjs.org), [several talks](https://speakerdeck.com/toddmotto) and working in teams, building and structuring Angular applications.
 
-[John Papa](//twitter.com/John_Papa) and I have discussed in depth styling patterns for Angular's structure, syntax, conventions and everything else! Thanks to those discussions, I've learned some great tips from John that have helped shape this guide. We've both created our own take of a styleguide, I urge you to [check his out](//github.com/johnpapa/angularjs-styleguide) to compare thoughts.
+[John Papa](//twitter.com/John_Papa) and I have discussed in-depth styling patterns for Angular's structure, syntax, conventions and everything else! Thanks to those discussions, I've learned some great tips from John that have helped shape this guide. We've both created our own take on a styleguide. I urge you to [check his out](//github.com/johnpapa/angularjs-styleguide) to compare thoughts.
 
 > See the [original article](http://toddmotto.com/opinionated-angular-js-styleguide-for-teams)
 
@@ -70,7 +70,7 @@ This styleguide comprises of my experience with [Angular](//angularjs.org), [sev
 
   - This aids with readability and reduces the volume of code "wrapped" inside the Angular framework
   
-  - **IIFE scoping**: To avoid polluting the global scope with our function declarations which get passed into Angular, ensure build tasks wrap the concatenated files inside an IIFE
+  - **IIFE scoping**: To avoid polluting the global scope with our function declarations that get passed into Angular, ensure build tasks wrap the concatenated files inside an IIFE
   
     ```javascript
     (function () {
@@ -120,9 +120,9 @@ This styleguide comprises of my experience with [Angular](//angularjs.org), [sev
     </div>
     ```
 
-  - In the DOM we get a variable per controller, which aids nested controller methods avoiding any `$parent` calls
+  - In the DOM we get a variable per controller, which aids nested controller methods, avoiding any `$parent` calls
 
-  - The `controllerAs` syntax uses `this` inside controllers which gets bound to `$scope`
+  - The `controllerAs` syntax uses `this` inside controllers, which gets bound to `$scope`
 
     ```javascript
     // bad
@@ -142,7 +142,7 @@ This styleguide comprises of my experience with [Angular](//angularjs.org), [sev
     }
     ```
 
-  - Only use `$scope` in `controllerAs` when necessary, for example publishing and subscribing events using `$emit`, `$broadcast`, `$on` or using `$watch`, try to limit the use of these, however and treat `$scope` uses as special
+  - Only use `$scope` in `controllerAs` when necessary; for example, publishing and subscribing events using `$emit`, `$broadcast`, `$on` or `$watch`. Try to limit the use of these, however, and treat `$scope` uses as special
 
   - **Inheritance**: Use prototypal inheritance when extending controller classes
 
@@ -190,7 +190,7 @@ This styleguide comprises of my experience with [Angular](//angularjs.org), [sev
 
 ## Services
 
-  - Services are classes and are instantiated with the `new` keyword, use `this` for public methods and variables
+  - Services are classes and are instantiated with the `new` keyword. Use `this` for public methods and variables
 
     ```javascript
     function SomeService () {
@@ -230,7 +230,7 @@ This styleguide comprises of my experience with [Angular](//angularjs.org), [sev
     }
     ```
 
-  - This way bindings are mirrored across the host Object, primitive values cannot update alone using the revealing module pattern
+  - This way, bindings are mirrored across the host Object. Primitive values cannot update alone using the revealing module pattern
 
 **[Back to top](#table-of-contents)**
 
@@ -250,7 +250,7 @@ This styleguide comprises of my experience with [Angular](//angularjs.org), [sev
     <div my-directive></div>
     ```
 
-  - Comment and class name declarations are confusing and should be avoided. Comments do not play nicely with older versions of IE, using an attribute is the safest method for browser coverage.
+  - Comment and class name declarations are confusing and should be avoided. Comments do not play nicely with older versions of IE. Using an attribute is the safest method for browser coverage.
 
   - **Templating**: Use `Array.join('')` for clean templating
 
@@ -276,7 +276,7 @@ This styleguide comprises of my experience with [Angular](//angularjs.org), [sev
     }
     ```
 
-  - **DOM manipulation**: Only takes place inside Directives, never a controller/service
+  - **DOM manipulation**: Takes place only inside Directives, never a controller/service
 
     ```javascript
     // bad
@@ -327,9 +327,9 @@ This styleguide comprises of my experience with [Angular](//angularjs.org), [sev
       .directive('dragUpload', dragUpload);
     ```
 
-  - Directives and Filters are the _only_ providers that we have the first letter as lowercase, this is due to strict naming conventions in Directives due to the way Angular translates `camelCase` to hyphenated, so `dragUpload` will become `<div drag-upload></div>` when used on an element.
+  - Directives and Filters are the _only_ providers that have the first letter as lowercase; this is due to strict naming conventions in Directives. Angular hyphenates `camelCase`, so `dragUpload` will become `<div drag-upload></div>` when used on an element.
 
-  - **controllerAs**: Use the `controllerAs` syntax inside Directives also
+  - **controllerAs**: Use the `controllerAs` syntax inside Directives as well
 
     ```javascript
     // bad
@@ -362,7 +362,7 @@ This styleguide comprises of my experience with [Angular](//angularjs.org), [sev
 
 ## Filters
 
-  - **Global filters**: Create global filters only using `angular.filter()` never use local filters inside Controllers/Services
+  - **Global filters**: Create global filters using `angular.filter()` only. Never use local filters inside Controllers/Services
 
     ```javascript
     // bad
@@ -396,7 +396,7 @@ This styleguide comprises of my experience with [Angular](//angularjs.org), [sev
 
 ## Routing resolves
 
-  - **Promises**: Resolve dependencies of a Controller in the `$routeProvider` (or `$stateProvider` for `ui-router`) not the Controller itself
+  - **Promises**: Resolve Controller dependencies in the `$routeProvider` (or `$stateProvider` for `ui-router`), not the Controller itself
 
     ```javascript
     // bad
@@ -428,7 +428,7 @@ This styleguide comprises of my experience with [Angular](//angularjs.org), [sev
       .config(config);
     ```
 
-  - **Controller.resolve property**: Never bind logic to the router itself, reference a `resolve` property for each Controller to couple the logic
+  - **Controller.resolve property**: Never bind logic to the router itself. Reference a `resolve` property for each Controller to couple the logic
 
     ```javascript
     // bad
@@ -478,7 +478,7 @@ This styleguide comprises of my experience with [Angular](//angularjs.org), [sev
 
 ## Publish and subscribe events
 
-  - **$scope**: use the `$emit` and `$broadcast` methods to trigger events to direct relationship scopes only
+  - **$scope**: Use the `$emit` and `$broadcast` methods to trigger events to direct relationship scopes only
 
     ```javascript
     // up the $scope
@@ -488,14 +488,14 @@ This styleguide comprises of my experience with [Angular](//angularjs.org), [sev
     $scope.$broadcast('customEvent', data);
     ```
 
-  - **$rootScope**: use only `$emit` as an application-wide event bus and remember to unbind listeners
+  - **$rootScope**: Use only `$emit` as an application-wide event bus and remember to unbind listeners
 
     ```javascript
     // all $rootScope.$on listeners
     $rootScope.$emit('customEvent', data);
     ```
 
-  - Hint: `$rootScope.$on` listeners are different to `$scope.$on` listeners and will always persist so they need destroying when the relevant `$scope` fires the `$destroy` event
+  - Hint: `$rootScope.$on` listeners are different from `$scope.$on` listeners and will always persist, so they need destroying when the relevant `$scope` fires the `$destroy` event
 
     ```javascript
     // call the closure
@@ -520,7 +520,7 @@ This styleguide comprises of my experience with [Angular](//angularjs.org), [sev
 
 ## Performance
 
-  - **One-time binding syntax**: Use the one-time binding syntax `{{ ::value }}` newer versions of Angular (v1.3.0-beta.10+)
+  - **One-time binding syntax**: Use the one-time binding syntax `{{ ::value }}` for newer versions of Angular (v1.3.0-beta.10+)
 
     ```html
     // bad
@@ -532,13 +532,13 @@ This styleguide comprises of my experience with [Angular](//angularjs.org), [sev
     
     *Why?* : Binding once removes the `$$watchers` count after the `undefined` variable becomes resolved, thus reducing performance in each dirty-check
     
-  - **Consider $scope.$digest**: Use `$scope.$digest` over `$scope.$apply` where it makes sense, child scopes will update only
+  - **Consider $scope.$digest**: Use `$scope.$digest` over `$scope.$apply` where it makes sense. Only child scopes will update
 
     ```javascript
     $scope.$digest();
     ```
     
-    *Why?* : `$scope.$apply` will call `$rootScope.$digest`, which causes the entire application `$$watchers` to dirty-check again, using `$scope.$digest` will dirty check current and child scopes from the initiated `$scope`
+    *Why?* : `$scope.$apply` will call `$rootScope.$digest`, which causes the entire application `$$watchers` to dirty-check again. Using `$scope.$digest` will dirty check current and child scopes from the initiated `$scope`
 
 **[Back to top](#table-of-contents)**
 
@@ -570,7 +570,7 @@ This styleguide comprises of my experience with [Angular](//angularjs.org), [sev
     }
     ```
 
-  - **$timeout and $interval**: Use `$timeout` and `$interval` over their native counterparts to keep Angular's two way data binding up to date
+  - **$timeout and $interval**: Use `$timeout` and `$interval` over their native counterparts to keep Angular's two-way data binding up to date
 
     ```javascript
     // bad
@@ -630,7 +630,7 @@ This styleguide comprises of my experience with [Angular](//angularjs.org), [sev
 
 ## Minification and annotation
 
-  - **ng-annotate**: Use [ng-annotate](//github.com/olov/ng-annotate) for Gulp as `ng-min` is deprecated and comment functions that need automated dependency injection using `/** @ngInject */`
+  - **ng-annotate**: Use [ng-annotate](//github.com/olov/ng-annotate) for Gulp as `ng-min` is deprecated, and comment functions that need automated dependency injection using `/** @ngInject */`
 
     ```javascript
     /**
@@ -662,7 +662,7 @@ This styleguide comprises of my experience with [Angular](//angularjs.org), [sev
 **[Back to top](#table-of-contents)**
 
 ## Angular docs
-For anything else, API reference, check the [Angular documentation](//docs.angularjs.org/api).
+For anything else, including API reference, check the [Angular documentation](//docs.angularjs.org/api).
 
 ## Contributing
 
