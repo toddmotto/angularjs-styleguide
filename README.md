@@ -520,7 +520,7 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
 
 ## Performance
 
-  - **One-time binding syntax**: Use the one-time binding syntax `{{ ::value }}` for newer versions of Angular (v1.3.0-beta.10+)
+  - **One-time binding syntax**: In newer versions of Angular (v1.3.0-beta.10+), use the one-time binding syntax `{{ ::value }}` where it makes sense
 
     ```html
     // bad
