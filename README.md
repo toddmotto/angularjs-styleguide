@@ -456,7 +456,7 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
     }
 
     MainCtrl.resolve = {
-      doSomething: function () {
+      doSomething: function (SomeService) {
         return SomeService.doSomething();
       }
     };
