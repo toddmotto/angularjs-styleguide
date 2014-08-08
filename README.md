@@ -180,6 +180,7 @@ A standardised approach for developing AngularJS applications in teams. This sty
 
     // recommended
     function MainCtrl (SomeService) {
+      var vm = this;
       vm.doSomething = SomeService.doSomething;
     }
     ```
