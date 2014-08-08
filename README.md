@@ -2,18 +2,18 @@
 
 *Opinionated AngularJS styleguide for teams by [@toddmotto](//twitter.com/toddmotto)*
 
-This styleguide comprises my experience with [Angular](//angularjs.org), [several talks](https://speakerdeck.com/toddmotto) and working in teams, building and structuring Angular applications.
+A standardised approach for developing AngularJS applications in teams. This styleguide touches on concepts, syntax, conventions and is based on my experience [writing](http:////toddmotto.com) about, [talking](https://speakerdeck.com/toddmotto) about, and building Angular applications.
 
-[John Papa](//twitter.com/John_Papa) and I have discussed in-depth styling patterns for Angular's structure, syntax, conventions and everything else! Thanks to those discussions, I've learned some great tips from John that have helped shape this guide. We've both created our own take on a styleguide. I urge you to [check his out](//github.com/johnpapa/angularjs-styleguide) to compare thoughts.
+#### Community
+[John Papa](//twitter.com/John_Papa) and I have discussed in-depth styling patterns for Angular and as such have both released separate styleguides. Thanks to those discussions, I've learned some great tips from John that have helped shape this guide. We've both created our own take on a styleguide. I urge you to [check his out](//github.com/johnpapa/angularjs-styleguide) to compare thoughts.
 
-> See the [original article](http://toddmotto.com/opinionated-angular-js-styleguide-for-teams)
+> See the [original article](http://toddmotto.com/opinionated-angular-js-styleguide-for-teams) that sparked this off
 
 ## Table of Contents
 
   1. [Modules](#modules)
   1. [Controllers](#controllers)
-  1. [Services](#services)
-  1. [Factory](#factory)
+  1. [Services and Factory](#services-and-factory)
   1. [Directives](#directives)
   1. [Filters](#filters)
   1. [Routing resolves](#routing-resolves)
@@ -28,12 +28,12 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
   - **Definitions**: Declare modules without a variable using the setter and getter syntax
 
     ```javascript
-    // bad
+    // avoid
     var app = angular.module('app', []);
     app.controller();
     app.factory();
 
-    // good
+    // recommended
     angular
       .module('app', [])
       .controller()
@@ -45,7 +45,7 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
   - **Methods**: Pass functions into module methods rather than assign as a callback
 
     ```javascript
-    // bad
+    // avoid
     angular
       .module('app', [])
       .controller('MainCtrl', function MainCtrl () {
@@ -55,7 +55,7 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
 
       });
 
-    // good
+    // recommended
     function MainCtrl () {
 
     }
@@ -109,12 +109,12 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
   - **controllerAs syntax**: Controllers are classes, so use the `controllerAs` syntax at all times
 
     ```html
-    <!-- bad -->
+    <!-- avoid -->
     <div ng-controller="MainCtrl">
       {{ someObject }}
     </div>
 
-    <!-- good -->
+    <!-- recommended -->
     <div ng-controller="MainCtrl as main">
       {{ main.someObject }}
     </div>
@@ -125,7 +125,7 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
   - The `controllerAs` syntax uses `this` inside controllers, which gets bound to `$scope`
 
     ```javascript
-    // bad
+    // avoid
     function MainCtrl ($scope) {
       $scope.someObject = {};
       $scope.doSomething = function () {
@@ -133,7 +133,7 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
       };
     }
 
-    // good
+    // recommended
     function MainCtrl () {
       this.someObject = {};
       this.doSomething = function () {
@@ -142,7 +142,7 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
     }
     ```
 
-  - Only use `$scope` in `controllerAs` when necessary; for example, publishing and subscribing events using `$emit`, `$broadcast`, `$on` or `$watch`. Try to limit the use of these, however, and treat `$scope` uses as special
+  - Only use `$scope` in `controllerAs` when necessary; for example, publishing and subscribing events using `$emit`, `$broadcast`, `$on` or `$watch`. Try to limit the use of these, however, and treat `$scope` as a special use case
 
   - **Inheritance**: Use prototypal inheritance when extending controller classes
 
@@ -168,29 +168,79 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
 
   - Use `Object.create` with a polyfill for browser support
 
-  - **Zero-logic**: No logic inside a controller, delegate to services
+  - **controllerAs 'vm'**: Capture the `this` context of the Controller using `vm`, standing for `ViewModel`
 
     ```javascript
-    // bad
+    // avoid
     function MainCtrl () {
       this.doSomething = function () {
 
       };
     }
 
-    // good
+    // recommended
     function MainCtrl (SomeService) {
-      this.doSomething = SomeService.doSomething;
+      vm.doSomething = SomeService.doSomething;
     }
     ```
 
-  - Think "skinny controller, fat service"
+    *Why?* : Function context changes the `this` value, use it to avoid `.bind()` calls and scoping issues
+
+  - **Presentational logic only (MVVM)**: Presentational logic only inside a controller, avoid Business logic
+
+    ```javascript
+    // avoid
+    function MainCtrl () {
+      
+      var vm = this;
+
+      $http
+        .get('/users')
+        .success(function (response) {
+          vm.users = response;
+        });
+
+      vm.removeUser = function (user, index) {
+        $http
+          .delete('/user/' + user.id)
+          .then(function (response) {
+            vm.users.splice(index, 1);
+          });
+      };
+
+    }
+
+    // recommended
+    function MainCtrl (UserService) {
+
+      var vm = this;
+
+      UserService
+        .getUsers()
+        .then(function (response) {
+          vm.users = response;
+        });
+
+      vm.removeUser = function (user, index) {
+        UserService
+          .removeUser(user)
+          .then(function (response) {
+            vm.users.splice(index, 1);
+          });
+      };
+
+    }
+    ```
+
+    *Why?* : Controllers should fetch Model data from Services, avoiding any Business logic. Controllers should act as a ViewModel and control the data flowing between the Model and the View presentational layer. Business logic in Controllers makes testing Services impossible.
 
 **[Back to top](#table-of-contents)**
 
-## Services
+## Services and Factory
 
-  - Services are classes and are instantiated with the `new` keyword. Use `this` for public methods and variables
+  - All Angular Services are singletons, using `.service()` or `.factory()` differs the way Objects are created.
+
+  #### Services: act as a `constructor` function and are instantiated with the `new` keyword. Use `this` for public methods and variables
 
     ```javascript
     function SomeService () {
@@ -200,14 +250,12 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
     }
     ```
 
-**[Back to top](#table-of-contents)**
+  #### Factory: Business logic or provider modules, return an Object or closure
 
-## Factory
-
-  - **Singletons**: Factories are singletons, return a host Object inside each Factory to avoid primitive binding issues
+  - Always return a host Object over the revealing Module pattern due to the way Object references are bound and updated
 
     ```javascript
-    // bad
+    // avoid
     function AnotherService () {
       var someValue = '';
       var someMethod = function () {
@@ -219,7 +267,7 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
       };
     }
 
-    // good
+    // recommended
     function AnotherService () {
       var AnotherService = {};
       AnotherService.someValue = '';
@@ -230,7 +278,7 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
     }
     ```
 
-  - This way, bindings are mirrored across the host Object. Primitive values cannot update alone using the revealing module pattern
+    *Why?* : Primitive values cannot update alone using the revealing module pattern
 
 **[Back to top](#table-of-contents)**
 
@@ -239,12 +287,12 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
   - **Declaration restrictions**: Only use `custom element` and `custom attribute` methods for declaring your Directives (`{ restrict: 'EA' }`) depending on the Directive's role
 
     ```html
-    <!-- bad -->
+    <!-- avoid -->
 
     <!-- directive: my-directive -->
     <div class="my-directive"></div>
 
-    <!-- good -->
+    <!-- recommended -->
 
     <my-directive></my-directive>
     <div my-directive></div>
@@ -255,7 +303,7 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
   - **Templating**: Use `Array.join('')` for clean templating
 
     ```javascript
-    // bad
+    // avoid
     function someDirective () {
       return {
         template: '<div class="some-directive">' +
@@ -264,7 +312,7 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
       };
     }
 
-    // good
+    // recommended
     function someDirective () {
       return {
         template: [
@@ -276,10 +324,12 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
     }
     ```
 
+    *Why?* : Improves readability as code can be indented properly, it also avoids the `+` operator which is less clean and can lead to errors if used incorrectly to split lines
+
   - **DOM manipulation**: Takes place only inside Directives, never a controller/service
 
     ```javascript
-    // bad
+    // avoid
     function UploadCtrl () {
       $('.dragzone').on('dragend', function () {
         // handle drop functionality
@@ -289,11 +339,11 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
       .module('app')
       .controller('UploadCtrl', UploadCtrl);
 
-    // good
+    // recommended
     function dragUpload () {
       return {
         restrict: 'EA',
-        link: function (scope, element, attrs) {
+        link: function ($scope, $element, $attrs) {
           element.on('dragend', function () {
             // handle drop functionality
           });
@@ -308,7 +358,7 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
   - **Naming conventions**: Never `ng-*` prefix custom directives, they might conflict future native directives
 
     ```javascript
-    // bad
+    // avoid
     // <div ng-upload></div>
     function ngUpload () {
       return {};
@@ -317,7 +367,7 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
       .module('app')
       .directive('ngUpload', ngUpload);
 
-    // good
+    // recommended
     // <div drag-upload></div>
     function dragUpload () {
       return {};
@@ -332,7 +382,7 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
   - **controllerAs**: Use the `controllerAs` syntax inside Directives as well
 
     ```javascript
-    // bad
+    // avoid
     function dragUpload () {
       return {
         controller: function ($scope) {
@@ -344,7 +394,7 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
       .module('app')
       .directive('dragUpload', dragUpload);
 
-    // good
+    // recommended
     function dragUpload () {
       return {
         controllerAs: 'dragUpload',
@@ -365,7 +415,7 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
   - **Global filters**: Create global filters using `angular.filter()` only. Never use local filters inside Controllers/Services
 
     ```javascript
-    // bad
+    // avoid
     function SomeCtrl () {
       this.startsWithLetterA = function (items) {
         return items.filter(function (item) {
@@ -377,7 +427,7 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
       .module('app')
       .controller('SomeCtrl', SomeCtrl);
 
-    // good
+    // recommended
     function startsWithLetterA () {
       return function (items) {
         return items.filter(function (item) {
@@ -399,7 +449,7 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
   - **Promises**: Resolve Controller dependencies in the `$routeProvider` (or `$stateProvider` for `ui-router`), not the Controller itself
 
     ```javascript
-    // bad
+    // avoid
     function MainCtrl (SomeService) {
       var _this = this;
       // unresolved
@@ -413,7 +463,7 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
       .module('app')
       .controller('MainCtrl', MainCtrl);
 
-    // good
+    // recommended
     function config ($routeProvider) {
       $routeProvider
       .when('/', {
@@ -431,7 +481,7 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
   - **Controller.resolve property**: Never bind logic to the router itself. Reference a `resolve` property for each Controller to couple the logic
 
     ```javascript
-    // bad
+    // avoid
     function MainCtrl (SomeService) {
       this.something = SomeService.something;
     }
@@ -450,7 +500,7 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
       });
     }
 
-    // good
+    // recommended
     function MainCtrl (SomeService) {
       this.something = SomeService.something;
     }
@@ -523,10 +573,10 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
   - **One-time binding syntax**: In newer versions of Angular (v1.3.0-beta.10+), use the one-time binding syntax `{{ ::value }}` where it makes sense
 
     ```html
-    // bad
+    // avoid
     <h1>{{ vm.title }}</h1>
 
-    // good
+    // recommended
     <h1>{{ ::vm.title }}</h1>
     ```
     
@@ -547,10 +597,10 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
   - **$document and $window**: Use `$document` and `$window` at all times to aid testing and Angular references
 
     ```javascript
-    // bad
+    // avoid
     function dragUpload () {
       return {
-        link: function (scope, element, attrs) {
+        link: function ($scope, $element, $attrs) {
           document.addEventListener('click', function () {
 
           });
@@ -558,10 +608,10 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
       };
     }
 
-    // good
+    // recommended
     function dragUpload () {
       return {
-        link: function (scope, element, attrs, $document) {
+        link: function ($scope, $element, $attrs, $document) {
           $document.addEventListener('click', function () {
 
           });
@@ -573,10 +623,10 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
   - **$timeout and $interval**: Use `$timeout` and `$interval` over their native counterparts to keep Angular's two-way data binding up to date
 
     ```javascript
-    // bad
+    // avoid
     function dragUpload () {
       return {
-        link: function (scope, element, attrs) {
+        link: function ($scope, $element, $attrs) {
           setTimeout(function () {
             //
           }, 1000);
@@ -584,10 +634,10 @@ This styleguide comprises my experience with [Angular](//angularjs.org), [severa
       };
     }
 
-    // good
+    // recommended
     function dragUpload ($timeout) {
       return {
-        link: function (scope, element, attrs) {
+        link: function ($scope, $element, $attrs) {
           $timeout(function () {
             //
           }, 1000);
