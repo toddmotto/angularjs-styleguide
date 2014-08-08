@@ -240,7 +240,7 @@ A standardised approach for developing AngularJS applications in teams. This sty
 
   - All Angular Services are singletons, using `.service()` or `.factory()` differs the way Objects are created.
 
-  #### Services: act as a `constructor` function and are instantiated with the `new` keyword. Use `this` for public methods and variables
+  **Services**: act as a `constructor` function and are instantiated with the `new` keyword. Use `this` for public methods and variables
 
     ```javascript
     function SomeService () {
@@ -250,7 +250,7 @@ A standardised approach for developing AngularJS applications in teams. This sty
     }
     ```
 
-  #### Factory: Business logic or provider modules, return an Object or closure
+  **Factory**: Business logic or provider modules, return an Object or closure
 
   - Always return a host Object over the revealing Module pattern due to the way Object references are bound and updated
 
