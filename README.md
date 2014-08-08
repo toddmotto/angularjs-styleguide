@@ -186,7 +186,7 @@ A standardised approach for developing AngularJS applications in teams. This sty
 
     *Why?* : Function context changes the `this` value, use it to avoid `.bind()` calls and scoping issues
 
-  - **Presentational logic only (MVVM)**: Presentational logic only inside a controller, avoid Business logic
+  - **Presentational logic only (MVVM)**: Presentational logic only inside a controller, avoid Business logic (delegate to Services)
 
     ```javascript
     // avoid
@@ -248,26 +248,16 @@ A standardised approach for developing AngularJS applications in teams. This sty
 
       };
     }
+    angular
+      .module('app')
+      .service('SomeService', SomeService);
     ```
 
   **Factory**: Business logic or provider modules, return an Object or closure
 
-  - Always return a host Object over the revealing Module pattern due to the way Object references are bound and updated
+  - Always return a host Object instead of the revealing Module pattern due to the way Object references are bound and updated
 
     ```javascript
-    // avoid
-    function AnotherService () {
-      var someValue = '';
-      var someMethod = function () {
-
-      };
-      return {
-        someValue: someValue,
-        someMethod: someMethod
-      };
-    }
-
-    // recommended
     function AnotherService () {
       var AnotherService = {};
       AnotherService.someValue = '';
@@ -276,6 +266,9 @@ A standardised approach for developing AngularJS applications in teams. This sty
       };
       return AnotherService;
     }
+    angular
+      .module('app')
+      .factory('SomeService', SomeService);
     ```
 
     *Why?* : Primitive values cannot update alone using the revealing module pattern
