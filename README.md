@@ -269,7 +269,7 @@ A standardised approach for developing AngularJS applications in teams. This sty
     }
     angular
       .module('app')
-      .factory('SomeService', SomeService);
+      .factory('AnotherService', AnotherService);
     ```
 
     *Why?* : Primitive values cannot update alone using the revealing module pattern
