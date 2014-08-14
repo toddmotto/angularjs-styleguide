@@ -338,7 +338,7 @@ A standardised approach for developing AngularJS applications in teams. This sty
       return {
         restrict: 'EA',
         link: function ($scope, $element, $attrs) {
-          element.on('dragend', function () {
+          $element.on('dragend', function () {
             // handle drop functionality
           });
         }
