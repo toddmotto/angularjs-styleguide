@@ -425,7 +425,7 @@ A standardised approach for developing AngularJS applications in teams. This sty
     function startsWithLetterA () {
       return function (items) {
         return items.filter(function (item) {
-          return /$a/i.test(item.name);
+          return /^a/i.test(item.name);
         });
       };
     }
