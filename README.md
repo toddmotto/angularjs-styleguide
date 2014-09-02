@@ -115,8 +115,8 @@ A standardised approach for developing AngularJS applications in teams. This sty
     </div>
 
     <!-- recommended -->
-    <div ng-controller="MainCtrl as main">
-      {{ main.someObject }}
+    <div ng-controller="MainCtrl as vm">
+      {{ vm.someObject }}
     </div>
     ```
 
