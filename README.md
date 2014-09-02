@@ -574,7 +574,7 @@ A standardised approach for developing AngularJS applications in teams. This sty
     <h1>{{ ::vm.title }}</h1>
     ```
     
-    *Why?* : Binding once removes the `$$watchers` count after the `undefined` variable becomes resolved, thus reducing performance in each dirty-check
+    *Why?* : Binding once removes the watcher from the scope's `$$watchers` array after the `undefined` variable becomes resolved, thus improving performance in each dirty-check
     
   - **Consider $scope.$digest**: Use `$scope.$digest` over `$scope.$apply` where it makes sense. Only child scopes will update
 
