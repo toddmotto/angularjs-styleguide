@@ -391,7 +391,7 @@ A standardised approach for developing AngularJS applications in teams. This sty
     // recommended
     function dragUpload () {
       return {
-        controllerAs: 'dragUpload',
+        controllerAs: 'vm',
         controller: function () {
 
         }
@@ -484,7 +484,7 @@ A standardised approach for developing AngularJS applications in teams. This sty
       $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
-        controllerAs: 'main',
+        controllerAs: 'vm',
         controller: 'MainCtrl'
         resolve: {
           doSomething: function () {
@@ -509,7 +509,7 @@ A standardised approach for developing AngularJS applications in teams. This sty
       $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
-        controllerAs: 'main',
+        controllerAs: 'vm',
         controller: 'MainCtrl'
         resolve: MainCtrl.resolve
       });
