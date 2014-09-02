@@ -539,7 +539,7 @@ A standardised approach for developing AngularJS applications in teams. This sty
     $rootScope.$emit('customEvent', data);
     ```
 
-  - Hint: `$rootScope.$on` listeners are different from `$scope.$on` listeners and will always persist, so they need destroying when the relevant `$scope` fires the `$destroy` event
+  - Hint: Because the `$rootScope` is never destroyed, `$rootScope.$on` listeners aren't either, unlike `$scope.$on` listeners and will always persist, so they need destroying when the relevant `$scope` fires the `$destroy` event
 
     ```javascript
     // call the closure
