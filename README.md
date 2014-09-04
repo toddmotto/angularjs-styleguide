@@ -337,8 +337,8 @@ A standardised approach for developing AngularJS applications in teams. This sty
     function dragUpload () {
       return {
         restrict: 'EA',
-        link: function ($scope, $element, $attrs) {
-          $element.on('dragend', function () {
+        link: function (scope, element, attrs) {
+          element.on('dragend', function () {
             // handle drop functionality
           });
         }
