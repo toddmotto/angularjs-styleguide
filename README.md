@@ -656,8 +656,8 @@ A standardised approach for developing AngularJS applications in teams. This sty
       /**
        * @name doSomething
        * @desc Does something awesome
-       * @param {Number} x First number to do something with
-       * @param {Number} y Second number to do something with
+       * @param {Number} x - First number to do something with
+       * @param {Number} y - Second number to do something with
        * @returns {Number}
        */
       this.doSomething = function (x, y) {
