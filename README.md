@@ -543,7 +543,7 @@ A standardised approach for developing AngularJS applications in teams. This sty
 
     ```javascript
     // call the closure
-    var unbind = $rootScope.$on('customEvent'[, callback]);
+    var unbind = $rootScope.$on('customEvent', [callback]);
     $scope.$on('$destroy', unbind);
     ```
 
@@ -551,9 +551,9 @@ A standardised approach for developing AngularJS applications in teams. This sty
 
     ```javascript
     var rootListeners = {
-      'customEvent1': $rootScope.$on('customEvent1'[, callback]),
-      'customEvent2': $rootScope.$on('customEvent2'[, callback]),
-      'customEvent3': $rootScope.$on('customEvent3'[, callback])
+      'customEvent1': $rootScope.$on('customEvent1', [callback]),
+      'customEvent2': $rootScope.$on('customEvent2', [callback]),
+      'customEvent3': $rootScope.$on('customEvent3', [callback])
     };
     for (var unbind in rootListeners) {
       $scope.$on('$destroy', rootListeners[unbind]);
