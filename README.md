@@ -173,19 +173,52 @@ A standardised approach for developing AngularJS applications in teams. This sty
     ```javascript
     // avoid
     function MainCtrl () {
-      this.doSomething = function () {
+      var doSomething = function () {
 
       };
+      this.doSomething = doSomething;
     }
 
     // recommended
-    function MainCtrl (SomeService) {
+    function MainCtrl () {
       var vm = this;
-      vm.doSomething = SomeService.doSomething;
+      var doSomething = function () {
+        
+      };
+      vm.doSomething = doSomething;
     }
     ```
 
     *Why?* : Function context changes the `this` value, use it to avoid `.bind()` calls and scoping issues
+    
+  - **ES6**: Avoid `var vm = this;` when using ES6
+
+    ```javascript
+    // avoid
+    function MainCtrl () {
+      var vm = this;
+      var doSomething = function (arg) {
+        
+      };
+      
+      // exports
+      vm.doSomething = doSomething;
+    }
+
+    // recommended
+    function MainCtrl () {
+      
+      let doSomething = arg => {
+        
+      };
+      
+      // exports
+      this.doSomething = doSomething;
+      
+    }
+    ```
+
+    *Why?* : Use ES6 arrow functions when necessary to access the `this` value lexically
 
   - **Presentational logic only (MVVM)**: Presentational logic only inside a controller, avoid Business logic (delegate to Services)
 
