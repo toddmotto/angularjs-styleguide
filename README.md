@@ -196,9 +196,9 @@ A standardised approach for developing AngularJS applications in teams. This sty
     ```javascript
     // avoid
     function MainCtrl () {
-      var vm = this;
-      var doSomething = function (arg) {
-        
+      let vm = this;
+      let doSomething = arg => {
+        console.log(vm);
       };
       
       // exports
@@ -209,7 +209,7 @@ A standardised approach for developing AngularJS applications in teams. This sty
     function MainCtrl () {
       
       let doSomething = arg => {
-        
+        console.log(this);
       };
       
       // exports
