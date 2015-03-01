@@ -75,6 +75,7 @@ A standardised approach for developing AngularJS applications in teams. This sty
     ```javascript
     (function () {
 
+      // Can and should be in a separate file not with MainCtrl.js
       angular
         .module('app', []);
       
