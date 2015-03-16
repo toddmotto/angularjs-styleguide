@@ -38,6 +38,11 @@ A standardised approach for developing AngularJS applications in teams. This sty
       .module('app', [])
       .controller()
       .factory();
+      
+    // Inside SomeController.js
+    angular
+      .module('app')
+      .controller()
     ```
 
   - Note: Using `angular.module('app', []);` sets a module, whereas `angular.module('app');` gets the module. Only set once and get for all other instances.
