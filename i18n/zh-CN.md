@@ -311,26 +311,26 @@
 
 ## 指令
 
-  - **申明的局限**:  `custom element` and `custom attribute` methods for declaring your Directives (`{ restrict: 'EA' }`) depending on the Directive's role
+  - **申明的限制**: 依据指令的角色，只使用 `custom element` 和 `custom attribute` 方式来申明你的指令 (`{ restrict: 'EA' }`) 
 
     ```html
-    <!-- avoid -->
+    <!-- 避免 -->
 
     <!-- directive: my-directive -->
     <div class="my-directive"></div>
 
-    <!-- recommended -->
+    <!-- 推荐 -->
 
     <my-directive></my-directive>
     <div my-directive></div>
     ```
 
-  - Comment and class name declarations are confusing and should be avoided. Comments do not play nicely with older versions of IE. Using an attribute is the safest method for browser coverage.
+  - 注释和类申明让人迷惑，应该被避免。注释和老版本的 IE 玩不到一起去。使用属性 atrribute 是最安全的方式来达到浏览器覆盖的目的。 
 
-  - **Templating**: Use `Array.join('')` for clean templating
+  - **模板 Templating**: 用 `Array.join('')` 来使模板清爽
 
     ```javascript
-    // avoid
+    // 避免
     function someDirective () {
       return {
         template: '<div class="some-directive">' +
@@ -339,7 +339,7 @@
       };
     }
 
-    // recommended
+    // 推荐
     function someDirective () {
       return {
         template: [
@@ -351,12 +351,12 @@
     }
     ```
 
-    *Why?* : Improves readability as code can be indented properly, it also avoids the `+` operator which is less clean and can lead to errors if used incorrectly to split lines
+    *为什么?* : 提高可读性，因为代码可以被恰当地缩进，同时也避免没那么清爽的 `+` 操作符，并且如果不恰当地分行的话会导致错误。 
 
-  - **DOM manipulation**: Takes place only inside Directives, never a controller/service
+  - **DOM 操作**: 只在指令里发生, 永远不要在控制器和服务里使用
 
     ```javascript
-    // avoid
+    // 避免
     function UploadCtrl () {
       $('.dragzone').on('dragend', function () {
         // handle drop functionality
@@ -366,7 +366,7 @@
       .module('app')
       .controller('UploadCtrl', UploadCtrl);
 
-    // recommended
+    // 推荐
     function dragUpload () {
       return {
         restrict: 'EA',
@@ -382,10 +382,10 @@
       .directive('dragUpload', dragUpload);
     ```
 
-  - **Naming conventions**: Never `ng-*` prefix custom directives, they might conflict future native directives
-
+  - **命名习惯**: 永远不要给自定义指令加 `ng-*` 前缀, 他们可能会和将来的原生指令冲突 
+  - 
     ```javascript
-    // avoid
+    // 避免
     // <div ng-upload></div>
     function ngUpload () {
       return {};
@@ -394,7 +394,7 @@
       .module('app')
       .directive('ngUpload', ngUpload);
 
-    // recommended
+    // 推荐
     // <div drag-upload></div>
     function dragUpload () {
       return {};
@@ -404,12 +404,12 @@
       .directive('dragUpload', dragUpload);
     ```
 
-  - Directives and Filters are the _only_ providers that have the first letter as lowercase; this is due to strict naming conventions in Directives. Angular hyphenates `camelCase`, so `dragUpload` will become `<div drag-upload></div>` when used on an element.
-
-  - **controllerAs**: Use the `controllerAs` syntax inside Directives as well
+  - 只有指令和过滤器是首字母为小写的 provider; 这是因为指令的命名习惯限制造成。Angular 会给`camelCase`类的词加上中划线，所以 `dragUpload` 在应用的元素中将变为`<div drag-upload></div>` 
+  
+  - **controllerAs**: 在指令中也同样要使用 `controllerAs` 语法
 
     ```javascript
-    // avoid
+    // 避免
     function dragUpload () {
       return {
         controller: function ($scope) {
@@ -421,7 +421,7 @@
       .module('app')
       .directive('dragUpload', dragUpload);
 
-    // recommended
+    // 推荐
     function dragUpload () {
       return {
         controllerAs: 'vm',
@@ -435,14 +435,14 @@
       .directive('dragUpload', dragUpload);
     ```
 
-**[Back to top](#table-of-contents)**
+**[回到顶部](#目录)**
 
-## Filters
+## 过滤器
 
-  - **Global filters**: Create global filters using `angular.filter()` only. Never use local filters inside Controllers/Services
-
+  - **全局过滤器**: 只使用 `angular.filter()` 创建全局过滤器. 永远不要在控制器和服务里使用本地过滤器
+  - 
     ```javascript
-    // avoid
+    // 避免
     function SomeCtrl () {
       this.startsWithLetterA = function (items) {
         return items.filter(function (item) {
@@ -454,7 +454,7 @@
       .module('app')
       .controller('SomeCtrl', SomeCtrl);
 
-    // recommended
+    // 推荐
     function startsWithLetterA () {
       return function (items) {
         return items.filter(function (item) {
@@ -467,16 +467,16 @@
       .filter('startsWithLetterA', startsWithLetterA);
     ```
 
-  - This enhances testing and reusability
+  - 这会提高测试和可重用性
 
-**[Back to top](#table-of-contents)**
+**[回到顶部](#目录)**
 
-## Routing resolves
+## 路由解析
 
-  - **Promises**: Resolve Controller dependencies in the `$routeProvider` (or `$stateProvider` for `ui-router`), not the Controller itself
-
+  - **Promises**: 在 `$routeProvider` (或者 `$stateProvider` 如果是 `ui-router`) 里解析控制器依赖, 而不是控制器本身 
+  - 
     ```javascript
-    // avoid
+    // 避免
     function MainCtrl (SomeService) {
       var _this = this;
       // unresolved
@@ -490,7 +490,7 @@
       .module('app')
       .controller('MainCtrl', MainCtrl);
 
-    // recommended
+    // 推荐
     function config ($routeProvider) {
       $routeProvider
       .when('/', {
@@ -505,10 +505,10 @@
       .config(config);
     ```
 
-  - **Controller.resolve property**: Never bind logic to the router itself. Reference a `resolve` property for each Controller to couple the logic
-
+  - **Controller.resolve property**: 永远不要把逻辑绑定在路由里。引用每个控制器的 `resolve` 属性来连接逻辑。  
+  - 
     ```javascript
-    // avoid
+    // 避免
     function MainCtrl (SomeService) {
       this.something = SomeService.something;
     }
@@ -527,7 +527,7 @@
       });
     }
 
-    // recommended
+    // 推荐
     function MainCtrl (SomeService) {
       this.something = SomeService.something;
     }
@@ -549,14 +549,13 @@
     }
     ```
 
-  - This keeps resolve dependencies inside the same file as the Controller and the router free from logic
+  - 这样可以把依赖解析保存在控制器和路由的同一个文件里而又免于逻辑侵入 
+**[回到顶部](#目录)**
 
-**[Back to top](#table-of-contents)**
+## 发布和订阅事件
 
-## Publish and subscribe events
-
-  - **$scope**: Use the `$emit` and `$broadcast` methods to trigger events to direct relationship scopes only
-
+  - **$scope**: 只用 `$emit` 和 `$broadcast` 方法来触发有直接关系的作用域事件 
+  
     ```javascript
     // up the $scope
     $scope.$emit('customEvent', data);
