@@ -21,7 +21,7 @@
   1. [性能](#performance)
   1. [Angular 包装参考](#angular-wrapper-references)
   1. [注释标准](#comment-standards)
-  1. [压缩和注解](#minification-and-annotation)
+  1. [压缩和标注](#minification-and-annotation)
 
 ## 模块
 
@@ -505,7 +505,7 @@
       .config(config);
     ```
 
-  - **Controller.resolve property**: 永远不要把逻辑绑定在路由里。引用每个控制器的 `resolve` 属性来连接逻辑。  
+  - **Controller.resolve 属性**: 永远不要把逻辑绑定在路由里。引用每个控制器的 `resolve` 属性来连接逻辑。  
   - 
     ```javascript
     // 避免
@@ -554,7 +554,7 @@
 
 ## 发布和订阅事件
 
-  - **$scope**: 只用 `$emit` 和 `$broadcast` 方法来触发有直接关系的作用域事件 
+  - **$scope**: 只用 `$emit` 和 `$broadcast` 方法来触发有直接关联的作用域事件 
   
     ```javascript
     // up the $scope
@@ -564,22 +564,22 @@
     $scope.$broadcast('customEvent', data);
     ```
 
-  - **$rootScope**: Use only `$emit` as an application-wide event bus and remember to unbind listeners
-
+  - **$rootScope**: 只把 `$emit` 当做全应用的事件总线，并且记得解除监听者绑定。 
+  
     ```javascript
-    // all $rootScope.$on listeners
+    // 所有 $rootScope.$on 监听者
     $rootScope.$emit('customEvent', data);
     ```
 
-  - Hint: Because the `$rootScope` is never destroyed, `$rootScope.$on` listeners aren't either, unlike `$scope.$on` listeners and will always persist, so they need destroying when the relevant `$scope` fires the `$destroy` event
-
+  - 提示: 因为`$rootScope` 永远不会被销毁，`$rootScope.$on` 监听者也不会，不像`$scope.$on`监听者，`$rootScope.$on` 监听者会永远存在，因此当相关 `$scope`触发`$destroy`事件时，他们需要被销毁 
+  
     ```javascript
-    // call the closure
+    // 调用闭包
     var unbind = $rootScope.$on('customEvent'[, callback]);
     $scope.$on('$destroy', unbind);
     ```
 
-  - For multiple `$rootScope` listeners, use an Object literal and loop each one on the `$destroy` event to unbind all automatically
+  - 对于多个`$rootScope` 监听者, 使用对象字面量和循环`$destroy`事件来自动解除绑定 
 
     ```javascript
     var rootListeners = {
@@ -592,38 +592,38 @@
     }
     ```
 
-**[Back to top](#table-of-contents)**
+**[回到顶部](#目录)**
 
-## Performance
+## 性能
 
-  - **One-time binding syntax**: In newer versions of Angular (v1.3.0-beta.10+), use the one-time binding syntax `{{ ::value }}` where it makes sense
+  - **一次性绑定语法 One-time binding syntax**: 对于较新的 Angular (v1.3.0-beta.10+) 版本, 尽量在合乎情理的地方使用一次性绑定 one-time binding syntax `{{ ::value }}` 
 
-    ```html
+    ```避免
     // avoid
     <h1>{{ vm.title }}</h1>
 
-    // recommended
+    // 推荐
     <h1>{{ ::vm.title }}</h1>
     ```
     
-    *Why?* : Binding once removes the watcher from the scope's `$$watchers` array after the `undefined` variable becomes resolved, thus improving performance in each dirty-check
+    *为什么?* : 在`undefined`变量被解析之后，绑定一旦从作用域的`$$watchers`数组解除观察者，就会提升每次脏检查的性能 
     
-  - **Consider $scope.$digest**: Use `$scope.$digest` over `$scope.$apply` where it makes sense. Only child scopes will update
+  - **考虑 $scope.$digest**: 在合乎情理的地方使用 `$scope.$digest` 超过 `$scope.$apply`. 只有子作用域会更新
 
     ```javascript
     $scope.$digest();
     ```
     
-    *Why?* : `$scope.$apply` will call `$rootScope.$digest`, which causes the entire application `$$watchers` to dirty-check again. Using `$scope.$digest` will dirty check current and child scopes from the initiated `$scope`
+    *为什么?* : `$scope.$apply` 会调用 `$rootScope.$digest`, 这会导致整个应用的`$$watchers` 再次进行脏检查。使用 `$scope.$digest` 会从发起的作用域`$scope`检查当前的和子作用域 
 
-**[Back to top](#table-of-contents)**
+**[回到顶部](#目录)**
 
-## Angular wrapper references
+## Angular 包装参考
 
-  - **$document and $window**: Use `$document` and `$window` at all times to aid testing and Angular references
+  - **$document 和 $window**: 任何时候都使用 `$document` 和 `$window` 来帮助测试和 Angular 引用
 
     ```javascript
-    // avoid
+    // 避免
     function dragUpload () {
       return {
         link: function ($scope, $element, $attrs) {
@@ -634,7 +634,7 @@
       };
     }
 
-    // recommended
+    // 推荐
     function dragUpload () {
       return {
         link: function ($scope, $element, $attrs, $document) {
@@ -646,10 +646,10 @@
     }
     ```
 
-  - **$timeout and $interval**: Use `$timeout` and `$interval` over their native counterparts to keep Angular's two-way data binding up to date
-
+  - **$timeout 和 $interval**: 使用 `$timeout` 和 `$interval` 超过他们的原生对应者来保持 Angular 的双向数据绑定到最新
+  -  
     ```javascript
-    // avoid
+    // 避免
     function dragUpload () {
       return {
         link: function ($scope, $element, $attrs) {
@@ -660,7 +660,7 @@
       };
     }
 
-    // recommended
+    // 推荐
     function dragUpload ($timeout) {
       return {
         link: function ($scope, $element, $attrs) {
@@ -672,24 +672,24 @@
     }
     ```
 
-**[Back to top](#table-of-contents)**
+**[回到顶部](#目录)**
 
-## Comment standards
+## 注释标准
 
-  - **jsDoc**: Use jsDoc syntax to document function names, description, params and returns
-
+  - **jsDoc**: 使用 jsDoc 语法来记录函数名，描述，参数和返回 
+  - 
     ```javascript
     /**
      * @name SomeService
-     * @desc Main application Controller
+     * @desc 主应用控制器
      */
     function SomeService (SomeService) {
 
       /**
        * @name doSomething
-       * @desc Does something awesome
-       * @param {Number} x - First number to do something with
-       * @param {Number} y - Second number to do something with
+       * @desc 做点酷毙事
+       * @param {Number} x - 做事会用到的第一个数字
+       * @param {Number} y - 做事会用到的第二个数字
        * @returns {Number}
        */
       this.doSomething = function (x, y) {
@@ -702,11 +702,11 @@
       .service('SomeService', SomeService);
     ```
 
-**[Back to top](#table-of-contents)**
+**[回到顶部](#目录)**
 
-## Minification and annotation
+## 压缩和标注
 
-  - **ng-annotate**: Use [ng-annotate](//github.com/olov/ng-annotate) for Gulp as `ng-min` is deprecated, and comment functions that need automated dependency injection using `/** @ngInject */`
+  - **ng-annotate**: 对 Gulp 作为`ng-min`来使用 [ng-annotate](//github.com/olov/ng-annotate) 已经弃用, 使用`/** @ngInject */`注释需要自动依赖注入的函数
 
     ```javascript
     /**
@@ -720,7 +720,7 @@
       .controller('MainCtrl', MainCtrl);
     ```
 
-  - Which produces the following output with the `$inject` annotation
+  - 这会产生如下的带有 `$inject`标注的输出 
 
     ```javascript
     /**
@@ -735,16 +735,16 @@
       .controller('MainCtrl', MainCtrl);
     ```
 
-**[Back to top](#table-of-contents)**
+**[回到顶部](#目录)**
 
-## Angular docs
-For anything else, including API reference, check the [Angular documentation](//docs.angularjs.org/api).
+## Angular 文档
+其他任何问题, 包括 API 参考, 查看 [Angular 文档](//docs.angularjs.org/api).
 
-## Contributing
+## 贡献
 
-Open an issue first to discuss potential changes/additions.
+先创建一条 issue 来讨论潜在的改变和添加  
 
-## License
+## 许可证
 
 #### (The MIT License)
 
