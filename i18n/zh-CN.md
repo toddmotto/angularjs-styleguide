@@ -1,11 +1,11 @@
 # AngularJS 风格指南
 
-*一己之见 AngularJS 团队风格指南 [@toddmotto](//twitter.com/toddmotto)*
+*AngularJS 团队风格指南一己之见 [@toddmotto](//twitter.com/toddmotto)*
 
-针对团队开发 AngularJS 应用的标准方法。这份风格指南涉及到了概念，语法，习惯并且基于我写作 [writing](http:////toddmotto.com)，演讲 [talking](https://speakerdeck.com/toddmotto)，还有开发 Angular 应用的经验。
+针对团队开发 AngularJS 应用的标准方法。这份风格指南涉及到了概念，语法，习惯并且基于我的写作 [writing](http:////toddmotto.com)，演讲 [talking](https://speakerdeck.com/toddmotto)，还有开发 Angular 应用的经验。
 
 #### 社区
-[John Papa](//twitter.com/John_Papa) 和我深度讨论过 Angular 的风格模式，并且都发布了各自的风格指南。感谢那些讨论，我从 John 哪里学到了许多，帮助我打造了这份指南。我们都在风格指南上创造了我们自己的那一份。我督促你 [参考一下他的](//github.com/johnpapa/angularjs-styleguide) 来对比一下想法.
+[John Papa](//twitter.com/John_Papa) 和我深度讨论过 Angular 的风格模式，并且都发布了各自的风格指南。感谢那些讨论，我从 John 哪里学到了许多，帮助我打造了这份指南。我们都在风格指南上创造了我们自己的东西。我督促你 [参考一下他的](//github.com/johnpapa/angularjs-styleguide) 来对比一下想法.
 
 > 看看这份 [原始文档](http://toddmotto.com/opinionated-angular-js-styleguide-for-teams)，它引发了这一切。
 
@@ -40,7 +40,7 @@
       .factory();
     ```
 
-  - 注意: 使用 `angular.module('app', []);` 设置一个模块, 然而通过 `angular.module('app');` 获取这个模块. 只需设置一次，其他所有实例都可获取。
+  - 注意: 使用 `angular.module('app', []);` 设置模块, 再通过 `angular.module('app');` 获取这个模块。只需设置一次，其他所有实例都可获取
 
   - **方法**: 传递函数进入模块而不要使用回调
 
@@ -70,7 +70,7 @@
 
   - 这样可以提高可读性，减少 Angular 框架包裹的代码量
   
-  - **IIFE 作用域**: 为避免我们传入 Angular 的函数申明污染全局作用域，确保建立任务来把连接的文件包在 IIFE 里
+  - **IIFE 作用域**: 为避免我们传入 Angular 的函数申明污染全局作用域，确保建立任务来把拼接的文件包在 IIFE 里
   
     ```javascript
     (function () {
@@ -106,7 +106,7 @@
 
 ## 控制器
 
-  - **控制器语法**: 控制器是类，所以要一直使用 controllerAs 语法
+  - **控制器语法**: 控制器是类，所以要坚持使用 controllerAs 语法
 
     ```html
     <!-- 避免 -->
@@ -120,7 +120,7 @@
     </div>
     ```
 
-  - 在 DOM 里，我们每一个控制器得到一个变量，这可以帮助嵌套的控制器方法，避免任何 `$parent` 调用。 
+  - 在 DOM 里，我们每一个控制器获得一个变量，这可以帮助嵌套的控制器方法，避免任何 `$parent` 调用。 
 
   - `controllerAs` 语法，在控制器里使用 `this` 来绑定到 `$scope`
 
@@ -168,7 +168,7 @@
 
   - 使用带 polyfill 的 `Object.create` 来支持各种浏览器
 
-  - **controllerAs 'vm'**: 使用 `vm` 来获取控制器 `this` 的上下文, `vm` 是 `ViewModel` 的缩写
+  - **controllerAs 'vm'**: 使用 `vm` 来获取控制器上下文 `this` , `vm` 是 `ViewModel` 的缩写
 
     ```javascript
     // 避免
@@ -189,7 +189,7 @@
     }
     ```
 
-    *为什么?* : 函数上下文会改变 `this` 值, 使用它来避免 `.bind()` 调用和作用域问题
+    *为什么?* : 函数上下文会改变 `this` 值, 使用它来避免 `.bind()` 的调用和作用域问题
     
   - **ES6**: 如果使用 ES6，避免使用 `var vm = this;` 
 
@@ -218,7 +218,7 @@
     }
     ```
 
-    *为什么?* : 当必须要用到 `this` 语境时，使用 ES6 箭头函数
+    *为什么?* : 当必须要用到 `this` 语义时，使用 ES6 箭头函数
 
   - **只有表示逻辑 (MVVM)**: 控制器里只有表示层的逻辑, 避免业务逻辑 (委托到服务)
 
@@ -274,7 +274,7 @@
 
   - 所有 Angular 服务都是单例模式，使用 `.service` 或者 `.factory` 来区分对象 Objects 创建的方式。
 
-  **服务 Services**: 行为像 `constructor` 构造函数并且使用 `new` 关键字来初始化. 使用 `this` 来使用公众方法和变量
+  **服务 Services**: 行为像 `constructor` 构造函数并且使用 `new` 关键字来初始化. 使用 `this` 来引用公众方法和变量
   
     ```javascript
     function SomeService () {
@@ -325,7 +325,7 @@
     <div my-directive></div>
     ```
 
-  - 注释和类申明让人迷惑，应该被避免。注释和老版本的 IE 玩不到一起去。使用属性 atrribute 是最安全的方式来达到浏览器覆盖的目的。 
+  - 注释和类申明让人迷惑，应当避免。注释和老版本的 IE 玩不到一起去。使用属性 atrribute 是最安全的方式来覆盖更多浏览器。 
 
   - **模板 Templating**: 用 `Array.join('')` 来使模板清爽
 
@@ -351,7 +351,7 @@
     }
     ```
 
-    *为什么?* : 提高可读性，因为代码可以被恰当地缩进，同时也避免没那么清爽的 `+` 操作符，并且如果不恰当地分行的话会导致错误。 
+    *为什么?* : 提高可读性，因为代码可以被恰当缩进，同时也避免没那么清爽的 `+` 操作符，并且如果不恰当地分行的话会导致错误。 
 
   - **DOM 操作**: 只在指令里发生, 永远不要在控制器和服务里使用
 
@@ -404,7 +404,7 @@
       .directive('dragUpload', dragUpload);
     ```
 
-  - 只有指令和过滤器是首字母为小写的 provider; 这是因为指令的命名习惯限制造成。Angular 会给`camelCase`类的词加上中划线，所以 `dragUpload` 在应用的元素中将变为`<div drag-upload></div>` 
+  - 只有指令和过滤器是首字母为小写的 provider; 这是因为指令的命名习惯限制造成的。Angular 会给`camelCase`样式的词加上中划线，所以 `dragUpload` 在页面的元素中将变为`<div drag-upload></div>` 
   
   - **controllerAs**: 在指令中也同样要使用 `controllerAs` 语法
 
@@ -564,7 +564,7 @@
     $scope.$broadcast('customEvent', data);
     ```
 
-  - **$rootScope**: 只把 `$emit` 当做全应用的事件总线，并且记得解除监听者绑定。 
+  - **$rootScope**: 只把 `$emit` 当做整个应用的事件总线，并且记得解除监听者绑定
   
     ```javascript
     // 所有 $rootScope.$on 监听者
@@ -596,7 +596,7 @@
 
 ## 性能
 
-  - **一次性绑定语法 One-time binding syntax**: 对于较新的 Angular (v1.3.0-beta.10+) 版本, 尽量在合乎情理的地方使用一次性绑定 one-time binding syntax `{{ ::value }}` 
+  - **一次性绑定语法 One-time binding syntax**: 对于较新的 Angular (v1.3.0-beta.10+) 版本, 尽量在合乎道理的地方使用一次性绑定 one-time binding syntax `{{ ::value }}` 
 
     ```避免
     // avoid
@@ -608,7 +608,7 @@
     
     *为什么?* : 在`undefined`变量被解析之后，绑定一旦从作用域的`$$watchers`数组解除观察者，就会提升每次脏检查的性能 
     
-  - **考虑 $scope.$digest**: 在合乎情理的地方使用 `$scope.$digest` 超过 `$scope.$apply`. 只有子作用域会更新
+  - **考虑 $scope.$digest**: 在合乎道理的地方使用 `$scope.$digest` 超过 `$scope.$apply`. 只有子作用域会更新
 
     ```javascript
     $scope.$digest();
@@ -720,7 +720,7 @@
       .controller('MainCtrl', MainCtrl);
     ```
 
-  - 这会产生如下的带有 `$inject`标注的输出 
+  - 这会产生如下带有 `$inject`标注的输出 
 
     ```javascript
     /**
