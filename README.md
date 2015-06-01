@@ -588,9 +588,11 @@ A standardised approach for developing AngularJS applications in teams. This sty
       'customEvent2': $rootScope.$on('customEvent2'[, callback]),
       'customEvent3': $rootScope.$on('customEvent3'[, callback])
     };
-    for (var unbind in rootListeners) {
-      $scope.$on('$destroy', rootListeners[unbind]);
-    }
+    $scope.$on('$destroy', function () {
+      for (var unbind in rootListeners) {
+        rootListeners[unbind]();
+      }
+    });
     ```
 
 **[Back to top](#table-of-contents)**
