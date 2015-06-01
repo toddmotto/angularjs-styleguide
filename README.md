@@ -583,15 +583,15 @@ A standardised approach for developing AngularJS applications in teams. This sty
   - For multiple `$rootScope` listeners, use an Object literal and loop each one on the `$destroy` event to unbind all automatically
 
     ```javascript
-    var rootListeners = {
-      'customEvent1': $rootScope.$on('customEvent1'[, callback]),
-      'customEvent2': $rootScope.$on('customEvent2'[, callback]),
-      'customEvent3': $rootScope.$on('customEvent3'[, callback])
-    };
+    var unbind = [
+      $rootScope.$on('customEvent1'[, callback]),
+      $rootScope.$on('customEvent2'[, callback]),
+      $rootScope.$on('customEvent3'[, callback])
+    ];
     $scope.$on('$destroy', function () {
-      for (var unbind in rootListeners) {
-        rootListeners[unbind]();
-      }
+      unbind.forEach(function (fn) {
+        fn();
+      });
     });
     ```
 
