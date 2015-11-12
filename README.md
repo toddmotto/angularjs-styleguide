@@ -638,9 +638,9 @@ A standardised approach for developing AngularJS applications in teams. This sty
     }
 
     // recommended
-    function dragUpload () {
+    function dragUpload ($document) {
       return {
-        link: function ($scope, $element, $attrs, $document) {
+        link: function ($scope, $element, $attrs) {
           $document.addEventListener('click', function () {
 
           });
