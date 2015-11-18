@@ -68,6 +68,8 @@ A standardised approach for developing AngularJS applications in teams. This sty
       .service('SomeService', SomeService);
     ```
 
+  - ES6 Classes are not hoisted, which will break your code if you rely on hoisting
+  
   - This aids with readability and reduces the volume of code "wrapped" inside the Angular framework
   
   - **IIFE scoping**: To avoid polluting the global scope with our function declarations that get passed into Angular, ensure build tasks wrap the concatenated files inside an IIFE
