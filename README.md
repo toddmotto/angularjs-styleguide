@@ -4,6 +4,8 @@
 
 A standardised approach for developing AngularJS applications in teams. This styleguide touches on concepts, syntax, conventions and is based on my experience [writing](http:////toddmotto.com) about, [talking](https://speakerdeck.com/toddmotto) about, and building Angular applications.
 
+<a href="//voux.io" target="_blank"><img src="//cloud.githubusercontent.com/assets/1655968/11609649/2c10374e-9b84-11e5-9702-451f8c22a847.jpg"></a>
+
 #### Community
 [John Papa](//twitter.com/John_Papa) and I have discussed in-depth styling patterns for Angular and as such have both released separate styleguides. Thanks to those discussions, I've learned some great tips from John that have helped shape this guide. We've both created our own take on a styleguide. I urge you to [check his out](//github.com/johnpapa/angularjs-styleguide) to compare thoughts.
 
