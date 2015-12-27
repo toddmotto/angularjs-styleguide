@@ -1,8 +1,8 @@
-# AngularJS styleguide
+# Angular styleguide
 
-*Opinionated AngularJS styleguide for teams by [@toddmotto](//twitter.com/toddmotto)*
+*Opinionated Angular styleguide for teams by [@toddmotto](//twitter.com/toddmotto)*
 
-A standardised approach for developing AngularJS applications in teams. This styleguide touches on concepts, syntax, conventions and is based on my experience [writing](http:////toddmotto.com) about, [talking](https://speakerdeck.com/toddmotto) about, and building Angular applications.
+A standardised approach for developing Angular applications in teams. This styleguide touches on concepts, syntax, conventions and is based on my experience [writing](http:////toddmotto.com) about, [talking](https://speakerdeck.com/toddmotto) about, and building Angular applications.
 
 <a href="http://voux.io" target="_blank"><img src="http://static.voux.io/github.svg"></a>
 
