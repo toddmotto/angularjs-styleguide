@@ -1,13 +1,13 @@
 # Angular styleguide
 
-*Opinionated Angular styleguide for teams by [@toddmotto](//twitter.com/toddmotto)*
+*Opinionated Angular styleguide for teams based off of [@toddmotto](https://github.com/toddmotto/angular-styleguide)'s*
 
-A standardised approach for developing Angular applications at triplelift. This styleguide touches on concepts, syntax, conventions and is based on my experience [writing](http:////toddmotto.com) about, [talking](https://speakerdeck.com/toddmotto) about, and building Angular applications.
+#### What is this?
 
-<a href="http://voux.io" target="_blank"><img src="http://static.voux.io/github.svg"></a>
+A standardised approach for developing Angular applications at triplelift. This styleguide touches on concepts, syntax and conventions.
 
 #### Community
-[John Papa](//twitter.com/John_Papa) and I have discussed in-depth styling patterns for Angular and as such have both released separate styleguides. Thanks to those discussions, I've learned some great tips from John that have helped shape this guide. We've both created our own take on a styleguide. I urge you to [check his out](//github.com/johnpapa/angularjs-styleguide) to compare thoughts.
+[John Papa](https://twitter.com/John_Papa) and [Todd Motto](https://twitter.com/toddmotto) have discussed in-depth styling patterns for Angular and as such have both released separate styleguides. [Check his John Papa's](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md) and [Todd Motto's](https://github.com/toddmotto/angular-styleguide) to compare thoughts.
 
 > See the [original article](http://toddmotto.com/opinionated-angular-js-styleguide-for-teams) that sparked this off
 
@@ -43,67 +43,6 @@ A standardised approach for developing Angular applications at triplelift. This 
     ```
 
   - Note: Using `angular.module('app', []);` sets a module, whereas `angular.module('app');` gets the module. Only set once and get for all other instances.
-
-  - **Methods**: Pass functions into module methods rather than assign as a callback
-
-    ```javascript
-    // avoid
-    angular
-      .module('app', [])
-      .controller('MainCtrl', function MainCtrl () {
-
-      })
-      .service('SomeService', function SomeService () {
-
-      });
-
-    // recommended
-    function MainCtrl () {
-
-    }
-    function SomeService () {
-
-    }
-    angular
-      .module('app', [])
-      .controller('MainCtrl', MainCtrl)
-      .service('SomeService', SomeService);
-    ```
-
-  - ES6 Classes are not hoisted, which will break your code if you rely on hoisting
-  
-  - This aids with readability and reduces the volume of code "wrapped" inside the Angular framework
-  
-  - **IIFE scoping**: To avoid polluting the global scope with our function declarations that get passed into Angular, ensure build tasks wrap the concatenated files inside an IIFE
-  
-    ```javascript
-    (function () {
-
-      angular
-        .module('app', []);
-      
-      // MainCtrl.js
-      function MainCtrl () {
-
-      }
-      
-      angular
-        .module('app')
-        .controller('MainCtrl', MainCtrl);
-      
-      // SomeService.js
-      function SomeService () {
-
-      }
-      
-      angular
-        .module('app')
-        .service('SomeService', SomeService);
-        
-      // ...
-        
-    })();
-    ```
 
 
 **[Back to top](#table-of-contents)**
@@ -147,30 +86,24 @@ A standardised approach for developing Angular applications at triplelift. This 
     ```
 
   - Only use `$scope` in `controllerAs` when necessary; for example, publishing and subscribing events using `$emit`, `$broadcast`, `$on` or `$watch`. Try to limit the use of these, however, and treat `$scope` as a special use case
+  
+  - **`$watch`ing in a controller**: When creating watches in a controller using `controller as`, you can watch the `vm.*` member using the following syntax. (Create watches with caution as they add more load to the digest cycle.)
 
-  - **Inheritance**: Use prototypal inheritance when extending controller classes
+  ```html
+  <input ng-model="vm.title"/>
+  ```
 
-    ```javascript
-    function BaseCtrl () {
-      this.doSomething = function () {
+  ```javascript
+  function SomeController($scope, $log) {
+      var vm = this;
+      vm.title = 'Some Title';
 
-      };
-    }
-    BaseCtrl.prototype.someObject = {};
-    BaseCtrl.prototype.sharedSomething = function () {
-
-    };
-
-    AnotherCtrl.prototype = Object.create(BaseCtrl.prototype);
-
-    function AnotherCtrl () {
-      this.anotherSomething = function () {
-
-      };
-    }
-    ```
-
-  - Use `Object.create` with a polyfill for browser support
+      $scope.$watch('vm.title', function(current, original) {
+          $log.info('vm.title was %s', original);
+          $log.info('vm.title is now %s', current);
+      });
+  }
+  ```
 
   - **controllerAs 'vm'**: Capture the `this` context of the Controller using `vm`, standing for `ViewModel`
 
@@ -193,7 +126,7 @@ A standardised approach for developing Angular applications at triplelift. This 
     }
     ```
 
-    *Why?* : Function context changes the `this` value, use it to avoid `.bind()` calls and scoping issues
+    *Why?* : Function context changes the `this` value, use it to avoid `.bind()` calls and scoping issues   
     
   - **ES6**: Avoid `var vm = this;` when using ES6
 
@@ -269,47 +202,52 @@ A standardised approach for developing Angular applications at triplelift. This 
 
     }
     ```
-
+    
+	**Note** : The `$http` service, its methods and URL paths arent referenced directly.
+	
+	**Note** : Logic in controllers is used only to bind the appropriate data to the controller object,
+	
     *Why?* : Controllers should fetch Model data from Services, avoiding any Business logic. Controllers should act as a ViewModel and control the data flowing between the Model and the View presentational layer. Business logic in Controllers makes testing Services impossible.
 
 **[Back to top](#table-of-contents)**
 
 ## Services and Factory
 
-  - All Angular Services are singletons, using `.service()` or `.factory()` differs the way Objects are created.
+  - All Angular Services are singletons, using `.service()` or `.factory()` differs the way Objects are created. Since these are so similar to factories, **always use a factory for consistency**.
 
   **Services**: act as a `constructor` function and are instantiated with the `new` keyword. Use `this` for public methods and variables
 
-    ```javascript
-    function SomeService () {
-      this.someMethod = function () {
+	```javascript
+	// service
+	angular
+	    .module('app')
+	    .service('logger', logger);
+	
+	function logger() {
+	  this.logError = function(msg) {
+	    /* */
+	  };
+	}
+	```
 
-      };
-    }
-    angular
-      .module('app')
-      .service('SomeService', SomeService);
-    ```
+  **Factory**: are invoked like any ol' function and, accordingly, should return something!
+  
+	```javascript  
+	// factory
+	angular
+	    .module('app')
+	    .factory('logger', logger);
+	
+	function logger() {
+	    return {
+	        logError: function(msg) {
+	          /* */
+	        }
+	   };
+	}
+	```
 
-  **Factory**: Business logic or provider modules, return an Object or closure
 
-  - Always return a host Object instead of the revealing Module pattern due to the way Object references are bound and updated
-
-    ```javascript
-    function AnotherService () {
-      var AnotherService = {};
-      AnotherService.someValue = '';
-      AnotherService.someMethod = function () {
-
-      };
-      return AnotherService;
-    }
-    angular
-      .module('app')
-      .factory('AnotherService', AnotherService);
-    ```
-
-    *Why?* : Primitive values cannot update alone using the revealing module pattern
 
 **[Back to top](#table-of-contents)**
 
