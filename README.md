@@ -49,7 +49,7 @@ A standardised approach for developing Angular applications at triplelift. This 
 
 ## Controllers
 
-  - **controllerAs syntax**: Controllers are classes, so use the `controllerAs` syntax at all times
+  - **controllerAs syntax**: Use the [`controllerAs`](http://www.johnpapa.net/do-you-like-your-angular-controllers-with-or-without-sugar/) syntax over the classic "controller with $scope"" syntax.
 
     ```html
     <!-- avoid -->
@@ -63,31 +63,59 @@ A standardised approach for developing Angular applications at triplelift. This 
     </div>
     ```
 
-  - In the DOM we get a variable per controller, which aids nested controller methods, avoiding any `$parent` calls
-
-  - The `controllerAs` syntax uses `this` inside controllers, which gets bound to `$scope`
-
-    ```javascript
-    // avoid
-    function MainCtrl ($scope) {
-      $scope.someObject = {};
-      $scope.doSomething = function () {
-
-      };
-    }
-
-    // recommended
-    function MainCtrl () {
-      this.someObject = {};
-      this.doSomething = function () {
-
-      };
-    }
-    ```
-
-  - Only use `$scope` in `controllerAs` when necessary; for example, publishing and subscribing events using `$emit`, `$broadcast`, `$on` or `$watch`. Try to limit the use of these, however, and treat `$scope` as a special use case
+	  ```javascript
+	  /* avoid */
+	  function CustomerController($scope) {
+	      $scope.name = {};
+	      $scope.sendMessage = function() { };
+	  }
+	  ```
+	  
+	  ```javascript
+	  /* recommended - but see next section */
+	  function CustomerController() {
+	      this.name = {};
+	      this.sendMessage = function() { };
+	  }
+  	  ```
   
-  - **`$watch`ing in a controller**: When creating watches in a controller using `controller as`, you can watch the `vm.*` member using the following syntax. (Create watches with caution as they add more load to the digest cycle.)
+    *Why?*: Controllers are constructed, "newed" up, providing a single new instance. The `controllerAs` syntax more closely resembles "JavaScript constructor" than "classic `$scope`" syntax.
+    
+    *Why?*: Even with `controllerAs`, the controller object is still bound to `$scope`, so you can still bind to the View...this fact ultimately leads some to even see the `controllerAs` syntax as high level syntactic sugar.
+
+    *Why?*: It promotes the use of binding to a "dotted" object in the View (e.g. `customer.name` instead of `name`), which is more contextual and easier to read.
+    
+     *Why?*: Helps avoid using `$parent` in the View to reference a particular property of a parent controller from within a nested controller.
+   
+     *Why?*: Curbs the temptation to using `$scope` methods inside a controller when they are better placed inside a factory or avoided altogether.
+     
+     *Why?*: You can, nevertheless, use `$scope` methods, such as `$emit`, `$broadcast`, `$on` or `$watch`, by injecting `$scope` if absolutely necessary.
+     
+     *why?*: **Most importantly**, `controllerAs` prevents "scope soup". There may be nothing worse in large scale angular development than running into `ng-click="doOnClick(data)"` in the View, looking into the controller "corresponding" to such View and being unable to locate either the `doOnClick` or `data` definition. At this point, of course, you must begin mapping out the $scope heirarchy until it leads to the nearest declaration of each variable... no fun indeed. Taking advantage of the basic rules of JavaScript prototypical inheritance, placing wonderful `vm` in front of each variable, as in `ng-click="vm.doOnClick(vm.data)"` **ensures** the controller **associated** therewith carries the corresponding definitions or `undefined` will result. That is because when JavaScipt attempts to locate `vm`, it will find the associated controller bound to associated `$scope` - success is guaranteed in the from of the correct controller object. Next, JavaScript will attempt to locate `doOnClick` and `data`, each, **on such controller** and...vuala.
+  	  
+
+  - **controllerAs 'vm'**: Capture the `this` context of the Controller using `vm`, standing for `ViewModel`
+
+  ```javascript
+  /* avoid */
+  function CustomerController() {
+      this.name = {};
+      this.sendMessage = function() { };
+  }
+  ```
+
+  ```javascript
+  /* recommended */
+  function CustomerController() {
+      var vm = this;
+      vm.name = {};
+      vm.sendMessage = function() { };
+  }
+  ```
+
+  - *Why?* : Function context changes the `this` value, use it to avoid `.bind()` calls and scoping issues  
+  
+  - **`$watch`ing in a controller**: When creating watches in a controller using `controller as`, you can watch the `vm.*` member using the following syntax. (Create watches with caution as they add more load to the digest cycle.)  
 
   ```html
   <input ng-model="vm.title"/>
@@ -103,30 +131,7 @@ A standardised approach for developing Angular applications at triplelift. This 
           $log.info('vm.title is now %s', current);
       });
   }
-  ```
-
-  - **controllerAs 'vm'**: Capture the `this` context of the Controller using `vm`, standing for `ViewModel`
-
-    ```javascript
-    // avoid
-    function MainCtrl () {
-      var doSomething = function () {
-
-      };
-      this.doSomething = doSomething;
-    }
-
-    // recommended
-    function MainCtrl () {
-      var vm = this;
-      var doSomething = function () {
-        
-      };
-      vm.doSomething = doSomething;
-    }
-    ```
-
-    *Why?* : Function context changes the `this` value, use it to avoid `.bind()` calls and scoping issues   
+  ``` 
     
   - **ES6**: Avoid `var vm = this;` when using ES6
 
@@ -203,9 +208,9 @@ A standardised approach for developing Angular applications at triplelift. This 
     }
     ```
     
-	**Note** : The `$http` service, its methods and URL paths arent referenced directly.
+	*Note* : The `$http` service, its methods and URL paths arent referenced directly.
 	
-	**Note** : Logic in controllers is used only to bind the appropriate data to the controller object,
+	*Note* : Logic in controllers is used only to bind the appropriate data to the controller object,
 	
     *Why?* : Controllers should fetch Model data from Services, avoiding any Business logic. Controllers should act as a ViewModel and control the data flowing between the Model and the View presentational layer. Business logic in Controllers makes testing Services impossible.
 
@@ -215,7 +220,7 @@ A standardised approach for developing Angular applications at triplelift. This 
 
   - All Angular Services are singletons, using `.service()` or `.factory()` differs the way Objects are created. Since these are so similar to factories, **always use a factory for consistency**.
 
-  **Services**: act as a `constructor` function and are instantiated with the `new` keyword. Use `this` for public methods and variables
+  **Service**: acts as a `constructor` function and is instantiated with the `new` keyword. Use `this` for public methods and variables
 
 	```javascript
 	// service
@@ -230,7 +235,7 @@ A standardised approach for developing Angular applications at triplelift. This 
 	}
 	```
 
-  **Factory**: are invoked like any ol' function and, accordingly, should return something!
+  **Factory**: is invoked like any ol' function and, accordingly, should return something!
   
 	```javascript  
 	// factory
