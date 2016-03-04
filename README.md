@@ -187,13 +187,13 @@ A standardised approach for developing Angular applications at triplelift. This 
 	  ```
   
   
-    *Why?*
+	*Why?*
 	
 	- Placing bindable members at the top makes it easy to read and helps you instantly identify which members of the controller can be bound and used in the View.
   
-    - Defining the functions below the bindable members moves the implementation details (& complexity) down.
+	- Defining the functions below the bindable members moves the implementation details (& complexity) down.
   
-    - Function declaration are hoisted so there are no concerns over using a function before it is defined (as there would be with function expressions), even if one function references another.
+	- Function declaration are hoisted so there are no concerns over using a function before it is defined (as there would be with function expressions), even if one function references another.
 
   - **Presentational logic only (MVVM)**: Presentational logic only inside a controller, avoid Business logic, delegating to **[Services](#services)** instead.
 
@@ -350,10 +350,10 @@ A standardised approach for developing Angular applications at triplelift. This 
 	 	}
 		```
 
-    *Why?*
-    - Since they can perform the same tasks, it makes sense to only use one for the sake of consistency.
-    - Absent any dependecy on the `this` parameter, the `.factory()` method is arguably the simpler of the two.
-    
+	*Why?*
+	- Since they can perform the same tasks, it makes sense to only use one for the sake of consistency.
+	- Absent any dependecy on the `this` parameter, the `.factory()` method is arguably the simpler of the two.
+	
   - **Follow the [Revealing Module Pattern](https://addyosmani.com/resources/essentialjsdesignpatterns/book/#revealingmodulepatternjavascript)**: Expose the callable members of the service (its interface) at the top.
   
 	 ```javascript
@@ -361,16 +361,16 @@ A standardised approach for developing Angular applications at triplelift. This 
 	 function dataService() {
 	   var someValue = '';
 	   var save = function() {
-	     /* */
+		 /* */
 	   };
 	   var validate = function() {
-	     /* */
+		 /* */
 	   };
 	
 	   return {
-	       save: save,
-	       someValue: someValue,
-	       validate: validate
+		   save: save,
+		   someValue: someValue,
+		   validate: validate
 	   };
 	 }
 	 ```
@@ -378,30 +378,30 @@ A standardised approach for developing Angular applications at triplelift. This 
 	 ```javascript
 	 /* recommended */
 	 function dataService() {
-	     var someValue = '';
-	     var service = {
-	         save: save,
-	         someValue: someValue,
-	         validate: validate
-	     };
-	     return service;
+		 var someValue = '';
+		 var service = {
+			 save: save,
+			 someValue: someValue,
+			 validate: validate
+		 };
+		 return service;
 	
-	     ////////////
+		 ////////////
 	
-	     function save() {
-	         /* */
-	     };
+		 function save() {
+			 /* */
+		 };
 	
-	     function validate() {
-	         /* */
-	     };
+		 function validate() {
+			 /* */
+		 };
 	 }
 	 ```
 	 
 	 *Why?*
 	 - Placing accessible members at the top makes it easy to read and helps you instantly identify which functions of the factory you can access externally and must be unit tested (and/or mocked).
-    - Defining the functions below the bindable members moves the implementation details (& complexity) down. 
-    - Function declaration are hoisted so there are no concerns over using a function before it is defined (as there would be with function expressions), even if one function references another.
+	- Defining the functions below the bindable members moves the implementation details (& complexity) down. 
+	- Function declaration are hoisted so there are no concerns over using a function before it is defined (as there would be with function expressions), even if one function references another.
 	
   - **Any interaction between controllers and data should be mediated by a service**: XHR calls, local storage, stashing in memory and other data operations belong in a service.
   
@@ -410,27 +410,27 @@ A standardised approach for developing Angular applications at triplelift. This 
 	
 	 // dataservice factory
 	 angular
-	     .module('app.core')
-	     .factory('dataservice', function($http, logger) {
-	     
-		     return {
-		         getAvengers: getAvengers
-		     };
+		 .module('app.core')
+		 .factory('dataservice', function($http, logger) {
+		 
+			 return {
+				 getAvengers: getAvengers
+			 };
 		
-		     function getAvengers() {
-		         return $http.get('/api/maa')
-		             .then(getAvengersComplete)
-		             .catch(getAvengersFailed);
+			 function getAvengers() {
+				 return $http.get('/api/maa')
+					 .then(getAvengersComplete)
+					 .catch(getAvengersFailed);
 		
-		         function getAvengersComplete(response) {
-		             return response.data.results;
-		         }
+				 function getAvengersComplete(response) {
+					 return response.data.results;
+				 }
 		
-		         function getAvengersFailed(error) {
-		             logger.error('XHR Failed for getAvengers.' + error.data);
-		         }
-		     }
-	     });
+				 function getAvengersFailed(error) {
+					 logger.error('XHR Failed for getAvengers.' + error.data);
+				 }
+			 }
+		 });
 	```
 	
 	```javascript
@@ -438,26 +438,26 @@ A standardised approach for developing Angular applications at triplelift. This 
 	
 	 // controller calling the dataservice factory
 	 angular
-	     .module('app.avengers')
-	     .controller('AvengersController', function(dataservice, logger) {
-		     var vm = this;
-		     vm.avengers = [];
+		 .module('app.avengers')
+		 .controller('AvengersController', function(dataservice, logger) {
+			 var vm = this;
+			 vm.avengers = [];
 		
-		     activate();
+			 activate();
 		
-		     function activate() {
-		         return getAvengers().then(function() {
-		             logger.info('Activated Avengers View');
-		         });
-		     }
+			 function activate() {
+				 return getAvengers().then(function() {
+					 logger.info('Activated Avengers View');
+				 });
+			 }
 		
-		     function getAvengers() {
-		         return dataservice.getAvengers()
-		             .then(function(data) {
-		                 vm.avengers = data;
-		                 return vm.avengers;
-		             });
-		     }
+			 function getAvengers() {
+				 return dataservice.getAvengers()
+					 .then(function(data) {
+						 vm.avengers = data;
+						 return vm.avengers;
+					 });
+			 }
 		 });
 	 ```
 	 
@@ -472,7 +472,7 @@ A standardised approach for developing Angular applications at triplelift. This 
 
 ## Directives
 
-  - **Declaration restrictions**: Only use `custom element` and `custom attribute` methods for declaring your Directives (`{ restrict: 'EA' }`) depending on the Directive's role
+  - **Declaration restrictions**: Only use `custom element` and `custom attribute` methods for declaring your Directives i.e. `{ restrict: 'EA' }`, `{ restrict: 'A' }` or `{ restrict: 'E' }`.
 
 	```html
 	<!-- avoid -->
@@ -521,58 +521,141 @@ A standardised approach for developing Angular applications at triplelift. This 
 	- DOM manipulation can be difficult to test, debug, and there are often better ways (e.g. CSS, animations, templates)
 	- **Most importantly**, while it's true that controllers (defined with `.controller()`) are provided access to the parent-most `$element`, generally speaking, the desired DOM manipulation relates to some child element in the controller's View . Directives, on the other hand, are provided access to the `element` underlying the desired DOM changes. Using such `element` avoids unnecessarily having to search (possibly, by a unique identifier) for the element and more appropriately associates the DOM manipulation logic with the subject of such logic (i.e. the element!). In addition, separating such logic out of the controllers avoids further complicating controller logic while providing encapsulation for DOM related logic. After all, **[Controllers](#controllers)** have their own reason for being that is unrelated to DOM manipulation. 
 
-  - **Naming conventions**: Never `ng-*` prefix custom directives, they might conflict future native directives
+  - **Naming conventions**: Provide a short, unique and descriptive directive prefix such as `acmeSalesCustomerInfo`, declared in HTML as `acme-sales-customer-info`.
 
-	```javascript
-	// avoid
-	// <div ng-upload></div>
-	function ngUpload () {
-	  return {};
-	}
-	angular
+	*Why?*
+	- Directives enter a global namespace and must be verbosely named as a result.
+	- The unique short prefix identifies the directive's context and origin. For example, a prefix of cc- may indicate that the directive is part of a CodeCamper app while acme- may indicate a directive for the Acme company.
+	
+  - **All templating directives should be considered "components" -> restricted to `'E'` and isolated**: Directives that have `template` or `templateUrl` definitions will replace child nodes in the original html with the specified template (unless transcluding) and should specify `{ restrict: 'E' }` and `{ scope: {} }`.
+	 
+	  ```html
+	 <!-- avoid -->
+	 <div my-example max="vm.max"></div>	 
+	 ```
+	 
+	 ```javascript
+	 /* avoid */
+	 angular
 	  .module('app')
-	  .directive('ngUpload', ngUpload);
-
-	// recommended
-	// <div drag-upload></div>
-	function dragUpload () {
-	  return {};
-	}
-	angular
+	  .directive('myExample', function() {
+		return {
+		  restrict: 'EA', // <-- note!
+		  templateUrl: 'app/feature/example.directive.html',
+		  scope: true, // <-- note!
+		  controllerAs: 'vm',
+		  controller: function($scope, $attrs) {
+		  	var vm = this;
+		  	
+		  	// custom two-way binding
+		  	$scope.$watch($attrs.max, function(max) {
+		  		vm.max = max;
+		  	});
+		  	$scope.$watch('vm.max', function(max) {
+		  		$scope.$parent.vm.max = max;
+		  	});
+		  }
+		};
+	 });
+	
+	 ```
+	 
+	 ```html
+	 <!-- recommended -->
+	 <my-example max="vm.max"></my-example>	 
+	 ```	 
+	 
+	 ```javascript
+	 /* recommended */
+	 angular
 	  .module('app')
-	  .directive('dragUpload', dragUpload);
-	```
+	  .directive('myExample', function() {
+		return {
+		  restrict: 'E', // <-- note!
+		  templateUrl: 'app/feature/example.directive.html',
+		  scope: {}, // <-- note!
+		  bindToController: { max: '=' },
+		  controllerAs: 'vm',
+		  controller: function() {}
+		};
+	 });
+	
+	 ```
+	 
+	 *Why?*
+	 - Without isolating a templating directive, "scope soup" may ensure (see **[Controllers](#controllers)** for more). The negative effects become even more pronounced in the case of directives because they can be placed anywhere in the DOM tree no matter $scope lineage that awaits. In addition to giving the directive the benefit of two way bindings, isolating its scope provides certainty and clarity as to template's context in play.
+	 - Attribute directives, like `ng-click` and `ng-show`, frequently manipulate the DOM or provide other behavior peripheral to data flow and view management. Restricting templating directives to type `'E'` clearly distinguishes them from attribute directives.
+	 - compant directives
+	 
 
-  - Directives and Filters are the _only_ providers that have the first letter as lowercase; this is due to strict naming conventions in Directives. Angular hyphenates `camelCase`, so `dragUpload` will become `<div drag-upload></div>` when used on an element.
-
-  - **controllerAs**: Use the `controllerAs` syntax inside Directives as well
-
-	```javascript
-	// avoid
-	function dragUpload () {
-	  return {
-		controller: function ($scope) {
-
-		}
-	  };
-	}
-	angular
+  - **Use bindToController and controllerAs**: When binding properties manually in the controller or passing them into the directive through HTML attributes, use `bindToController` and the `controllerAs` syntax.
+  
+	 ```html
+	 <my-example max="77"></my-example>	 
+	 ```
+	
+	 ```javascript
+	 /* avoid */
+	 angular
 	  .module('app')
-	  .directive('dragUpload', dragUpload);
+	  .directive('myExample', function() {
+		return {
+		  restrict: 'E',
+		  templateUrl: 'app/feature/example.directive.html',
+		  scope: { max: '=' },
+		  controller: function($scope) {
+		 	$scope.min = 3;
+		 	console.log('CTRL: $scope.min = %s', $scope.min);
+		 	console.log('CTRL: $scope.max = %s', $scope.max);
+		  }
+		};
+	 });
 
-	// recommended
-	function dragUpload () {
-	  return {
-		controllerAs: 'vm',
-		controller: function () {
-
-		}
-	  };
-	}
-	angular
+	 ```
+	 
+	 ```html	 
+	 <!-- example.directive.html -->
+	 <!-- avoid -->
+	 <div>hello world</div>
+	 <div>max={{max}}<input ng-model="max"/></div>
+	 <div>min={{min}}<input ng-model="min"/></div>
+	 ```
+	
+	 ```javascript
+	 /* recommended */
+	 angular
 	  .module('app')
-	  .directive('dragUpload', dragUpload);
-	```
+	  .directive('myExample', function() {
+		return {
+		  restrict: 'E',
+		  templateUrl: 'app/feature/example.directive.html',
+		  scope: {},
+		  bindToController: { max: '=' },
+		  controllerAs: 'vm',
+		  controller: function() {
+		  	var vm = this;
+		 	vm.min = 3;
+		 	console.log('CTRL: vm.min = %s', vm.min);
+		 	console.log('CTRL: vm.max = %s', vm.max);
+		  }
+		};
+	 });
+
+	 ```
+	
+	 ```html
+	 <!-- example.directive.html -->
+	 <!-- recommended -->
+	 <div>hello world</div>
+	 <div>max={{vm.max}}<input ng-model="vm.max"/></div>
+	 <div>min={{vm.min}}<input ng-model="vm.min"/></div>
+	 ```
+	 
+	 Note:
+	 - `bindToController` automatically binds properties (that would otherwise be bound directly to `$scope`) directly to directive's controller, which itself is bound to `$scope`.
+	 *Why?*
+	 - For all the reasons described in the **[Controllers section](#controller)** above.
+
 
 **[Back to top](#table-of-contents)**
 
