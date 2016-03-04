@@ -91,7 +91,7 @@ A standardised approach for developing Angular applications at triplelift. This 
      
      *Why?*: You can, nevertheless, use `$scope` methods, such as `$emit`, `$broadcast`, `$on` or `$watch`, by injecting `$scope` if absolutely necessary.
      
-     *why?*: **Most importantly**, `controllerAs` prevents "scope soup". There may be nothing worse in large scale angular development than running into `ng-click="doOnClick(data)"` in the View, looking into the controller "corresponding" to such View and being unable to locate either the `doOnClick` or `data` definition. At this point, of course, you must begin mapping out the $scope heirarchy until it leads to the nearest declaration of each variable... no fun indeed. Taking advantage of the basic rules of JavaScript prototypical inheritance, placing wonderful `vm` in front of each variable, as in `ng-click="vm.doOnClick(vm.data)"` **ensures** the controller **associated** therewith carries the corresponding definitions or `undefined` will result. That is because when JavaScipt attempts to locate `vm`, it will find the associated controller bound to associated `$scope` - success is guaranteed in the from of the correct controller object. Next, JavaScript will attempt to locate `doOnClick` and `data`, each, **on such controller** and...vuala.
+     *why?*: **Most importantly**, `controllerAs` prevents "scope soup". There may be nothing worse in large scale angular development than running into `ng-click="doOnClick(data)"` in the View, looking into the controller "corresponding" to such View and being unable to locate either the `doOnClick` or `data` definitions. At this point, of course, you must begin mapping out the $scope heirarchy until it leads to the nearest declaration of each variable... no fun indeed. Taking advantage of the basic rules of JavaScript prototypal inheritance, placing wonderful `vm` in front of each variable, as in `ng-click="vm.doOnClick(vm.data)"` **ensures** the controller **associated** therewith carries the corresponding definitions or `undefined` will result. That is because when JavaScipt attempts to locate `vm`, it will find the associated controller bound to associated `$scope` - success is guaranteed in the from of the correct controller object. Next, JavaScript will attempt to locate `doOnClick` and `data` **on such controller** and...vuala... either corresponding definitions will be found **bound to such controller** or `undefined` will result.
   	  
 
   - **controllerAs 'vm'**: Capture the `this` context of the Controller using `vm`, standing for `ViewModel`
@@ -113,7 +113,7 @@ A standardised approach for developing Angular applications at triplelift. This 
   }
   ```
 
-  - *Why?* : Function context changes the `this` value, use it to avoid `.bind()` calls and scoping issues  
+  - *Why?* : The this keyword is contextual and when used within a function inside a controller may change its context. Capturing the context of this avoids encountering this problem.  
   
   - **`$watch`ing in a controller**: When creating watches in a controller using `controller as`, you can watch the `vm.*` member using the following syntax. (Create watches with caution as they add more load to the digest cycle.)  
 
@@ -132,35 +132,62 @@ A standardised approach for developing Angular applications at triplelift. This 
       });
   }
   ``` 
-    
-  - **ES6**: Avoid `var vm = this;` when using ES6
+  
+  - **Bindable members up top**: Place bindable members at the top of the controller, *alphabetized*, and not spread through the controller code.
+  
+  ```javascript
+  /* avoid */
+  function SessionsController() {
+      var vm = this;
 
-    ```javascript
-    // avoid
-    function MainCtrl () {
-      let vm = this;
-      let doSomething = arg => {
-        console.log(vm);
+      vm.gotoSession = function() {
+        /* ... */
       };
-      
-      // exports
-      vm.doSomething = doSomething;
-    }
-
-    // recommended
-    function MainCtrl () {
-      
-      let doSomething = arg => {
-        console.log(this);
+      vm.refresh = function() {
+        /* ... */
       };
-      
-      // exports
-      this.doSomething = doSomething;
-      
-    }
-    ```
+      vm.search = function() {
+        /* ... */
+      };
+      vm.sessions = [];
+      vm.title = 'Sessions';
+  }
+  ```
 
-    *Why?* : Use ES6 arrow functions when necessary to access the `this` value lexically
+  ```javascript
+  /* recommended */
+  function SessionsController() {
+      var vm = this;
+
+      vm.gotoSession = gotoSession;
+      vm.refresh = refresh;
+      vm.search = search;
+      vm.sessions = [];
+      vm.title = 'Sessions';
+      vm.write = sessionDataService.write; // 1 liner is OK
+
+      ////////////
+
+      function gotoSession() {
+        /* */
+      }
+
+      function refresh() {
+        /* */
+      }
+
+      function search() {
+        /* */
+      }
+  }
+  ```
+  
+  
+  *Why?*: Placing bindable members at the top makes it easy to read and helps you instantly identify which members of the controller can be bound and used in the View.
+  
+  *Why?*: Defining the functions below the bindable members moves the implementation details (& complexity) down.
+  
+  *Why?*: Function declaration are hoisted so there are no concerns over using a function before it is defined (as there would be with function expressions), even if one function references another.
 
   - **Presentational logic only (MVVM)**: Presentational logic only inside a controller, avoid Business logic (delegate to Services)
 
@@ -208,11 +235,98 @@ A standardised approach for developing Angular applications at triplelift. This 
     }
     ```
     
-	*Note* : The `$http` service, its methods and URL paths arent referenced directly.
+	*Note*: The `$http` service, its methods and URL paths arent referenced directly.
 	
-	*Note* : Logic in controllers is used only to bind the appropriate data to the controller object,
+	*Note*: Logic in controllers is used only to bind the appropriate data to the controller object,
 	
-    *Why?* : Controllers should fetch Model data from Services, avoiding any Business logic. Controllers should act as a ViewModel and control the data flowing between the Model and the View presentational layer. Business logic in Controllers makes testing Services impossible.
+    *Why?*: Controllers should fetch Model data from Services, avoiding any Business logic. Controllers should act as a ViewModel and control the data flowing between the Model and the View presentational layer. Business logic in Controllers makes testing Services impossible.
+    
+  - **Keep controllers focused**: Define a controller for a view, and try not to reuse the controller for other views. Instead, move reusable logic to factories and keep the controller simple and focused on its view.
+  
+    *Why?*: Reusing controllers with several views is brittle and good end-to-end (e2e) test coverage is required to ensure stability across large applications.
+    
+  - **Assign controllers in route definitions instead of template** 
+  
+	 ```javascript
+	 /* avoid */
+	
+	 // route-config.js
+	 angular
+	     .module('app')
+	     .config(config);
+	
+	 function config($routeProvider) {
+	     $routeProvider
+	         .when('/avengers', {
+	           templateUrl: 'avengers.html'
+	         });
+	 }
+	 ```
+	
+	 ```html
+	 <!-- avengers.html -->
+	 <div ng-controller="AvengersController as vm">
+	 </div>
+	 ```
+	
+	 ```javascript
+	 /* recommended */
+	
+	 // route-config.js
+	 angular
+	     .module('app')
+	     .config(config);
+	
+	 function config($routeProvider) {
+	     $routeProvider
+	         .when('/avengers', {
+	             templateUrl: 'avengers.html',
+	             controller: 'Avengers',
+	             controllerAs: 'vm'
+	         });
+	 }
+	 ```
+
+	 ```html
+	 <!-- avengers.html -->
+	 <div>
+	 </div>
+	 ```
+    *Why?*: Pairing a controller with a template through `$routeProvider` configurations allows for template reuse. In other words, when `ng-controller` is used inline, that's it... a pairing is made between template and controller, which prevents template reuse with another controller.
+    
+    *Why?*: Having all controller-template pairings upfront creates a sort of index for your application, which makes it easier to see where everything is, what goes with what and how the data flows throughout your application (see **[Routing with promises](#routing-with-promises)** below). 
+    
+    *Note*: Although now even easier to do with the introduction of route definitions, controller reuese is *still* ill-advised for the reasons above.
+    
+    
+  - **ES6**: Avoid `var vm = this;` when using ES6
+
+    ```javascript
+    // avoid
+    function MainCtrl () {
+      let vm = this;
+      let doSomething = arg => {
+        console.log(vm);
+      };
+      
+      // exports
+      vm.doSomething = doSomething;
+    }
+
+    // recommended
+    function MainCtrl () {
+      
+      let doSomething = arg => {
+        console.log(this);
+      };
+      
+      // exports
+      this.doSomething = doSomething;
+      
+    }
+    ```
+
+    *Why?* : Use ES6 arrow functions when necessary to access the `this` value lexically
 
 **[Back to top](#table-of-contents)**
 
