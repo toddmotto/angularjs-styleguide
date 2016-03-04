@@ -156,7 +156,7 @@ A standardised approach for developing Angular applications at triplelift. This 
 
   ```javascript
   /* recommended */
-  function SessionsController() {
+  function SessionsController(sessionDataService) {
       var vm = this;
 
       vm.gotoSession = gotoSession;
