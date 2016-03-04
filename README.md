@@ -98,27 +98,26 @@ A standardised approach for developing Angular applications at triplelift. This 
 
   - **controllerAs 'vm'**: Capture the `this` context of the Controller using `vm`, standing for `ViewModel`
 
-  ```javascript
-  /* avoid */
-  function CustomerController() {
-      this.name = {};
-      this.sendMessage = function() { };
-  }
-  ```
-
-  ```javascript
-  /* recommended */
-  function CustomerController() {
-      var vm = this;
-      vm.name = {};
-      vm.sendMessage = function() { };
-  }
-  ```
-
+	  ```javascript
+	  /* avoid */
+	  function CustomerController() {
+	      this.name = {};
+	      this.sendMessage = function() { };
+	  }
+	  ```
+	
+	  ```javascript
+	  /* recommended */
+	  function CustomerController() {
+	      var vm = this;
+	      vm.name = {};
+	      vm.sendMessage = function() { };
+	  }
+	  ```
 
     *Why?*
     
-    - The this keyword is contextual and when used within a function inside a controller may change its context. Capturing the context of this avoids encountering this problem.  
+    - The this keyword is contextual and when used within a function inside a controller may change its context. Capturing the context of this avoids encountering this problem.
   
   - **`$watch`ing in a controller**: When creating watches in a controller using `controller as`, you can watch the `vm.*` member using the following syntax. (Create watches with caution as they add more load to the digest cycle.)  
 
