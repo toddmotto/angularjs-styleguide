@@ -56,29 +56,29 @@ A standardised approach for developing Angular applications at triplelift. This 
 	<div ng-controller="MainCtrl">
 	  {{ someObject }}
 	</div>
-
+	
 	<!-- recommended -->
 	<div ng-controller="MainCtrl as vm">
 	  {{ vm.someObject }}
 	</div>
 	```
+	
+	```javascript
+	/* avoid */
+	function CustomerController($scope) {
+	  $scope.name = {};
+	  $scope.sendMessage = function() { };
+	}
+	```
+	
+	```javascript
+	/* recommended - but see next section */
+	function CustomerController() {
+	  this.name = {};
+	  this.sendMessage = function() { };
+	}
+	```
 
-	  ```javascript
-	  /* avoid */
-	  function CustomerController($scope) {
-		  $scope.name = {};
-		  $scope.sendMessage = function() { };
-	  }
-	  ```
-	  
-	  ```javascript
-	  /* recommended - but see next section */
-	  function CustomerController() {
-		  this.name = {};
-		  this.sendMessage = function() { };
-	  }
-		```
-  
 	*Why?*
 	
 	- Controllers are constructed, "newed" up, providing a single new instance. The `controllerAs` syntax more closely resembles "JavaScript constructor" than "classic `$scope`" syntax.
