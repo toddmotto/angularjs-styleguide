@@ -294,9 +294,9 @@ A standardised approach for developing Angular applications at triplelift. This 
 	 ```
     *Why?*: Pairing a controller with a template through `$routeProvider` configurations allows for template reuse. In other words, when `ng-controller` is used inline, that's it... a pairing is made between template and controller, which prevents template reuse with another controller.
     
-    *Why?*: Having all controller-template pairings upfront creates a sort of index for your application, which makes it easier to see where everything is, what goes with what and how the data flows throughout your application (see **[Routing with promises](#routing-with-promises)** below). 
+    *Why?*: Having all controller-template pairings upfront creates a sort of index for your application, which makes it easier to see where everything is, what goes with what and how the data flows throughout your application (see **[Routing with promises](#routing-with-promises)** below for more). 
     
-    *Note*: Although now even easier to do with the introduction of route definitions, controller reuese is *still* ill-advised for the reasons above.
+    *Note*: Although now even easier to do with the introduction of route definitions, *controller* reuese is *still* ill-advised for the reasons above.
     
     
   - **ES6**: Avoid `var vm = this;` when using ES6
