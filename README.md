@@ -79,7 +79,7 @@ A standardised approach for developing Angular applications at triplelift. This 
 	  }
   	  ```
   
-    *Why?*:
+    *Why?*
     
     - Controllers are constructed, "newed" up, providing a single new instance. The `controllerAs` syntax more closely resembles "JavaScript constructor" than "classic `$scope`" syntax.
     
@@ -115,7 +115,10 @@ A standardised approach for developing Angular applications at triplelift. This 
   }
   ```
 
-    *Why?* : The this keyword is contextual and when used within a function inside a controller may change its context. Capturing the context of this avoids encountering this problem.  
+
+    *Why?*
+    
+    - The this keyword is contextual and when used within a function inside a controller may change its context. Capturing the context of this avoids encountering this problem.  
   
   - **`$watch`ing in a controller**: When creating watches in a controller using `controller as`, you can watch the `vm.*` member using the following syntax. (Create watches with caution as they add more load to the digest cycle.)  
 
