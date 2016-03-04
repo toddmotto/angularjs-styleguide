@@ -332,7 +332,7 @@ A standardised approach for developing Angular applications at triplelift. This 
 
 ## Services and Factory
 
-  - **Always use a factory for consistency**: All Angular Services are singletons. `.service()` and `.factory()` only differ in the way Objects are created, but not in what they can create. As a result, use `.factory()` only for consistency sake.
+  - **Always use a factory**: All Angular Services are singletons. `.service()` and `.factory()` only differ in the way Objects are created, but not in what they can create. As a result, use `.factory()` only for consistency sake.
   
   // For completeness
 
