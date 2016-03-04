@@ -311,37 +311,6 @@ A standardised approach for developing Angular applications at triplelift. This 
 	
 	Note:
 	- Although now even easier to do with the introduction of route definitions, *controller* reuse is *still ill-advised* for the reasons above.
-	
-	
-  - **ES6**: Avoid `var vm = this;` when using ES6
-
-	```javascript
-	// avoid
-	function MainCtrl () {
-	  let vm = this;
-	  let doSomething = arg => {
-		console.log(vm);
-	  };
-	  
-	  // exports
-	  vm.doSomething = doSomething;
-	}
-
-	// recommended
-	function MainCtrl () {
-	  
-	  let doSomething = arg => {
-		console.log(this);
-	  };
-	  
-	  // exports
-	  this.doSomething = doSomething;
-	  
-	}
-	```
-
-	*Why?*
-	- Use ES6 arrow functions when necessary to access the `this` value lexically
 
 **[Back to top](#table-of-contents)**
 
@@ -496,7 +465,7 @@ A standardised approach for developing Angular applications at triplelift. This 
 	 - This makes it easier to test (mock or real) data calls when testing a controller.
 	 - Data service implementation may have very specific code to handle the data repository. This may include headers, how to talk to the data, or other services such as $http. Separating the logic into a data service encapsulates this logic in a single place hiding the implementation from the outside consumers (perhaps a controller).
 	 - Implementation encapsulation/hiding makes it easier to change.
-	 - **Most importantly**, the controller's responsibility is for the presentation and gathering of information for the view. It should not care how it gets the data, just that it knows ***who*** to ask for it. Separating the data services moves the logic related to ***how*** to get the data to the data service, and lets the controller be simpler and more focused on the view.
+	 - **Most importantly**, the controller's responsibility is for the presentation and gathering of information for the view. It should not care how it gets the data, just that it knows ***who*** to ask for it. Separating the data services cabins the logic related to ***how*** to get the data and lets the controller be simpler and more focused on the view.
 
 
 **[Back to top](#table-of-contents)**
@@ -550,7 +519,7 @@ A standardised approach for developing Angular applications at triplelift. This 
 	
 	*Why?*
 	- DOM manipulation can be difficult to test, debug, and there are often better ways (e.g. CSS, animations, templates)
-	- **Most importantly**, while it's true that controllers (defined with `.controller()`) are provided access to the parent-most `$element`, generally speaking, the desired DOM manipulation relates to some child element in the controller's View . Directives, on the other hand, are provided access to the `element` underlying the desired DOM changes. Using such `element` avoids unnecessarily having to search (possibly, by a unique identifier) for the element and more appropriately associates the DOM manipulation logic with the subject of such logic (i.e. the element!). In addition, separating such logic out of the controllers avoids further complicating controller logic while providing encapsulation for DOM related logic. After all, **[Controllers](#controllers)** have their own reason for being unrelated to DOM manipulation. 
+	- **Most importantly**, while it's true that controllers (defined with `.controller()`) are provided access to the parent-most `$element`, generally speaking, the desired DOM manipulation relates to some child element in the controller's View . Directives, on the other hand, are provided access to the `element` underlying the desired DOM changes. Using such `element` avoids unnecessarily having to search (possibly, by a unique identifier) for the element and more appropriately associates the DOM manipulation logic with the subject of such logic (i.e. the element!). In addition, separating such logic out of the controllers avoids further complicating controller logic while providing encapsulation for DOM related logic. After all, **[Controllers](#controllers)** have their own reason for being that is unrelated to DOM manipulation. 
 
   - **Naming conventions**: Never `ng-*` prefix custom directives, they might conflict future native directives
 
