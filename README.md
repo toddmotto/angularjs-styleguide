@@ -119,7 +119,7 @@ A standardised approach for developing Angular applications at triplelift. This 
 	
 	- The this keyword is contextual and when used within a function inside a controller may change its context. Capturing the context of this avoids encountering this problem.
   
-  - **`$watch`ing in a controller**: Although usually better placed in a **[Directive](#directives)**, when creating watches in a controller using `controller as`, you can watch the `vm.*` member using the following syntax. (Create watches with caution as they add more load to the digest cycle.)  
+  - **`$watch`ing in a controller**: Although usually better placed in a link function as part of a **[Directive](#directives)**, when creating watches in a controller using `controller as`, you can watch the `vm.*` member using the following syntax. (Create watches with caution as they add more load to the digest cycle.)  
 
   ```html
   <input ng-model="vm.title"/>
@@ -519,8 +519,8 @@ A standardised approach for developing Angular applications at triplelift. This 
 
   - Comment and class name declarations are confusing and should be avoided. Comments do not play nicely with older versions of IE. Using an attribute is the safest method for browser coverage.
 
-  - **DOM manipulation**: Takes place only inside Directives, never a controller/service
-
+  - **The only place for DOM manipulation**: When manipulating the DOM directly, use a directive. If alternative ways can be used such as using CSS to set styles or the animation services, Angular templating, ngShow or ngHide, then use those instead. For example, if the directive simply hides and shows, use ngHide/ngShow.
+  
 	```javascript
 	// avoid
 	function UploadCtrl () {
@@ -531,7 +531,7 @@ A standardised approach for developing Angular applications at triplelift. This 
 	angular
 	  .module('app')
 	  .controller('UploadCtrl', UploadCtrl);
-
+	
 	// recommended
 	function dragUpload () {
 	  return {
@@ -547,6 +547,10 @@ A standardised approach for developing Angular applications at triplelift. This 
 	  .module('app')
 	  .directive('dragUpload', dragUpload);
 	```
+	
+	*Why?*
+	- DOM manipulation can be difficult to test, debug, and there are often better ways (e.g. CSS, animations, templates)
+	- **Most importantly**, while it's true that controllers (defined with `.controller()`) are provided access to the parent-most `$element`, generally speaking, the desired DOM manipulation relates to some child element in the controller's View . Directives, on the other hand, are provided access to the `element` underlying the desired DOM changes. Using such `element` avoids unnecessarily having to search (possibly, by a unique identifier) for the element and more appropriately associates the DOM manipulation logic with the subject of such logic (i.e. the element!). In addition, separating such logic out of the controllers avoids further complicating controller logic while providing encapsulation for DOM related logic. After all, **[Controllers](#controllers)** have their own reason for being unrelated to DOM manipulation. 
 
   - **Naming conventions**: Never `ng-*` prefix custom directives, they might conflict future native directives
 
