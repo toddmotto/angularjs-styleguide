@@ -79,19 +79,21 @@ A standardised approach for developing Angular applications at triplelift. This 
 	  }
   	  ```
   
-    *Why?*: Controllers are constructed, "newed" up, providing a single new instance. The `controllerAs` syntax more closely resembles "JavaScript constructor" than "classic `$scope`" syntax.
+    *Why?*:
     
-    *Why?*: Even with `controllerAs`, the controller object is still bound to `$scope`, so you can still bind to the View...this fact ultimately leads some to even see the `controllerAs` syntax as high level syntactic sugar.
+    - Controllers are constructed, "newed" up, providing a single new instance. The `controllerAs` syntax more closely resembles "JavaScript constructor" than "classic `$scope`" syntax.
+    
+    - Even with `controllerAs`, the controller object is still bound to `$scope`, so you can still bind to the View...this fact ultimately leads some to even see the `controllerAs` syntax as high level syntactic sugar.
 
-    *Why?*: It promotes the use of binding to a "dotted" object in the View (e.g. `customer.name` instead of `name`), which is more contextual and easier to read.
+    - It promotes the use of binding to a "dotted" object in the View (e.g. `customer.name` instead of `name`), which is more contextual and easier to read.
     
-     *Why?*: Helps avoid using `$parent` in the View to reference a particular property of a parent controller from within a nested controller.
+    - Helps avoid using `$parent` in the View to reference a particular property of a parent controller from within a nested controller.
    
-     *Why?*: Curbs the temptation to using `$scope` methods inside a controller when they are better placed inside a factory or avoided altogether.
+    - Curbs the temptation to using `$scope` methods inside a controller when they are better placed inside a factory or avoided altogether.
      
-     *Why?*: You can, nevertheless, use `$scope` methods, such as `$emit`, `$broadcast`, `$on` or `$watch`, by injecting `$scope` if absolutely necessary.
+    - You can, nevertheless, use `$scope` methods, such as `$emit`, `$broadcast`, `$on` or `$watch`, by injecting `$scope` if absolutely necessary.
      
-     *why?*: **Most importantly**, `controllerAs` prevents "scope soup". There may be nothing worse in large scale angular development than running into `ng-click="doOnClick(data)"` in the View, looking into the controller "corresponding" to such View and being unable to locate either the `doOnClick` or `data` definitions. At this point, of course, you must begin mapping out the $scope heirarchy until it leads to the nearest declaration of each variable... no fun indeed. Taking advantage of the basic rules of JavaScript prototypal inheritance, placing wonderful `vm` in front of each variable, as in `ng-click="vm.doOnClick(vm.data)"` **ensures** the controller **associated** therewith carries the corresponding definitions or `undefined` will result. That is because when JavaScipt attempts to locate `vm`, it will find the associated controller bound to associated `$scope` - success is guaranteed in the from of the correct controller object. Next, JavaScript will attempt to locate `doOnClick` and `data` **on such controller** and...vuala... either corresponding definitions will be found **bound to such controller** or `undefined` will result.
+    - **Most importantly**, `controllerAs` prevents "scope soup". There may be nothing worse in large scale angular development than running into `ng-click="doOnClick(data)"` in the View, looking into the controller "corresponding" to such View and being unable to locate either the `doOnClick` or `data` definitions. At this point, of course, you must begin mapping out the $scope heirarchy until it leads to the nearest declaration of each variable... no fun indeed. Taking advantage of the basic rules of JavaScript prototypal inheritance, placing wonderful `vm` in front of each variable, as in `ng-click="vm.doOnClick(vm.data)"` **ensures** the controller **associated** therewith carries the corresponding definitions or `undefined` will result. That is because when JavaScipt attempts to locate `vm`, it will find the associated controller bound to associated `$scope` - success is guaranteed in the from of the correct controller object. Next, JavaScript will attempt to locate `doOnClick` and `data` **on such controller** and...vuala... either corresponding definitions will be found **bound to such controller** or `undefined` will result.
   	  
 
   - **controllerAs 'vm'**: Capture the `this` context of the Controller using `vm`, standing for `ViewModel`
@@ -113,7 +115,7 @@ A standardised approach for developing Angular applications at triplelift. This 
   }
   ```
 
-  - *Why?* : The this keyword is contextual and when used within a function inside a controller may change its context. Capturing the context of this avoids encountering this problem.  
+    *Why?* : The this keyword is contextual and when used within a function inside a controller may change its context. Capturing the context of this avoids encountering this problem.  
   
   - **`$watch`ing in a controller**: When creating watches in a controller using `controller as`, you can watch the `vm.*` member using the following syntax. (Create watches with caution as they add more load to the digest cycle.)  
 
