@@ -195,7 +195,7 @@ A standardised approach for developing Angular applications at triplelift. This 
   
     - Function declaration are hoisted so there are no concerns over using a function before it is defined (as there would be with function expressions), even if one function references another.
 
-  - **Presentational logic only (MVVM)**: Presentational logic only inside a controller, avoid Business logic (delegate to Services)
+  - **Presentational logic only (MVVM)**: Presentational logic only inside a controller, avoid Business logic, delegating to **[Services](#services)** instead.
 
 	```javascript
 	// avoid
@@ -434,6 +434,69 @@ A standardised approach for developing Angular applications at triplelift. This 
     - Defining the functions below the bindable members moves the implementation details (& complexity) down. 
     - Function declaration are hoisted so there are no concerns over using a function before it is defined (as there would be with function expressions), even if one function references another.
 	
+  - **Any interaction between controllers and data should be mediated by a service**: XHR calls, local storage, stashing in memory and other data operations belong in a service.
+  
+	 ```javascript
+	 /* recommended */
+	
+	 // dataservice factory
+	 angular
+	     .module('app.core')
+	     .factory('dataservice', function($http, logger) {
+	     
+		     return {
+		         getAvengers: getAvengers
+		     };
+		
+		     function getAvengers() {
+		         return $http.get('/api/maa')
+		             .then(getAvengersComplete)
+		             .catch(getAvengersFailed);
+		
+		         function getAvengersComplete(response) {
+		             return response.data.results;
+		         }
+		
+		         function getAvengersFailed(error) {
+		             logger.error('XHR Failed for getAvengers.' + error.data);
+		         }
+		     }
+	     });
+	```
+	
+	```javascript
+	 /* recommended */
+	
+	 // controller calling the dataservice factory
+	 angular
+	     .module('app.avengers')
+	     .controller('AvengersController', function(dataservice, logger) {
+		     var vm = this;
+		     vm.avengers = [];
+		
+		     activate();
+		
+		     function activate() {
+		         return getAvengers().then(function() {
+		             logger.info('Activated Avengers View');
+		         });
+		     }
+		
+		     function getAvengers() {
+		         return dataservice.getAvengers()
+		             .then(function(data) {
+		                 vm.avengers = data;
+		                 return vm.avengers;
+		             });
+		     }
+		 });
+	 ```
+	 
+	 *Why?*
+	 - This makes it easier to test (mock or real) data calls when testing a controller.
+	 - Data service implementation may have very specific code to handle the data repository. This may include headers, how to talk to the data, or other services such as $http. Separating the logic into a data service encapsulates this logic in a single place hiding the implementation from the outside consumers (perhaps a controller).
+	 - Implementation encapsulation/hiding makes it easier to change.
+	 - **Most importantly**, the controller's responsibility is for the presentation and gathering of information for the view. It should not care how it gets the data, just that it knows ***who*** to ask for it. Separating the data services moves the logic related to ***how*** to get the data to the data service, and lets the controller be simpler and more focused on the view.
 
 
 **[Back to top](#table-of-contents)**
@@ -455,32 +518,6 @@ A standardised approach for developing Angular applications at triplelift. This 
 	```
 
   - Comment and class name declarations are confusing and should be avoided. Comments do not play nicely with older versions of IE. Using an attribute is the safest method for browser coverage.
-
-  - **Templating**: Use `Array.join('')` for clean templating
-
-	```javascript
-	// avoid
-	function someDirective () {
-	  return {
-		template: '<div class="some-directive">' +
-		  '<h1>My directive</h1>' +
-		'</div>'
-	  };
-	}
-
-	// recommended
-	function someDirective () {
-	  return {
-		template: [
-		  '<div class="some-directive">',
-			'<h1>My directive</h1>',
-		  '</div>'
-		].join('')
-	  };
-	}
-	```
-
-	*Why?* : Improves readability as code can be indented properly, it also avoids the `+` operator which is less clean and can lead to errors if used incorrectly to split lines
 
   - **DOM manipulation**: Takes place only inside Directives, never a controller/service
 
