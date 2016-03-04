@@ -485,8 +485,8 @@ A standardised approach for developing Angular applications at triplelift. This 
 	<my-directive></my-directive>
 	<div my-directive></div>
 	```
-
-  - Comment and class name declarations are confusing and should be avoided. Comments do not play nicely with older versions of IE. Using an attribute is the safest method for browser coverage.
+	*Why?*
+  	- Comment and class name declarations are confusing and should be avoided. Comments do not play nicely with older versions of IE. Using an attribute is the safest method for browser coverage.
 
   - **The only place for DOM manipulation**: When manipulating the DOM directly, use a directive. If alternative ways can be used such as using CSS to set styles or the animation services, Angular templating, ngShow or ngHide, then use those instead. For example, if the directive simply hides and shows, use ngHide/ngShow.
   
