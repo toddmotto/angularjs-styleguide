@@ -329,35 +329,35 @@ A standardized approach for developing Angular applications at triplelift. This 
   
 	  *Service*: acts as a `constructor` function and is instantiated with the `new` keyword. Use `this` for public methods and variables
 	
-		```javascript
-		// avoid
-		angular
-			.module('app')
-			.service('logger', logger);
-		
-		function logger() {
-		  this.logError = function(msg) {
-			/* */
-		  };
-		}
-		```
+	```javascript
+	// avoid
+	angular
+		.module('app')
+		.service('logger', logger);
+	
+	function logger() {
+	  this.logError = function(msg) {
+		/* */
+	  };
+	}
+	```
 
 	  *Factory*: is invoked like any ol' function and, accordingly, should return something!
 	  
-		```javascript  
-		// recommended
-		angular
-			.module('app')
-			.factory('logger', logger);
-		
-		function logger() {
-			return {
-				logError: function(msg) {
-				  /* */
-				}
-		   };
-	 	}
-		```
+	```javascript  
+	// recommended
+	angular
+		.module('app')
+		.factory('logger', logger);
+	
+	function logger() {
+		return {
+			logError: function(msg) {
+			  /* */
+			}
+	   };
+ 	}
+	```
 	
 	*Why?*
 	- Since they can perform the same tasks, it makes sense to only use one for the sake of consistency.
