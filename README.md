@@ -4,7 +4,7 @@
 
 #### What is this?
 
-A standardised approach for developing Angular applications at triplelift. This styleguide touches on concepts, syntax and conventions.
+A standardized approach for developing Angular applications at triplelift. This styleguide touches on concepts, syntax and conventions.
 
 #### Community
 [John Papa](https://twitter.com/John_Papa) and [Todd Motto](https://twitter.com/toddmotto) have discussed in-depth styling patterns for Angular and as such have both released separate styleguides. [Check his John Papa's](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md) and [Todd Motto's](https://github.com/toddmotto/angular-styleguide) to compare thoughts.
@@ -49,7 +49,7 @@ A standardised approach for developing Angular applications at triplelift. This 
 
 ## Controllers
 
-  - **controllerAs syntax**: Use the [`controllerAs`](http://www.johnpapa.net/do-you-like-your-angular-controllers-with-or-without-sugar/) syntax over the classic "controller with $scope"" syntax.
+  - **controllerAs syntax**: Use the [`controllerAs`](http://www.johnpapa.net/do-you-like-your-angular-controllers-with-or-without-sugar/) syntax over the classic "controller with $scope" syntax.
 
 	```html
 	<!-- avoid -->
@@ -87,13 +87,13 @@ A standardised approach for developing Angular applications at triplelift. This 
 
 	- It promotes the use of binding to a "dotted" object in the View (e.g. `customer.name` instead of `name`), which is more contextual and easier to read.
 	
-	- Helps avoid using `$parent` in the View to reference a particular property of a parent controller from within a nested controller.
+	- Since the desired view binding can reached simply by `vm.viewBinding` even if nested within a child `$scope`, it discourages the use of `$parent` in the View.
    
-	- Curbs the temptation to using `$scope` methods inside a controller when they are better placed inside a factory or avoided altogether.
+	- Discourages the use of `$scope` methods inside a controller when they are better placed inside a factory or avoided altogether.
 	 
-	- You can, nevertheless, use `$scope` methods, such as `$emit`, `$broadcast`, `$on` or `$watch`, by injecting `$scope` if absolutely necessary.
+	- It does not prevent the use of `$scope` methods, such as `$emit`, `$broadcast`, `$on` or `$watch`, which may be accessed by injecting `$scope` if necessary.
 	 
-	- **Most importantly**, `controllerAs` prevents "scope soup". There may be nothing worse in large scale angular development than running into `ng-click="doOnClick(data)"` in the View, looking into the controller "corresponding" to such View and being unable to locate either the `doOnClick` or `data` definitions. At this point, of course, you must begin mapping out the $scope heirarchy until it leads to the nearest declaration of each variable... no fun indeed. Taking advantage of the basic rules of JavaScript prototypal inheritance, placing wonderful `vm` in front of each variable, as in `ng-click="vm.doOnClick(vm.data)"` **ensures** the controller **associated** therewith carries the corresponding definitions or `undefined` will result. That is because when JavaScipt attempts to locate `vm`, it will find the associated controller bound to associated `$scope` - success is guaranteed in the from of the correct controller object. Next, JavaScript will attempt to locate `doOnClick` and `data` **on such controller** and...vuala... either corresponding definitions will be found **bound to such controller** or `undefined` will result.
+	- **Most importantly**, the `controllerAs` syntax prevents "$scope soup". There may be nothing worse in large scale angular development than running into `ng-click="doOnClick(data)"` in the View, looking into the controller "corresponding" to such View and being unable to locate either the `doOnClick` or `data` definitions. At this point, of course, you must scale the $scope hierarchy until it leads to the nearest declaration for each property... no fun indeed. Taking advantage of the basic rules of JavaScript prototypal inheritance, placing wonderful `vm` in front of each variable, as in `ng-click="vm.doOnClick(vm.data)"` **ensures** that the controller **associated** with the View **contains** the corresponding definitions. That is because when Javascript attempts to locate `vm`, it **will find** the associated controller (bound to `$scope`) since it exists - success in this regard is guaranteed. Next, JavaScript will attempt to locate `doOnClick` and `data` **on such controller** and...vuala... either the corresponding definitions will be found **bound to such controller** or `undefined` will result.
 		
 
   - **controllerAs 'vm'**: Capture the `this` context of the Controller using `vm`, standing for `ViewModel`
@@ -102,7 +102,10 @@ A standardised approach for developing Angular applications at triplelift. This 
 	  /* avoid */
 	  function CustomerController() {
 		  this.name = {};
-		  this.sendMessage = function() { };
+		  this.sendMessage = function() {
+		  // wrong!
+		  ... this.name ...
+		  };
 	  }
 	  ```
 	
@@ -111,13 +114,16 @@ A standardised approach for developing Angular applications at triplelift. This 
 	  function CustomerController() {
 		  var vm = this;
 		  vm.name = {};
-		  vm.sendMessage = function() { };
+		  vm.sendMessage = function() {
+		  // right!
+		  ... vm.name ...
+		  };
 	  }
 	  ```
 
 	*Why?*
 	
-	- The this keyword is contextual and when used within a function inside a controller may change its context. Capturing the context of this avoids encountering this problem.
+	- **Most importantly**, the `this` keyword is made available inside every Javascript function in order to gain reference to the invocation context if invoked as a method (e.g. `someInvocationContext.someMethod()`) or the new object created if invoked with the `new` operator as a constructor (e.g. `someNewObject = new SomeConstructor()`). Since angular internally invokes all functions registered as controllers with the `new` operator, any `this` reference inside the controller function necessarily refers to the new object constructed, unless... (a big unless!) nested inside another function. Capturing the top level `this` reference of a controller once and at the top of the controller, instead of repeating `this` calls throughout, encourages consistency and prevents any incorrectly nested `this` references.
   
   - **`$watch`ing in a controller**: Although usually better placed in a link function as part of a **[Directive](#directives)**, when creating watches in a controller using `controller as`, you can watch the `vm.*` member using the following syntax. (Create watches with caution as they add more load to the digest cycle.)  
 
@@ -242,7 +248,7 @@ A standardised approach for developing Angular applications at triplelift. This 
 	```
 	
 	Note:
-	- The `$http` service, its methods and URL paths arent referenced directly.
+	- The `$http` service, its methods and URL paths are not referenced directly.
 	
 	- Logic in controllers is used only to bind the appropriate data to the controller object,
 	
@@ -352,7 +358,7 @@ A standardised approach for developing Angular applications at triplelift. This 
 
 	*Why?*
 	- Since they can perform the same tasks, it makes sense to only use one for the sake of consistency.
-	- Absent any dependecy on the `this` parameter, the `.factory()` method is arguably the simpler of the two.
+	- Absent any dependency on the `this` parameter, the `.factory()` method is arguably the simpler of the two.
 	
   - **Follow the [Revealing Module Pattern](https://addyosmani.com/resources/essentialjsdesignpatterns/book/#revealingmodulepatternjavascript)**: Expose the callable members of the service (its interface) at the top.
   
@@ -585,7 +591,7 @@ A standardised approach for developing Angular applications at triplelift. This 
 	 *Why?*
 	 - Without isolating a templating directive, "scope soup" may ensure (see **[Controllers](#controllers)** for more). The negative effects become even more pronounced in the case of directives because they can be placed anywhere in the DOM tree no matter $scope lineage that awaits. In addition to giving the directive the benefit of two way bindings, isolating its scope provides certainty and clarity as to template's context in play.
 	 - Attribute directives, like `ng-click` and `ng-show`, frequently manipulate the DOM or provide other behavior peripheral to data flow and view management. Restricting templating directives to type `'E'` clearly distinguishes them from attribute directives.
-	 - compant directives
+	 - componant directives
 	 
 
   - **Use bindToController and controllerAs**: When binding properties manually in the controller or passing them into the directive through HTML attributes, use `bindToController` and the `controllerAs` syntax.
