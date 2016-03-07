@@ -123,27 +123,9 @@ A standardized approach for developing Angular applications at triplelift. This 
 
 	*Why?*
 	
-	- **Most importantly**, the `this` keyword is made available inside every Javascript function in order to gain reference to the invocation context if invoked as a method (e.g. `someInvocationContext.someMethod()`) or the new object created if invoked with the `new` operator as a constructor (e.g. `someNewObject = new SomeConstructor()`). Since angular internally invokes all functions registered as controllers with the `new` operator, any `this` reference inside the controller function necessarily refers to the new object constructed, unless... (a big unless!) nested inside another function. Capturing the top level `this` reference of a controller once and at the top of the controller, instead of repeating `this` calls throughout, encourages consistency and prevents any incorrectly nested `this` references.
+	- **Most importantly**, the `this` keyword is made available inside every Javascript function in order to gain reference to the invocation context if invoked as a method (e.g. `someInvocationContext.someMethod()`) or the new object created if invoked with the `new` operator as a constructor (e.g. `someNewObject = new SomeConstructor()`). Since angular internally invokes all functions registered as controllers with the `new` operator, any `this` reference inside the controller function necessarily refers to the new object constructed, unless... (a big unless!) further nested inside another function. Capturing the top level `this` reference of a controller once and at the top of the controller, instead of repeating `this` calls throughout, encourages consistency and prevents any incorrectly nested `this` references.
   
-  - **`$watch`ing in a controller**: Although usually better placed in a link function as part of a **[Directive](#directives)**, when creating watches in a controller using `controller as`, you can watch the `vm.*` member using the following syntax. (Create watches with caution as they add more load to the digest cycle.)  
-
-  ```html
-  <input ng-model="vm.title"/>
-  ```
-
-  ```javascript
-  function SomeController($scope, $log) {
-	  var vm = this;
-	  vm.title = 'Some Title';
-
-	  $scope.$watch('vm.title', function(current, original) {
-		  $log.info('vm.title was %s', original);
-		  $log.info('vm.title is now %s', current);
-	  });
-  }
-  ``` 
-  
-  - **Bindable members up top**: Place bindable members at the top of the controller, *alphabetized*, and not spread through the controller code.
+  - **Bindable members up top**: Place bindable members at the top of the controller, *alphabetized*, and not spread throughout the controller code.
   
 	  ```javascript
 	  /* avoid */
@@ -248,22 +230,22 @@ A standardized approach for developing Angular applications at triplelift. This 
 	```
 	
 	Note:
-	- The `$http` service, its methods and URL paths are not referenced directly.
+	- The `$http` service and the URL paths are not referenced directly.
 	
-	- Logic in controllers is used only to bind the appropriate data to the controller object,
+	- Logic in controllers is used only to bind the appropriate data to the controller object.
 	
 	*Why?*
 	- Logic may be reused by multiple controllers when placed within a service and exposed via a function.
 	- Logic in a service can more easily be isolated in a unit test, while the calling logic in the controller can be easily mocked.
 	- Removes dependencies and hides implementation details from the controller.
 	
-  - **Keep controllers focused and do not reuse**: Define a controller for a view, and try not to reuse the controller for other views. Instead, move reusable logic to factories and keep the controller simple and focused on its view.
+  - **Keep controllers focused and do not reuse**: Instead of using one controller for multiple views, keep the controller simple and focused and move reusable logic into services.
   
 	*Why?*
 	
-	- Reusing controllers with several views is brittle and good end-to-end (e2e) test coverage is required to ensure stability across large applications.
+	- Reusing controllers with several views is brittle and requires good end-to-end (e2e) test coverage to ensure stability across large applications.
 	
-  - **Assign controllers in route definitions instead of template** 
+  - **Assign controllers in route definitions instead of templates** 
   
 	 ```javascript
 	 /* avoid */
@@ -317,12 +299,37 @@ A standardized approach for developing Angular applications at triplelift. This 
 	
 	Note:
 	- Although now even easier to do with the introduction of route definitions, *controller* reuse is *still ill-advised* for the reasons above.
+	
+  - **Make use of 'vm' when `$watch`ing in a controller**: `$watch`'es in a controller should make use of the `controllerAs` syntax.  
+
+	 ```html
+	 <input ng-model="vm.title"/>
+	 ```
+	
+	 ```javascript
+	 function SomeController($scope, $log) {
+	  var vm = this;
+	  vm.title = 'Some Title';
+	
+	  $scope.$watch('vm.title', function(current, original) {
+		  $log.info('vm.title was %s', original);
+		  $log.info('vm.title is now %s', current);
+	  });
+	 }
+	 ``` 
+  
+    Note:
+      - `$watch`'es are better avoided altogether to minimize `$diget` cycle load or placed in a **[Directive](#directives)**, if necessary. 
 
 **[Back to top](#table-of-contents)**
 
 ## Services
 
-  - **Always use a factory**: Functions registered with the `.factory()` and `.service()` methods are [services](https://en.wikipedia.org/wiki/Service-oriented_programming). All such Angular services are singletons, which means that "each component dependent on a service gets a reference to the single instance generated by the service factory",  to quote [angular documentation](https://docs.angularjs.org/guide/services). `.service()` and `.factory()` only differ in the way Objects are created, but not in what they can create:
+  - **Always use a factory**: Use angular's `.factory()` method over its `.service()` method.
+
+	Note:
+  
+    - Functions registered with the `.factory()` and `.service()` methods are [services](https://en.wikipedia.org/wiki/Service-oriented_programming). All such Angular services are singletons, which means that "each component dependent on a service gets a reference to the single instance generated by the service factory",  to quote [angular documentation](https://docs.angularjs.org/guide/services). `.service()` and `.factory()` only differ in the way Objects are created, but not in what they can create:
   
 	  *Service*: acts as a `constructor` function and is instantiated with the `new` keyword. Use `this` for public methods and variables
 	
@@ -358,7 +365,7 @@ A standardized approach for developing Angular applications at triplelift. This 
 
 	*Why?*
 	- Since they can perform the same tasks, it makes sense to only use one for the sake of consistency.
-	- Absent any dependency on the `this` parameter, the `.factory()` method is arguably the simpler of the two.
+	- Since it doesn't require use of the `this` parameter, the `.factory()` method is arguably the simpler of the two.
 	
   - **Follow the [Revealing Module Pattern](https://addyosmani.com/resources/essentialjsdesignpatterns/book/#revealingmodulepatternjavascript)**: Expose the callable members of the service (its interface) at the top.
   
