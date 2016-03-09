@@ -1,15 +1,17 @@
 # Angular styleguide
 
-*Opinionated Angular styleguide for teams based off of [@toddmotto](https://github.com/toddmotto/angular-styleguide)'s*
+*Opinionated Angular styleguide for teams.*
 
 #### What is this?
 
 A standardized approach for developing Angular applications at triplelift. This styleguide touches on concepts, syntax and conventions.
 
-#### Community
-[John Papa](https://twitter.com/John_Papa) and [Todd Motto](https://twitter.com/toddmotto) have discussed in-depth styling patterns for Angular and as such have both released separate styleguides. [Check his John Papa's](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md) and [Todd Motto's](https://github.com/toddmotto/angular-styleguide) to compare thoughts.
+### How to use
+**Rules are in bold** at the top of each bullet point, with example code shortly thereafter, and the "why" follows after that. The idea is that rule is the most important - a standard approach has merits of it's own - and should be the most accessible. Code clarifying/solidifying the rule comes next and explanations after that if interested.  
 
-> See the [original article](http://toddmotto.com/opinionated-angular-js-styleguide-for-teams) that sparked this off
+#### Community
+Most of the content and examples in this guide are based off of [John Papa's](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md) and [Todd Motto's](https://github.com/toddmotto/angular-styleguide) style guides. Check their's out to see the originals and to compare thoughts.
+
 
 ## Table of Contents
 
@@ -93,10 +95,10 @@ A standardized approach for developing Angular applications at triplelift. This 
 	 
 	- It does not prevent the use of `$scope` methods, such as `$emit`, `$broadcast`, `$on` or `$watch`, which may be accessed by injecting `$scope` if necessary.
 	 
-	- **Most importantly**, the `controllerAs` syntax prevents "$scope soup". There may be nothing worse in large scale angular development than running into `ng-click="doOnClick(data)"` in the View, looking into the controller "corresponding" to such View and being unable to locate either the `doOnClick` or `data` definitions. At this point, of course, you must scale the $scope hierarchy until it leads to the nearest declaration for each property... no fun indeed. Taking advantage of the basic rules of JavaScript prototypal inheritance, placing wonderful `vm` in front of each variable, as in `ng-click="vm.doOnClick(vm.data)"` **ensures** that the controller **associated** with the View **contains** the corresponding definitions. That is because when Javascript attempts to locate `vm`, it **will find** the associated controller (bound to `$scope`) since it exists - success in this regard is guaranteed. Next, JavaScript will attempt to locate `doOnClick` and `data` **on such controller** and...vuala... either the corresponding definitions will be found **bound to such controller** or `undefined` will result.
+	- **Most importantly**, the `controllerAs` syntax prevents "$scope soup". There may be nothing worse in large scale angular development than running into `ng-click="doOnClick(data)"` in the View, looking into the controller "corresponding" to such View and being unable to locate either the `doOnClick` or `data` definitions. At this point, of course, you must scale the $scope hierarchy until the nearest declarations of each property are found... no fun indeed. Taking advantage of the basic rules of JavaScript prototypal inheritance, placing wonderful `vm` in front of each variable, as in `ng-click="vm.doOnClick(vm.data)"` **ensures** that the controller **actually associated** with the View **contains** the corresponding definitions. That is because when Javascript attempts to locate `vm`, it **will find** the associated controller (bound to `$scope`) since it exists and is bound to `$scope`- success in this regard is guaranteed. Next, JavaScript will attempt to locate `doOnClick` and `data` **on such controller** and...vuala... either the corresponding definitions will be found **bound to such controller** or `undefined` will result.
 		
 
-  - **controllerAs 'vm'**: Capture the `this` context of the Controller using `vm`, standing for `ViewModel`
+  - **controllerAs 'vm'**: Capture the `this` context of the Controller using `vm` (short for "view model")
 
 	  ```javascript
 	  /* avoid */
@@ -123,9 +125,9 @@ A standardized approach for developing Angular applications at triplelift. This 
 
 	*Why?*
 	
-	- **Most importantly**, the `this` keyword is made available inside every Javascript function in order to gain reference to the invocation context if invoked as a method (e.g. `someInvocationContext.someMethod()`) or the new object created if invoked with the `new` operator as a constructor (e.g. `someNewObject = new SomeConstructor()`). Since angular internally invokes all functions registered as controllers with the `new` operator, any `this` reference inside the controller function necessarily refers to the new object constructed, unless... (a big unless!) further nested inside another function. Capturing the top level `this` reference of a controller once and at the top of the controller, instead of repeating `this` calls throughout, encourages consistency and prevents any incorrectly nested `this` references.
+	- **Most importantly**, the `this` keyword is made available inside every Javascript function in order to gain reference to the invocation context if invoked as a method (e.g. `someInvocationContext.someMethod()`) and the new object created if invoked with the `new` operator as a constructor (e.g. `someNewObject = new SomeConstructor()`). Since angular internally invokes all functions registered as controllers with the `new` operator, any `this` reference inside the controller function necessarily refers to the new object constructed, unless... (a big unless!) further nested inside another function inside the controller. Capturing the top level `this` reference of a controller once and at the top of the controller, instead of repeating `this` calls throughout, encourages consistency and prevents any nested `this` references from incorrectly referencing some object other the object contstructed by the controller and available in the View.
   
-  - **Bindable members up top**: Place bindable members at the top of the controller, *alphabetized*, and not spread throughout the controller code.
+  - **Bindable members up top**: Place bindable members at the top of the controller, *perferably* alphabetized, instead of spreading throughout the controller code.
   
 	  ```javascript
 	  /* avoid */
@@ -176,14 +178,12 @@ A standardized approach for developing Angular applications at triplelift. This 
   
   
 	*Why?*
-	
-	- Placing bindable members at the top makes it easy to read and helps you instantly identify which members of the controller can be bound and used in the View.
-  
+	- Placing bindable members in one place is easier to read and easier to find.
+	- Placing bindable members at the top helps you instantly identify which members are "publicly" available in the View.
 	- Defining the functions below the bindable members moves the implementation details (& complexity) down.
-  
-	- Function declaration are hoisted so there are no concerns over using a function before it is defined (as there would be with function expressions), even if one function references another.
-
-  - **Presentational logic only (MVVM)**: Presentational logic only inside a controller, avoid Business logic, delegating to **[Services](#services)** instead.
+	- In Javascript, function declaration are hoisted so there are no concerns over using a function before it is defined (as there would be with function expressions), even if one function references another.
+	
+  - **Presentational logic only (MVVM)**: Only place presentational logic in controllers; delegate any business logic to **[Services](#services)**.
 
 	```javascript
 	// avoid
@@ -231,7 +231,6 @@ A standardized approach for developing Angular applications at triplelift. This 
 	
 	Note:
 	- The `$http` service and the URL paths are not referenced directly.
-	
 	- Logic in controllers is used only to bind the appropriate data to the controller object.
 	
 	*Why?*
