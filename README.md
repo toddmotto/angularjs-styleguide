@@ -407,8 +407,8 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 	 ```
 	 
 	 *Why?*
-	 - Placing accessible members at the top makes is easier to read
-	 - It helps you instantly identify which functions of the factory you can access externally and must be unit tested (and/or mocked).
+	 - Placing accessible members at the top makes is easier to read.
+	 - It helps you instantly identify which functions of the factory are publicly exposed and must be unit tested (or mocked).
 	 - Defining the functions below the bindable members moves the implementation details (& complexity) down. 
 	 - Function declaration are hoisted so there are no concerns over using a function before it is defined (as there would be with function expressions), even if one function references another.
 	
