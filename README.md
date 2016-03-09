@@ -7,7 +7,7 @@
 A standardized approach for developing Angular applications at triplelift. This styleguide touches on concepts, syntax and conventions.
 
 ### How to use
-**Rules are in bold** at the top of each bullet point, with example code shortly thereafter, and the "why" follows after that. The idea is that rule is the most important - a standard approach has merits of it's own - and should be the most accessible. Code clarifying/solidifying the rule comes next and explanations after that if interested.  
+**Rules are in bold** at the top of each bullet point, with example code shortly thereafter, and the "why" follows after that. The idea is that rule is the most important - a standard approach has merits of it's own - and should be the most accessible. Code clarifying or even solidifying the rule comes next. If interested, explanations of the rule are provided after that, with the most significant explanation appearing in the "**Most importantly,**" bullet point.  
 
 #### Community
 Most of the content and examples in this guide are based off of [John Papa's](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md) and [Todd Motto's](https://github.com/toddmotto/angular-styleguide) style guides. Check their's out to see the originals and to compare thoughts.
@@ -230,19 +230,20 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 	```
 	
 	Note:
-	- The `$http` service and the URL paths are not referenced directly.
+	- The `$http` service and the URL paths are not referenced directly in the controller.
 	- Logic in controllers is used only to bind the appropriate data to the controller object.
 	
 	*Why?*
-	- Logic may be reused by multiple controllers when placed within a service and exposed via a function.
-	- Logic in a service can more easily be isolated in a unit test, while the calling logic in the controller can be easily mocked.
-	- Removes dependencies and hides implementation details from the controller.
+	- Logic may be reused by multiple controllers when placed within a service.
+	- Logic in a service can more easily be isolated in a unit test and mocked (when testing the controller).
+	- Simplifies and hides implementation details from the controller.
 	
-  - **Keep controllers focused and do not reuse**: Instead of using one controller for multiple views, keep the controller simple and focused and move reusable logic into services.
+  - **Do not reusse controllers**: One controller per view; do not resuse controllers.
   
 	*Why?*
 	
 	- Reusing controllers with several views is brittle and requires good end-to-end (e2e) test coverage to ensure stability across large applications.
+	- Reusable logic can be moved into services should be moved into services (for all the reasons described in the previous rule), leaving controllers simple and focused.
 	
   - **Assign controllers in route definitions instead of templates** 
   
@@ -294,7 +295,7 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 	*Why?*
 	- Pairing a controller with a template through `$routeProvider` configurations allows for template reuse. In other words, when `ng-controller` is used inline, that's it... a pairing is made between template and controller, which prevents template reuse with another controller.
 	
-	- Having all controller-template pairings upfront creates a sort of index for your application, which makes it easier to see where everything is, what goes with what and how the data flows throughout your application (see **[Routing with promises](#routing-with-promises)** below for more). 
+	- **Most importantly**, having all controller-template pairings upfront creates a sort of index for your application, which makes it easier to see where everything is, what goes with what and how the data flows throughout your application (see **[Routing with promises](#routing-with-promises)** below for more). 
 	
 	Note:
 	- Although now even easier to do with the introduction of route definitions, *controller* reuse is *still ill-advised* for the reasons above.
