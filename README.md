@@ -415,7 +415,7 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
   - **Any interaction between controllers and data should be mediated by a service**: XHR calls, local storage, stashing in memory and other data operations belong in a service.
   
 	 ```javascript
-	 /* recommended */
+	 /* avoid */
 	
 	 // dataservice factory
 	 angular
@@ -472,8 +472,8 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 	 
 	 *Why?*
 	 - This makes it easier to test (mock or real) data calls when testing a controller.
-	 - Data service implementation may have very specific code to handle the data repository. This may include headers, how to talk to the data, or other services such as $http. Separating the logic into a data service encapsulates this logic in a single place hiding the implementation from the outside consumers (perhaps a controller).
-	 - Implementation encapsulation/hiding makes it easier to change.
+	 - Data service implementations may have very specific code to commmunicate with the data repository. This may include headers, how to talk to the data, or other services such as $http. Encapsuating this logic into a data service hides the implementation from the outside consumers (perhaps a controller).
+	 - Encapsulation/hiding implementation makes it easier to change.
 	 - **Most importantly**, the controller's responsibility is for the presentation and gathering of information for the view. It should not care how it gets the data, just that it knows ***who*** to ask for it. Separating the data services cabins the logic related to ***how*** to get the data and lets the controller be simpler and more focused on the view.
 
 
@@ -481,7 +481,7 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 
 ## Directives
 
-  - **Declaration restrictions**: Only use `custom element` and `custom attribute` methods for declaring your Directives i.e. `{ restrict: 'EA' }`, `{ restrict: 'A' }` or `{ restrict: 'E' }`.
+  - **Declaration restrictions**: Only create element and attribute directives i.e. `{ restrict: 'EA' }`, `{ restrict: 'A' }` or `{ restrict: 'E' }`.
 
 	```html
 	<!-- avoid -->
@@ -495,9 +495,10 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 	<div my-directive></div>
 	```
 	*Why?*
-  	- Comment and class name declarations are confusing and should be avoided. Comments do not play nicely with older versions of IE. Using an attribute is the safest method for browser coverage.
+  	- Comment and class name declarations are confusing.
+  	- Comments do not play nicely with older versions of IE.
 
-  - **The only place for DOM manipulation**: When manipulating the DOM directly, use a directive. If alternative ways can be used such as using CSS to set styles or the animation services, Angular templating, ngShow or ngHide, then use those instead. For example, if the directive simply hides and shows, use ngHide/ngShow.
+  - **Directives are the only place for DOM manipulation**: Favor CSS, animation services and custom angular directives to perform DOM manipuation. For example, if the directive simply hides and shows, use ngHide/ngShow. However, if other javascript DOM manipulation is required, do so in a directive.
   
 	```javascript
 	// avoid
@@ -527,20 +528,21 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 	```
 	
 	*Why?*
-	- DOM manipulation can be difficult to test, debug, and there are often better ways (e.g. CSS, animations, templates)
-	- **Most importantly**, while it's true that controllers (defined with `.controller()`) are provided access to the parent-most `$element`, generally speaking, the desired DOM manipulation relates to some child element in the controller's View . Directives, on the other hand, are provided access to the `element` underlying the desired DOM changes. Using such `element` avoids unnecessarily having to search (possibly, by a unique identifier) for the element and more appropriately associates the DOM manipulation logic with the subject of such logic (i.e. the element!). In addition, separating such logic out of the controllers avoids further complicating controller logic while providing encapsulation for DOM related logic. After all, **[Controllers](#controllers)** have their own reason for being that is unrelated to DOM manipulation. 
+	- DOM manipulation can be difficult to test, debug, and there are often better ways (e.g. CSS)
+	- **Most importantly**, while it's true that controllers are provided access to the parent-most `$element`, generally speaking, the desired DOM manipulation relates to some child element in the controller's View . Directives, on the other hand, are provided access to the `element` underlying the desired DOM changes. Using such `element` avoids unnecessarily having to search (possibly, by a unique identifier) for the element and more appropriately associates the DOM manipulation logic with the subject of such logic (i.e. the element!).
+	- Separating such logic out of the controllers avoids further complicating controller logic while providing encapsulation for DOM related logic. After all, **[Controllers](#controllers)** have their own reason for being that is unrelated to DOM manipulation. 
 
   - **Naming conventions**: Provide a short, unique and descriptive directive prefix such as `acmeSalesCustomerInfo`, declared in HTML as `acme-sales-customer-info`.
 
 	*Why?*
 	- Directives enter a global namespace and must be verbosely named as a result.
-	- The unique short prefix identifies the directive's context and origin. For example, a prefix of cc- may indicate that the directive is part of a CodeCamper app while acme- may indicate a directive for the Acme company.
+	- The short prefix identifies the directive's context and origin. For example, a prefix of cc- may indicate that the directive is part of a CodeCamper app while acme- may indicate a directive for the Acme company.
 	
-  - **All templating directives should be considered "components" -> restricted to `'E'` and isolated**: Directives that have `template` or `templateUrl` definitions will replace child nodes in the original html with the specified template (unless transcluding) and should specify `{ restrict: 'E' }` and `{ scope: {} }`.
+  - **All templating directives should be considered "components" i.e. restricted to `'E'` and isolated**: Directives that have `template` or `templateUrl` definitions will replace child nodes in the original html with the specified template (unless transcluding) and should specify `{ restrict: 'E' }` and `{ scope: {} }`.
 	 
 	  ```html
 	 <!-- avoid -->
-	 <div my-example max="vm.max"></div>	 
+	 <div my-example></div>	 
 	 ```
 	 
 	 ```javascript
@@ -549,21 +551,10 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 	  .module('app')
 	  .directive('myExample', function() {
 		return {
-		  restrict: 'EA', // <-- note!
+		  restrict: 'EA', // <-- note
 		  templateUrl: 'app/feature/example.directive.html',
-		  scope: true, // <-- note!
 		  controllerAs: 'vm',
-		  controller: function($scope, $attrs) {
-		  	var vm = this;
-		  	
-		  	// custom two-way binding
-		  	$scope.$watch($attrs.max, function(max) {
-		  		vm.max = max;
-		  	});
-		  	$scope.$watch('vm.max', function(max) {
-		  		$scope.$parent.vm.max = max;
-		  	});
-		  }
+		  controller: function() {}
 		};
 	 });
 	
@@ -580,10 +571,10 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 	  .module('app')
 	  .directive('myExample', function() {
 		return {
-		  restrict: 'E', // <-- note!
+		  restrict: 'E', // <-- note
 		  templateUrl: 'app/feature/example.directive.html',
-		  scope: {}, // <-- note!
-		  bindToController: { max: '=' },
+		  scope: {}, // <-- note
+		  bindToController: { max: '=' }, // <-- note
 		  controllerAs: 'vm',
 		  controller: function() {}
 		};
@@ -592,7 +583,7 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 	 ```
 	 
 	 *Why?*
-	 - Without isolating a templating directive, "scope soup" may ensure (see **[Controllers](#controllers)** for more). The negative effects become even more pronounced in the case of directives because they can be placed anywhere in the DOM tree no matter $scope lineage that awaits. In addition to giving the directive the benefit of two way bindings, isolating its scope provides certainty and clarity as to template's context in play.
+	 - The negative effects of "scope soup" (see **[Controllers](#controllers)** for more) become even more pronounced in the case of directives because they can be placed anywhere in the DOM tree no matter the `$scope` lineage that awaits. Isolating its scope provides certainty and clarity as to template's context in play.
 	 - Attribute directives, like `ng-click` and `ng-show`, frequently manipulate the DOM or provide other behavior peripheral to data flow and view management. Restricting templating directives to type `'E'` clearly distinguishes them from attribute directives.
 	 - componant directives
 	 
