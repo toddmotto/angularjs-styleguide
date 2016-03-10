@@ -84,17 +84,11 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 	*Why?*
 	
 	- Controllers are constructed, "newed" up, providing a single new instance. The `controllerAs` syntax more closely resembles "JavaScript constructor" than "classic `$scope`" syntax.
-	
 	- Even with `controllerAs`, the controller object is still bound to `$scope`, so you can still bind to the View...this fact ultimately leads some to even see the `controllerAs` syntax as high level syntactic sugar.
-
 	- It promotes the use of binding to a "dotted" object in the View (e.g. `customer.name` instead of `name`), which is more contextual and easier to read.
-	
 	- Since the desired view binding can reached simply by `vm.viewBinding` even if nested within a child `$scope`, it discourages the use of `$parent` in the View.
-   
-	- Discourages the use of `$scope` methods inside a controller when they are better placed inside a factory or avoided altogether.
-	 
-	- It does not prevent the use of `$scope` methods, such as `$emit`, `$broadcast`, `$on` or `$watch`, which may be accessed by injecting `$scope` if necessary.
-	 
+	- Discourages the use of `$scope` methods inside a controller when they are better placed inside a factory or avoided altogether. 
+	- It does not prevent the use of `$scope` methods, such as `$emit`, `$broadcast`, `$on` or `$watch`, which may be accessed by injecting `$scope` if necessary. 
 	- **Most importantly**, the `controllerAs` syntax prevents "$scope soup". There may be nothing worse in large scale angular development than running into `ng-click="doOnClick(data)"` in the View, looking into the controller "corresponding" to such View and being unable to locate either the `doOnClick` or `data` definitions. At this point, of course, you must scale the $scope hierarchy until the nearest declarations of each property are found... no fun indeed. Taking advantage of the basic rules of JavaScript prototypal inheritance, placing wonderful `vm` in front of each variable, as in `ng-click="vm.doOnClick(vm.data)"` **ensures** that the controller **actually associated** with the View **contains** the corresponding definitions. That is because when Javascript attempts to locate `vm`, it **will find** the associated controller (bound to `$scope`) since it exists and is bound to `$scope`- success in this regard is guaranteed. Next, JavaScript will attempt to locate `doOnClick` and `data` **on such controller** and...vuala... either the corresponding definitions will be found **bound to such controller** or `undefined` will result.
 		
 
