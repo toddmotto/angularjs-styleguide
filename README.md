@@ -579,7 +579,7 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 	 Note:
 	 - Direcives with `template` or `templateUrl` definitions will replace any child nodes in the original html with the specified template (unless transcluding).
 	 
-	 *Why?*
+	*Why?*
 	 - Attribute directives, like `ng-click` and `ng-show`, frequently manipulate the DOM or provide other behavior peripheral to data flow and view management. Restricting templating directives to type `'E'` clearly distinguishes them from these.
 	 - **Most importantly**, the negative effects of "scope soup" (see **[Controllers](#controllers)** for more) become even more pronounced in the case of directives because they can be placed anywhere in the DOM tree no matter the `$scope` lineage that awaits. Consequently, it can be even more important to isolate directive scopes.
 	 - Together, these settings - `{ restrict: 'E' }` and `{ scope: {} }` - constitute what's become known within the angular community as a "component". Possibly the most successful design pattern for Angular 1 applications, the angular team made components the starting point for Angular 2. In addition, the team introduced the `angular.component` method in Angular 1.5, which is syntactic sugar for a `.directive` that defaults to these settings. Using these settings as frequently as possible, and especially in place of stand-alone controllers, can bring an angular codebase closer to the tried and true styles of the angular community and will better position the application for a future upgrade to angular 2 if/when desired.
