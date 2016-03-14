@@ -7,7 +7,7 @@
 A standardized approach for developing Angular applications at triplelift. This styleguide touches on concepts, syntax and conventions.
 
 ### How to use
-**Rules are in bold** at the top of each bullet point, with example code shortly thereafter, and the "why" follows after that. The idea is that rule is the most important - a standard approach has merits of it's own - and should be the most accessible. Code clarifying or even solidifying the rule comes next. If interested, explanations of the rule are provided after that, with the most significant explanation appearing in the "**Most importantly,**" bullet point.  
+**Rules are in bold** at the top of each bullet point, with example code shortly thereafter, and the "why" follows after that. The idea is that the rule is the most important - a standard approach has merits in its own right - and should be the most accessible. Code clarifying or even solidifying the rule comes next. If interested, explanations of the rule are provided after that, with the most significant explanation attached to the bullet point prefixed with "**Most importantly,**".  
 
 #### Community
 Most of the content and examples in this guide are based off of [John Papa's](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md) and [Todd Motto's](https://github.com/toddmotto/angular-styleguide) style guides. Check their's out to see the originals and to compare thoughts.
@@ -19,7 +19,6 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
   1. [Controllers](#controllers)
   1. [Services](#services)
   1. [Directives](#directives)
-  1. [Filters](#filters)
   1. [Routing resolves](#routing-resolves)
   1. [Publish and subscribe events](#publish-and-subscribe-events)
   1. [Performance](#performance)
@@ -582,7 +581,7 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 	*Why?*
 	 - Attribute directives, like `ng-click` and `ng-show`, frequently manipulate the DOM or provide other behavior peripheral to data flow and view management. Restricting templating directives to type `'E'` clearly distinguishes them from these.
 	 - **Most importantly**, the negative effects of "scope soup" (see **[Controllers](#controllers)** for more) become even more pronounced in the case of directives because they can be placed anywhere in the DOM tree no matter the `$scope` lineage that awaits. Consequently, it can be even more important to isolate directive scopes.
-	 - Together, these settings - `{ restrict: 'E' }` and `{ scope: {} }` - constitute what's become known within the angular community as a "component". Possibly the most successful design pattern for Angular 1 applications, the angular team made components the starting point for Angular 2. In addition, the team introduced the `angular.component` method in Angular 1.5, which is syntactic sugar for a `.directive` that defaults to these settings. Using these settings as frequently as possible, and especially in place of stand-alone controllers, can bring an angular codebase closer to the tried and true styles of the angular community and will better position the application for a future upgrade to angular 2 if/when desired.
+	 - Together, these settings - `{ restrict: 'E' }` and `{ scope: {} }` - constitute what's become known within the angular community as a "component". Possibly the most successful design pattern of Angular 1 development, components were made a part of Angular 2 in a big way. In addition, the `angular.component` method was introduced in Angular 1.5, which is a shortcut (a.k.a syntactic sugar) for a `.directive` that defaults to these settings. Using these settings as frequently as possible, and especially in place of stand-alone controllers, can bring an angular codebase closer to the tried and true styles of the angular community and will better position the application for a future upgrade to angular 2 if/when desired.
 	 
 
   - **Use bindToController and controllerAs**: When binding properties manually in the controller or passing them into the directive through HTML attributes, use `bindToController` and the `controllerAs` syntax.
@@ -657,39 +656,6 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 
 **[Back to top](#table-of-contents)**
 
-## Filters
-
-  - **Global filters**: Create global filters using `angular.filter()` only. Never use local filters inside Controllers/Services
-
-	```javascript
-	// avoid
-	function SomeCtrl () {
-	  this.startsWithLetterA = function (items) {
-		return items.filter(function (item) {
-		  return /^a/i.test(item.name);
-		});
-	  };
-	}
-	angular
-	  .module('app')
-	  .controller('SomeCtrl', SomeCtrl);
-
-	// recommended
-	function startsWithLetterA () {
-	  return function (items) {
-		return items.filter(function (item) {
-		  return /^a/i.test(item.name);
-		});
-	  };
-	}
-	angular
-	  .module('app')
-	  .filter('startsWithLetterA', startsWithLetterA);
-	```
-
-  - This enhances testing and reusability
-
-**[Back to top](#table-of-contents)**
 
 ## Routing resolves
 
