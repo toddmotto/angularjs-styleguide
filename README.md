@@ -648,11 +648,11 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 	 <div>min={{vm.min}}<input ng-model="vm.min"/></div>
 	 ```
 	 
-	 Note:
-	 - `bindToController` automatically binds properties (that would otherwise be bound directly to `$scope`) directly to directive's controller, which itself is bound to `$scope`.
+	Note:
+	- `bindToController` automatically binds properties (that would otherwise be bound directly to `$scope`) directly to directive's controller, which itself is bound to `$scope`.
 	 
-	 *Why?*
-	 - For all the reasons described in the **[Controllers section](#controller)** above.
+	*Why?*
+	- For all the reasons described in the **[Controllers section](#controller)** above.
 
 
 **[Back to top](#table-of-contents)**
