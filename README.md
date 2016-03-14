@@ -232,7 +232,7 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 	- Logic in a service can more easily be isolated in a unit test and mocked (when testing the controller).
 	- Simplifies and hides implementation details from the controller.
 	
-  - **Do not reusse controllers**: One controller per view; do not resuse controllers.
+  - **Do not reuse controllers**: One controller per view; do not resuse controllers.
   
 	*Why?*
 	
@@ -523,7 +523,7 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 	
 	*Why?*
 	- DOM manipulation can be difficult to test, debug, and there are often better ways (e.g. CSS)
-	- **Most importantly**, while it's true that controllers are provided access to the parent-most `$element`, generally speaking, the desired DOM manipulation relates to some child element in the controller's View . Directives, on the other hand, are provided access to the `element` underlying the desired DOM changes. Using such `element` avoids unnecessarily having to search (possibly, by a unique identifier) for the element and more appropriately associates the DOM manipulation logic with the subject of such logic (i.e. the element!).
+	- **Most importantly**, while it's true that controllers are provided access to the parent-most `$element`, generally speaking, the desired DOM manipulation relates to some child element in the controller's View . Directives, on the other hand, are provided access to the `element` underlying the desired DOM changes. Using such `element` avoids unnecessarily having to search (possibly, by a unique identifier) for the element and more appropriately associates the DOM manipulation logic with the subject of such logic: *the element!*
 	- Separating such logic out of the controllers avoids further complicating controller logic while providing encapsulation for DOM related logic. After all, **[Controllers](#controllers)** have their own reason for being that is unrelated to DOM manipulation. 
 
   - **Naming conventions**: Provide a short, unique and descriptive directive prefix such as `acmeSalesCustomerInfo`, declared in HTML as `acme-sales-customer-info`.
@@ -532,7 +532,7 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 	- Directives enter a global namespace and must be verbosely named as a result.
 	- The short prefix identifies the directive's context and origin. For example, a prefix of cc- may indicate that the directive is part of a CodeCamper app while acme- may indicate a directive for the Acme company.
 	
-  - **All templating directives should be considered "components" i.e. restricted to `'E'` and isolated**: Directives that have `template` or `templateUrl` definitions will replace child nodes in the original html with the specified template (unless transcluding) and should specify `{ restrict: 'E' }` and `{ scope: {} }`.
+  - **All templating directives should be considered "components", restricted to `'E'` and isolated**: Directives that have `template` or `templateUrl` definitions must specify `{ restrict: 'E' }` and `{ scope: {} }`.
 	 
 	  ```html
 	 <!-- avoid -->
@@ -576,10 +576,13 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 	
 	 ```
 	 
+	 Note:
+	 - Direcives with `template` or `templateUrl` definitions will replace any child nodes in the original html with the specified template (unless transcluding).
+	 
 	 *Why?*
-	 - The negative effects of "scope soup" (see **[Controllers](#controllers)** for more) become even more pronounced in the case of directives because they can be placed anywhere in the DOM tree no matter the `$scope` lineage that awaits. Isolating its scope provides certainty and clarity as to template's context in play.
-	 - Attribute directives, like `ng-click` and `ng-show`, frequently manipulate the DOM or provide other behavior peripheral to data flow and view management. Restricting templating directives to type `'E'` clearly distinguishes them from attribute directives.
-	 - componant directives
+	 - Attribute directives, like `ng-click` and `ng-show`, frequently manipulate the DOM or provide other behavior peripheral to data flow and view management. Restricting templating directives to type `'E'` clearly distinguishes them from these.
+	 - **Most importantly**, the negative effects of "scope soup" (see **[Controllers](#controllers)** for more) become even more pronounced in the case of directives because they can be placed anywhere in the DOM tree no matter the `$scope` lineage that awaits. Consequently, it can be even more important to isolate directive scopes.
+	 - Together, these settings - `{ restrict: 'E' }` and `{ scope: {} }` - constitute what's become known within the angular community as a "component". Possibly the most successful design pattern for Angular 1 applications, the angular team made components the starting point for Angular 2. In addition, the team introduced the `angular.component` method in Angular 1.5, which is syntactic sugar for a `.directive` that defaults to these settings. Using these settings as frequently as possible, and especially in place of stand-alone controllers, can bring an angular codebase closer to the tried and true styles of the angular community and will better position the application for a future upgrade to angular 2 if/when desired.
 	 
 
   - **Use bindToController and controllerAs**: When binding properties manually in the controller or passing them into the directive through HTML attributes, use `bindToController` and the `controllerAs` syntax.
@@ -647,6 +650,7 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 	 
 	 Note:
 	 - `bindToController` automatically binds properties (that would otherwise be bound directly to `$scope`) directly to directive's controller, which itself is bound to `$scope`.
+	 
 	 *Why?*
 	 - For all the reasons described in the **[Controllers section](#controller)** above.
 
