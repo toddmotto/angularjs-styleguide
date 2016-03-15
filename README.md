@@ -19,8 +19,7 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
   1. [Controllers](#controllers)
   1. [Services](#services)
   1. [Directives](#directives)
-  1. [Routing resolves](#routing-resolves)
-  1. [Publish and subscribe events](#publish-and-subscribe-events)
+  1. [Routing with promises](#routing-with-promises)
   1. [Performance](#performance)
   1. [Angular wrapper references](#angular-wrapper-references)
   1. [Comment standards](#comment-standards)
@@ -756,50 +755,6 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
     - It also makes it easier to locate, preventing the spread of the activation logic throughout the controller.
     - It's easy to reuse for a refresh of the controller.
     - Placing this logic inside the controller instead of inside the route resolve gets the user to the View faster, makes animations easy on the `ng-view` or `ui-view`, and enables snappier UX.
-
-**[Back to top](#table-of-contents)**
-
-## Publish and subscribe events
-
-  - **$scope**: Use the `$emit` and `$broadcast` methods to trigger events to direct relationship scopes only
-
-	```javascript
-	// up the $scope
-	$scope.$emit('customEvent', data);
-
-	// down the $scope
-	$scope.$broadcast('customEvent', data);
-	```
-
-  - **$rootScope**: Use only `$emit` as an application-wide event bus and remember to unbind listeners
-
-	```javascript
-	// all $rootScope.$on listeners
-	$rootScope.$emit('customEvent', data);
-	```
-
-  - Hint: Because the `$rootScope` is never destroyed, `$rootScope.$on` listeners aren't either, unlike `$scope.$on` listeners and will always persist, so they need destroying when the relevant `$scope` fires the `$destroy` event
-
-	```javascript
-	// call the closure
-	var unbind = $rootScope.$on('customEvent'[, callback]);
-	$scope.$on('$destroy', unbind);
-	```
-
-  - For multiple `$rootScope` listeners, use an Object literal and loop each one on the `$destroy` event to unbind all automatically
-
-	```javascript
-	var unbind = [
-	  $rootScope.$on('customEvent1'[, callback]),
-	  $rootScope.$on('customEvent2'[, callback]),
-	  $rootScope.$on('customEvent3'[, callback])
-	];
-	$scope.$on('$destroy', function () {
-	  unbind.forEach(function (fn) {
-		fn();
-	  });
-	});
-	```
 
 **[Back to top](#table-of-contents)**
 
