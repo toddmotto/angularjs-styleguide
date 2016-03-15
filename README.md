@@ -7,7 +7,7 @@
 A standardized approach for developing Angular applications at triplelift. This styleguide touches on concepts, syntax and conventions.
 
 ### How to use
-**Rules are in bold** at the top of each bullet point, with example code shortly thereafter, and the "why" follows after that. The idea is that the rule is the most important - a standard approach has merits in its own right - and should be the most accessible. Code clarifying or even solidifying the rule comes next. If interested, explanations of the rule are provided after that, with the most significant explanation attached to the bullet point prefixed with "*Most importantly*,".  
+**Rules are in bold** at the top of each bullet point, with example code shortly thereafter, and the "why" follows after that. The idea is that the rule is the most important - a standard approach has merits in its own right - and should be the most accessible. Code clarifying or even solidifying the rule comes next. If interested, explanations of the rule are provided after that, with the most significant explanation attached to the bullet point prefixed with "*Most importantly*".  
 
 #### Community
 Most of the content and examples in this guide are based off of [John Papa's](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md) and [Todd Motto's](https://github.com/toddmotto/angular-styleguide) style guides. Check their's out to see the originals and to compare thoughts.
@@ -657,85 +657,105 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 **[Back to top](#table-of-contents)**
 
 
-## Routing resolves
+## Routing with Promises
 
-  - **Promises**: Resolve Controller dependencies in the `$routeProvider` (or `$stateProvider` for `ui-router`), not the Controller itself
+  - **Resolve all data upon a controller may depend in the `resolve` method of `$routeProvider`**.
+  
+	 ```javascript
+	 /* avoid */
+	 angular
+	     .module('app')
+	     .controller('AvengersController', function(movieService) {
+		     var vm = this;
+		     // unresolved
+		     vm.movies;
+		     // resolved asynchronously
+		     movieService.getMovies().then(function(response) {
+		         vm.movies = response.movies;
+		     });
+		 });
+	 ```
+	
+	 ```javascript
+	 /* recommended */
+	
+	 // route-config.js
+	 angular
+	     .module('app')
+	     .config(config);
+	
+	 function config($routeProvider) {
+	     $routeProvider
+	         .when('/avengers', {
+	             templateUrl: 'avengers.html',
+	             controller: 'AvengersController',
+	             controllerAs: 'vm',
+	             resolve: {
+	                 moviesPrepService: function(movieService) {
+	                     return movieService.getMovies();
+	                 }
+	             }
+	         });
+	 }
+	
+	 // avengers.js
+	 angular
+	     .module('app')
+	     .controller('AvengersController', function(moviesPrepService) {
+		     var vm = this;
+		     vm.movies = moviesPrepService.movies;
+		 });
+	 ```
+	 
+	 Note:
+	 - Any promise returned by the [route resolve](https://docs.angularjs.org/api/ngRoute/provider/$routeProvider) must resolve successfully before the controller is executed. Rejecting the promise cancels the route.
+	 - If interested in increasing spead of the View load (and do not need to potentially cancel the state), consider the controller `activate` technique described below instead.
 
-	```javascript
-	// avoid
-	function MainCtrl (SomeService) {
-	  var _this = this;
-	  // unresolved
-	  _this.something;
-	  // resolved asynchronously
-	  SomeService.doSomething().then(function (response) {
-		_this.something = response;
-	  });
-	}
-	angular
-	  .module('app')
-	  .controller('MainCtrl', MainCtrl);
+    *Why?*
+    - You can conditionally cancel a route before the controller is activated inside the route resolver.
+    - *Most importantly*, A controller may depend on data retrieved asynchronously. Resolving this data prior to loading the controller simplifies the controller logic tremendously. It also places data dependencies all in once place in the "index" of the application - e.g. `app.js` - and makes it easier to reason about data flow.
 
-	// recommended
-	function config ($routeProvider) {
-	  $routeProvider
-	  .when('/', {
-		templateUrl: 'views/main.html',
-		resolve: {
-		  // resolve here
-		}
-	  });
-	}
-	angular
-	  .module('app')
-	  .config(config);
-	```
+  - **If you must include async logic in controllers, keep such start-up logic to an `activate` function**.
 
-  - **Controller.resolve property**: Never bind logic to the router itself. Reference a `resolve` property for each Controller to couple the logic
-
-	```javascript
-	// avoid
-	function MainCtrl (SomeService) {
-	  this.something = SomeService.something;
-	}
-
-	function config ($routeProvider) {
-	  $routeProvider
-	  .when('/', {
-		templateUrl: 'views/main.html',
-		controllerAs: 'vm',
-		controller: 'MainCtrl'
-		resolve: {
-		  doSomething: function () {
-			return SomeService.doSomething();
-		  }
-		}
-	  });
-	}
-
-	// recommended
-	function MainCtrl (SomeService) {
-	  this.something = SomeService.something;
-	}
-
-	MainCtrl.resolve = {
-	  doSomething: function (SomeService) {
-		return SomeService.doSomething();
-	  }
-	};
-
-	function config ($routeProvider) {
-	  $routeProvider
-	  .when('/', {
-		templateUrl: 'views/main.html',
-		controllerAs: 'vm',
-		controller: 'MainCtrl'
-		resolve: MainCtrl.resolve
-	  });
-	}
-	```
-
-  - This keeps resolve dependencies inside the same file as the Controller and the router free from logic
+	 ```javascript
+	 /* avoid */
+	 function AvengersController(dataservice) {
+	     var vm = this;
+	     vm.avengers = [];
+	     vm.title = 'Avengers';
+	
+	     dataservice.getAvengers().then(function(data) {
+	         vm.avengers = data;
+	         return vm.avengers;
+	     });
+	 }
+	 ```
+	
+	 ```javascript
+	 /* recommended */
+	 function AvengersController(dataservice) {
+	     var vm = this;
+	     vm.avengers = [];
+	     vm.title = 'Avengers';
+	
+	     activate();
+	
+	     ////////////
+	
+	     function activate() {
+	         return dataservice.getAvengers().then(function(data) {
+	             vm.avengers = data;
+	             return vm.avengers;
+	         });
+	     }
+	 }
+	 ```
+  
+    *Why?*:
+    - Placing start-up logic in a consistent place is easier test
+    - It also makes it easier to locate, preventing the spread of the activation logic throughout the controller.
+    - It's easy to reuse for a refresh of the controller.
+    - Placing this logic inside the controller instead of inside the route resolve gets the user to the View faster, makes animations easy on the `ng-view` or `ui-view`, and enables snappier UX.
 
 **[Back to top](#table-of-contents)**
 
@@ -929,31 +949,4 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 ## Angular docs
 For anything else, including API reference, check the [Angular documentation](//docs.angularjs.org/api).
 
-## Contributing
-
-Open an issue first to discuss potential changes/additions.
-
-## License
-
-#### (The MIT License)
-
-Copyright (c) 2015-2016 Todd Motto
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-'Software'), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+**[Back to top](#table-of-contents)**
