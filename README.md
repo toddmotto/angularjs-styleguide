@@ -7,7 +7,7 @@
 A standardized approach for developing Angular applications at triplelift. This styleguide touches on concepts, syntax and conventions.
 
 ### How to use
-**Rules are in bold** at the top of each bullet point, with example code shortly thereafter, and the "why" follows after that. The idea is that the rule is the most important - a standard approach has merits in its own right - and should be the most accessible. Code clarifying or even solidifying the rule comes next. If interested, explanations of the rule are provided after that, with the most significant explanation attached to the bullet point prefixed with "**Most importantly,**".  
+**Rules are in bold** at the top of each bullet point, with example code shortly thereafter, and the "why" follows after that. The idea is that the rule is the most important - a standard approach has merits in its own right - and should be the most accessible. Code clarifying or even solidifying the rule comes next. If interested, explanations of the rule are provided after that, with the most significant explanation attached to the bullet point prefixed with "*Most importantly*,".  
 
 #### Community
 Most of the content and examples in this guide are based off of [John Papa's](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md) and [Todd Motto's](https://github.com/toddmotto/angular-styleguide) style guides. Check their's out to see the originals and to compare thoughts.
@@ -88,7 +88,7 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 	- Since the desired view binding can reached simply by `vm.viewBinding` even if nested within a child `$scope`, it discourages the use of `$parent` in the View.
 	- Discourages the use of `$scope` methods inside a controller when they are better placed inside a factory or avoided altogether. 
 	- It does not prevent the use of `$scope` methods, such as `$emit`, `$broadcast`, `$on` or `$watch`, which may be accessed by injecting `$scope` if necessary. 
-	- **Most importantly**, the `controllerAs` syntax prevents "$scope soup". There may be nothing worse in large scale angular development than running into `ng-click="doOnClick(data)"` in the View, looking into the controller "corresponding" to such View and being unable to locate either the `doOnClick` or `data` definitions. At this point, of course, you must scale the $scope hierarchy until the nearest declarations of each property are found... no fun indeed. Taking advantage of the basic rules of JavaScript prototypal inheritance, placing wonderful `vm` in front of each variable, as in `ng-click="vm.doOnClick(vm.data)"` **ensures** that the controller **actually associated** with the View **contains** the corresponding definitions. That is because when Javascript attempts to locate `vm`, it **will find** the associated controller (bound to `$scope`) since it exists and is bound to `$scope`- success in this regard is guaranteed. Next, JavaScript will attempt to locate `doOnClick` and `data` **on such controller** and...vuala... either the corresponding definitions will be found **bound to such controller** or `undefined` will result.
+	- *Most importantly*, the `controllerAs` syntax prevents "$scope soup". There may be nothing worse in large scale angular development than running into `ng-click="doOnClick(data)"` in the View, looking into the controller "corresponding" to such View and being unable to locate either the `doOnClick` or `data` definitions. At this point, of course, you must scale the $scope hierarchy until the nearest declarations of each property are found... no fun indeed. Taking advantage of the basic rules of JavaScript prototypal inheritance, placing wonderful `vm` in front of each variable, as in `ng-click="vm.doOnClick(vm.data)"` **ensures** that the controller **actually associated** with the View **contains** the corresponding definitions. That is because when Javascript attempts to locate `vm`, it **will find** the associated controller (bound to `$scope`) since it exists and is bound to `$scope`- success in this regard is guaranteed. Next, JavaScript will attempt to locate `doOnClick` and `data` **on such controller** and...vuala... either the corresponding definitions will be found **bound to such controller** or `undefined` will result.
 		
 
   - **controllerAs 'vm'**: Capture the `this` context of the Controller using `vm` (short for "view model")
@@ -118,7 +118,7 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 
 	*Why?*
 	
-	- **Most importantly**, the `this` keyword is made available inside every Javascript function in order to gain reference to the invocation context if invoked as a method (e.g. `someInvocationContext.someMethod()`) and the new object created if invoked with the `new` operator as a constructor (e.g. `someNewObject = new SomeConstructor()`). Since angular internally invokes all functions registered as controllers with the `new` operator, any `this` reference inside the controller function necessarily refers to the new object constructed, unless... (a big unless!) further nested inside another function inside the controller. Capturing the top level `this` reference of a controller once and at the top of the controller, instead of repeating `this` calls throughout, encourages consistency and prevents any nested `this` references from incorrectly referencing some object other the object contstructed by the controller and available in the View.
+	- *Most importantly*, the `this` keyword is made available inside every Javascript function in order to gain reference to the invocation context if invoked as a method (e.g. `someInvocationContext.someMethod()`) and the new object created if invoked with the `new` operator as a constructor (e.g. `someNewObject = new SomeConstructor()`). Since angular internally invokes all functions registered as controllers with the `new` operator, any `this` reference inside the controller function necessarily refers to the new object constructed, unless... (a big unless!) further nested inside another function inside the controller. Capturing the top level `this` reference of a controller once and at the top of the controller, instead of repeating `this` calls throughout, encourages consistency and prevents any nested `this` references from incorrectly referencing some object other the object contstructed by the controller and available in the View.
   
   - **Bindable members up top**: Place bindable members at the top of the controller, *perferably* alphabetized, instead of spreading throughout the controller code.
   
@@ -287,7 +287,7 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 	 ```
 	*Why?*
 	- Pairing a controller with a template through `$routeProvider` configurations allows for template reuse. In other words, when `ng-controller` is used inline, that's it... a pairing is made between template and controller, which prevents template reuse with another controller.
-	- **Most importantly**, having all controller-template pairings upfront creates a sort of index for your application, which makes it easier to see where everything is, what goes with what and how the data flows throughout your application (see **[Routing with promises](#routing-with-promises)** below for more). 
+	- *Most importantly*, having all controller-template pairings upfront creates a sort of index for your application, which makes it easier to see where everything is, what goes with what and how the data flows throughout your application (see **[Routing with promises](#routing-with-promises)** below for more). 
 	
 	Note:
 	- Although now even easier to do with the introduction of route definitions, *controller* reuse is *still ill-advised* for the reasons above.
@@ -352,7 +352,7 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 	```
 	
 	*Why?*
-	- **Most importantly**, functions registered with the `.factory()` and `.service()` methods are both [services](https://en.wikipedia.org/wiki/Service-oriented_programming) and all such Angular services are singletons (which, according to [angular documentation](https://docs.angularjs.org/guide/services), means that "each component dependent on a service gets a reference to the single instance generated by the service factory"). As a result, `.service()` and `.factory()` only differ in the way Objects are created, but not in what they can create.
+	- *Most importantly*, functions registered with the `.factory()` and `.service()` methods are both [services](https://en.wikipedia.org/wiki/Service-oriented_programming) and all such Angular services are singletons (which, according to [angular documentation](https://docs.angularjs.org/guide/services), means that "each component dependent on a service gets a reference to the single instance generated by the service factory"). As a result, `.service()` and `.factory()` only differ in the way Objects are created, but not in what they can create.
 	- Since they can perform the same tasks, it makes sense to only use one for the sake of consistency.
 	- Since it doesn't require use of the `this` parameter, the `.factory()` method is arguably the simpler of the two.
 	
@@ -467,7 +467,7 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 	 - This makes it easier to test (mock or real) data calls when testing a controller.
 	 - Data service implementations may have very specific code to commmunicate with the data repository. This may include headers, how to talk to the data, or other services such as $http. Encapsuating this logic into a data service hides the implementation from the outside consumers (perhaps a controller).
 	 - Encapsulation/hiding implementation makes it easier to change.
-	 - **Most importantly**, the controller's responsibility is for the presentation and gathering of information for the view. It should not care how it gets the data, just that it knows ***who*** to ask for it. Separating the data services cabins the logic related to ***how*** to get the data and lets the controller be simpler and more focused on the view.
+	 - *Most importantly*, the controller's responsibility is for the presentation and gathering of information for the view. It should not care how it gets the data, just that it knows ***who*** to ask for it. Separating the data services cabins the logic related to ***how*** to get the data and lets the controller be simpler and more focused on the view.
 
 
 **[Back to top](#table-of-contents)**
@@ -522,7 +522,7 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 	
 	*Why?*
 	- DOM manipulation can be difficult to test, debug, and there are often better ways (e.g. CSS)
-	- **Most importantly**, while it's true that controllers are provided access to the parent-most `$element`, generally speaking, the desired DOM manipulation relates to some child element in the controller's View . Directives, on the other hand, are provided access to the `element` underlying the desired DOM changes. Using such `element` avoids unnecessarily having to search (possibly, by a unique identifier) for the element and more appropriately associates the DOM manipulation logic with the subject of such logic: *the element!*
+	- *Most importantly*, while it's true that controllers are provided access to the parent-most `$element`, generally speaking, the desired DOM manipulation relates to some child element in the controller's View . Directives, on the other hand, are provided access to the `element` underlying the desired DOM changes. Using such `element` avoids unnecessarily having to search (possibly, by a unique identifier) for the element and more appropriately associates the DOM manipulation logic with the subject of such logic: *the element!*
 	- Separating such logic out of the controllers avoids further complicating controller logic while providing encapsulation for DOM related logic. After all, **[Controllers](#controllers)** have their own reason for being that is unrelated to DOM manipulation. 
 
   - **Naming conventions**: Provide a short, unique and descriptive directive prefix such as `acmeSalesCustomerInfo`, declared in HTML as `acme-sales-customer-info`.
@@ -580,7 +580,7 @@ Most of the content and examples in this guide are based off of [John Papa's](ht
 	 
 	*Why?*
 	 - Attribute directives, like `ng-click` and `ng-show`, frequently manipulate the DOM or provide other behavior peripheral to data flow and view management. Restricting templating directives to type `'E'` clearly distinguishes them from these.
-	 - **Most importantly**, the negative effects of "scope soup" (see **[Controllers](#controllers)** for more) become even more pronounced in the case of directives because they can be placed anywhere in the DOM tree no matter the `$scope` lineage that awaits. Consequently, it can be even more important to isolate directive scopes.
+	 - *Most importantly*, the negative effects of "scope soup" (see **[Controllers](#controllers)** for more) become even more pronounced in the case of directives because they can be placed anywhere in the DOM tree no matter the `$scope` lineage that awaits. Consequently, it can be even more important to isolate directive scopes.
 	 - Together, these settings - `{ restrict: 'E' }` and `{ scope: {} }` - constitute what's become known within the angular community as a "component". Possibly the most successful design pattern of Angular 1 development, components were made a part of Angular 2 in a big way. In addition, the `angular.component` method was introduced in Angular 1.5, which is a shortcut (a.k.a syntactic sugar) for a `.directive` that defaults to these settings. Using these settings as frequently as possible, and especially in place of stand-alone controllers, can bring an angular codebase closer to the tried and true styles of the angular community and will better position the application for a future upgrade to angular 2 if/when desired.
 	 
 
