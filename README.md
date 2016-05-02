@@ -2,7 +2,7 @@
 
 *Opinionated Angular styleguide for teams by [@toddmotto](//twitter.com/toddmotto)*
 
-A standardised approach for developing Angular applications in teams. This styleguide touches on concepts, syntax, conventions and is based on my experience [writing](http:////toddmotto.com) about, [talking](https://speakerdeck.com/toddmotto) about, and building Angular applications.
+A standardised approach for developing Angular applications in teams. This styleguide touches on concepts, syntax, conventions and is based on my experience [writing](http:////toddmotto.com), [talking](https://speakerdeck.com/toddmotto), and building Angular applications.
 
 > Join the Ultimate AngularJS experience and fully master basic and advanced Angular features
 
