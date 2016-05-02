@@ -6,7 +6,7 @@ A standardised approach for developing Angular applications in teams. This style
 
 > Join the Ultimate AngularJS experience and fully master basic and advanced Angular features
 
-<a href="http://courses.toddmotto.com" target="_blank"><img src="https://toddmotto.com/img/banner.png"></a>
+<a href="http://courses.toddmotto.com" target="_blank"><img src="https://toddmotto.com/img/ua.png"></a>
 
 #### Community
 [John Papa](//twitter.com/John_Papa) and I have discussed in-depth styling patterns for Angular and as such have both released separate styleguides. Thanks to those discussions, I've learned some great tips from John that have helped shape this guide. We've both created our own take on a styleguide. I urge you to [check his out](//github.com/johnpapa/angularjs-styleguide) to compare thoughts.
