@@ -81,6 +81,7 @@ A standardised approach for developing Angular applications in teams. This style
     ```javascript
     (function () {
 
+      // Can and should be in a separate file not with MainCtrl.js
       angular
         .module('app', []);
       
