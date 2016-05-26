@@ -5,6 +5,7 @@
 Un enfoque estandarizado para desarrollar aplicaciones Angular en equipo. Esta guía de estilo detalla conceptos, sintaxis, convenciones y esta basada en mi experiencia al [escribir](http:////toddmotto.com), [hablar](https://speakerdeck.com/toddmotto) y construir aplicaciones Angular.
 
 > Unete a la experiencia Ultimate de AngularJS y domina completamente características básicas y avanzadas de Angular
+
 <a href="http://courses.toddmotto.com" target="_blank"><img src="https://toddmotto.com/img/ua.png?1"></a>
 
 #### Comunidad
