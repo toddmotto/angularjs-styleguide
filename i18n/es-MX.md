@@ -4,7 +4,8 @@
 
 Un enfoque estandarizado para desarrollar aplicaciones Angular en equipo. Esta guía de estilo detalla conceptos, sintaxis, convenciones y esta basada en mi experiencia al [escribir](http:////toddmotto.com), [hablar](https://speakerdeck.com/toddmotto) y construir aplicaciones Angular.
 
-<a href="http://voux.io" target="_blank"><img src="http://www.digital-results.com/hubfs/Images/voux-logo__colour.svg"></a>
+> Unete a la experiencia Ultimate de AngularJS y domina completamente características básicas y avanzadas de Angular
+<a href="http://courses.toddmotto.com" target="_blank"><img src="https://toddmotto.com/img/ua.png?1"></a>
 
 #### Comunidad
 [John Papa](//twitter.com/John_Papa) y yo hemos discutido a fondo sobre los patrones de estilo para Angular y ambos hemos publicado guías separadas. Gracias a estas discusiones, he aprendido algunos bunos tips de John que han ayudado a dar forma a esta guía. Ambos creamos nuestra propia visión de una guía de estilo. Los invito a revisar [la suya](//github.com/johnpapa/angularjs-styleguide) para comparar ideas.
