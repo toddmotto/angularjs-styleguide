@@ -1,4 +1,6 @@
-# Angular styleguide
+# Angular 1.4.x styleguide (ES5/old version)
+
+For the new ES2015, component architecture guide please see 
 
 *Opinionated Angular styleguide for teams by [@toddmotto](//twitter.com/toddmotto)*
 
