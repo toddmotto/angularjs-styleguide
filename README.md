@@ -288,6 +288,7 @@ Here are some advisories for using one-way dataflow:
 * Components that have `bindings` should use `$onChanges` to clone the one-way binding data to break Objects passing by reference and updating the parent data
 * Use `$event` as a function argument in the parent method (see stateful example below `$ctrl.addTodo($event)`)
 * Pass an `$event: {}` Object back up from a stateless component (see stateless example below `this.onAddTodo`).
+  * Bonus: Use an `EventEmitter` wrapper with `.value()` to mirror Angular 2, avoids manual `$event` Object creation
 * Why? This mirrors Angular 2 and keeps consistency inside every component. It also makes state predictable.
 
 **[Back to top](#table-of-contents)**
@@ -400,7 +401,7 @@ export default TodoComponent;
 
 /* ----- todo/todo-form/todo-form.controller.js ----- */
 class TodoFormController {
-  constructor() {}
+  constructor(EventEmitter) {}
   $onChanges(changes) {
     if (changes.todo) {
       this.todo = Object.assign({}, this.todo);
@@ -408,6 +409,13 @@ class TodoFormController {
   }
   onSubmit() {
     if (!this.todo.title) return;
+    // without EventEmitter wrapper
+    this.onAddTodo(
+      EventEmitter({
+        newTodo: this.todo
+      });
+    );
+    // without EventEmitter wrapper
     this.onAddTodo({
       $event: {
         newTodo: this.todo
@@ -415,6 +423,8 @@ class TodoFormController {
     });
   }
 }
+
+TodoFormController.$inject = ['EventEmitter'];
 
 export default TodoFormController;
 
@@ -424,7 +434,8 @@ import TodoFormComponent from './todo-form.component';
 
 const todoForm = angular
   .module('todo')
-  .component('todo', TodoFormComponent);
+  .component('todo', TodoFormComponent)
+  .value('EventEmitter', payload => ({ $event: payload});
 
 export default todoForm;
 ```
