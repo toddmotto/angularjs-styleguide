@@ -38,6 +38,7 @@ You can find the old styleguide [here](https://github.com/toddmotto/angular-styl
     1. [Theory](#service-theory)
     1. [Classes for Service](#classes-for-service)
   1. [ES2015 and Tooling](#es2015-and-tooling)
+  1. [State management](#state-management)
   1. [Resources](#resources)
   1. [Documentation](#documentation)
   1. [Contributing](#contributing)
@@ -75,7 +76,7 @@ const AppComponent = {
 export default AppComponent;
 ```
 
-A root module is then created, with `AppComponent` imported and and registered with `.component('app', AppComponent)`. Further imports for submodules (component and common modules) are made to include all components relevant for the application. We use the `.name` property on each module to access the `String` value registered for each component module.
+A root module is then created, with `AppComponent` imported and and registered with `.component('app', AppComponent)`. Further imports for submodules (component and common modules) are made to include all components relevant for the application.
 
 ```js
 // app.js
@@ -708,12 +709,21 @@ export default todo;
 
 **[Back to top](#table-of-contents)**
 
+# State management
+
+Consider using Redux with Angular 1.5 for data management.
+
+* [Angular Redux](https://github.com/angular-redux/ng-redux)
+
+**[Back to top](#table-of-contents)**
+
 # Resources
 
 * [Understanding the .component() method](https://toddmotto.com/exploring-the-angular-1-5-component-method/)
 * [Using "require" with $onInit](https://toddmotto.com/on-init-require-object-syntax-angular-component/)
 * [Understanding all the lifecycle hooks, $onInit, $onChange, $postLink, $onDestroy](https://toddmotto.com/angular-1-5-lifecycle-hooks)
 * [Using "resolve" in routes](https://toddmotto.com/resolve-promises-in-angular-routes/)
+* [Redux and Angular state management](http://blog.rangle.io/managing-state-redux-angular/)
 
 **[Back to top](#table-of-contents)**
 
