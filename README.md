@@ -6,7 +6,7 @@
 
 This architecture and styleguide has been rewritten from the ground up for ES2015, the changes in Angular 1.5+ for future-upgrading your application to Angular 2. This guide includes new best practices for one-way dataflow, event delegation, component architecture and component routing.
 
-You can find the old styleguide [here](https://github.com/toddmotto/angular-styleguide/tree/angular-old-es5).
+You can find the old styleguide [here](https://github.com/toddmotto/angular-styleguide/tree/angular-old-es5), and the reasoning behind the new one [here](https://toddmotto.com/rewriting-angular-styleguide-angular-2).
 
 > Join the Ultimate AngularJS learning experience to fully master beginner and advanced Angular features to build real-world apps that are fast, and scale.
 
