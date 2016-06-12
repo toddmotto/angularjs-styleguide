@@ -86,8 +86,8 @@ import Common from './common/common';
 
 const root = angular
   .module('app', [
-    Components.name,
-    Common.name,
+    Components,
+    Common,
     uiRouter
   ])
   .component('app', AppComponent);
@@ -108,8 +108,8 @@ import Events from './events/events';
 
 const components = angular
   .module('app.components', [
-    Calendar.name,
-    Events.name
+    Calendar,
+    Events
   ]);
 
 export default components;
@@ -128,8 +128,8 @@ import Footer from './footer/footer';
 
 const common = angular
   .module('app.common', [
-    Nav.name,
-    Footer.name
+    Nav,
+    Footer
   ]);
 
 export default common;
@@ -139,7 +139,7 @@ export default common;
 
 ### Low-level modules
 
-Low-level modules are individual component modules that contain the logic for each feature block. These will each define a module, to be imported to a higher-level module, such as a component or common module, an example below. You'll noticed routing definitions also exist here, we'll come onto this in later chapters in this guide.
+Low-level modules are individual component modules that contain the logic for each feature block. These will each define a module, to be imported to a higher-level module, such as a component or common module, an example below. Always remember to add the `.name` suffix to each `export` when creating a _new_ module, not when referencing one. You'll noticed routing definitions also exist here, we'll come onto this in later chapters in this guide.
 
 ```js
 import angular from 'angular';
@@ -158,7 +158,8 @@ const calendar = angular
         component: 'calendar'
       });
     $urlRouterProvider.otherwise('/');
-  });
+  })
+  .name;
 
 export default calendar;
 ```
@@ -272,6 +273,7 @@ Here are some advisories for using `Class` for controllers:
 * Alternatively to arrow functions, `let ctrl = this;` is also acceptable and may make more sense depending on the use case
 * Bind all public functions directly to the `Class`
 * Make use of the appropriate lifecycle hooks, `$onInit`, `$onChanges`, `$postLink` and `$onDestroy`
+  * Note: `$onChanges` is called before `$onInit`, see [resources](#resources) section for articles detailing this in more depth
 * Use `require` alongside `$onInit` to reference any inherited logic
 * Do not override the default `$ctrl` alias for the `controllerAs` syntax, therefore do not use `controllerAs` anywhere
 
@@ -356,7 +358,8 @@ import TodoComponent from './todo.component';
 
 const todo = angular
   .module('todo', [])
-  .component('todo', TodoComponent);
+  .component('todo', TodoComponent)
+  .name;
 
 export default todo;
 ```
@@ -521,7 +524,8 @@ const todo = angular
         }
       });
     $urlRouterProvider.otherwise('/');
-  });
+  })
+  .name;
 
 export default todo;
 ```
@@ -600,7 +604,8 @@ import TodoAutofocus from './todo-autofocus.directive';
 const todo = angular
   .module('todo', [])
   .component('todo', TodoComponent)
-  .directive('todoAutofocus', TodoAutoFocus);
+  .directive('todoAutofocus', TodoAutoFocus)
+  .name;
 
 export default todo;
 ```
@@ -637,7 +642,8 @@ import TodoAutofocus from './todo-autofocus.directive';
 const todo = angular
   .module('todo', [])
   .component('todo', TodoComponent)
-  .directive('todoAutofocus', () => new TodoAutoFocus);
+  .directive('todoAutofocus', () => new TodoAutoFocus)
+  .name;
 
 export default todo;
 ```
@@ -670,6 +676,19 @@ class TodoService {
 TodoService.$inject = ['$http'];
 
 export default TodoService;
+
+/* ----- todo/todo.js ----- */
+import angular from 'angular';
+import TodoComponent from './todo.component';
+import TodoService from './todo.service';
+
+const todo = angular
+  .module('todo', [])
+  .component('todo', TodoComponent)
+  .service('TodoService', TodoService)
+  .name;
+
+export default todo;
 ```
 
 **[Back to top](#table-of-contents)**
