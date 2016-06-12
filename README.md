@@ -1,763 +1,709 @@
-# Angular styleguide
+# Angular 1.x styleguide (ES2015)
 
-*Opinionated Angular styleguide for teams by [@toddmotto](//twitter.com/toddmotto)*
+### Architecture, file structure, components, one-way dataflow and best practices
 
-A standardised approach for developing Angular applications in teams. This styleguide touches on concepts, syntax, conventions and is based on my experience [writing](http:////toddmotto.com), [talking](https://speakerdeck.com/toddmotto), and building Angular applications.
+*A sensible styleguide for teams by [@toddmotto](//twitter.com/toddmotto)*
 
-> Join the Ultimate AngularJS experience and fully master basic and advanced Angular features
+This architecture and styleguide has been rewritten from the ground up for ES2015, the changes in Angular 1.5+ for future-upgrading your application to Angular 2. This guide includes new best practices for one-way dataflow, event delegation, component architecture and component routing.
 
-<a href="http://courses.toddmotto.com" target="_blank"><img src="https://toddmotto.com/img/ua.png?1"></a>
+You can find the old styleguide [here](https://github.com/toddmotto/angular-styleguide/tree/angular-old-es5).
 
-#### Community
-[John Papa](//twitter.com/John_Papa) and I have discussed in-depth styling patterns for Angular and as such have both released separate styleguides. Thanks to those discussions, I've learned some great tips from John that have helped shape this guide. We've both created our own take on a styleguide. I urge you to [check his out](//github.com/johnpapa/angularjs-styleguide) to compare thoughts.
+> Join the Ultimate AngularJS learning experience to fully master beginner and advanced Angular features to build real-world apps that are fast, and scale.
 
-> See the [original article](http://toddmotto.com/opinionated-angular-js-styleguide-for-teams) that sparked this off
+<a href="https://courses.toddmotto.com" target="_blank"><img src="https://toddmotto.com/img/ua.png"></a>
 
 ## Table of Contents
 
-  1. [Modules](#modules)
-  1. [Controllers](#controllers)
-  1. [Services and Factory](#services-and-factory)
+  1. [Modular architecture](#module-architecture)
+    1. [Theory](#module-theory)
+    1. [Root module](#root-module)
+    1. [Component module](#component-module)
+    1. [Common module](#common-module)
+    1. [Low-level modules](#low-level-modules)
+    1. [Scalable file structure](#scalable-file-structure)
+    1. [File naming conventions](#file-naming-conventions)
+  1. [Components](#components)
+    1. [Theory](#component-theory)
+    1. [Supported properties](#supported-properties) 
+    1. [Controllers](#controllers)
+    1. [One-way dataflow and Events](#one-way-dataflow-and-events)
+    1. [Stateful Components](#stateful-components)
+    1. [Stateless Components](#stateless-components)
+    1. [Routed Components](#routed-components)
   1. [Directives](#directives)
-  1. [Filters](#filters)
-  1. [Routing resolves](#routing-resolves)
-  1. [Publish and subscribe events](#publish-and-subscribe-events)
-  1. [Performance](#performance)
-  1. [Angular wrapper references](#angular-wrapper-references)
-  1. [Comment standards](#comment-standards)
-  1. [Minification and annotation](#minification-and-annotation)
+    1. [Theory](#directive-theory)
+    1. [Recommended properties](#recommended-properties) 
+    1. [Constants or Classes](#constants-or-classes)
+  1. [Services](#services)
+    1. [Theory](#service-theory)
+    1. [Classes for Service](#classes-for-service)
+  1. [Routing](#routing)
+    1. [Theory](#routing-theory)
+    1. [Component routing](#component-routing)
+    1. [Routing resolves](#routing-resolves)
+    1. [Bindings Object](#bindings-object)
+  1. [ES2015 and Tooling](#es2015-and-tooling)
+  1. [Resources](#resources)
+  1. [Documentation](#documentation)
+  1. [Contributing](#contributing)
 
-## Modules
+# Modular architecture
 
-  - **Definitions**: Declare modules without a variable using the setter and getter syntax
+Each module in an Angular app is a module component. A module component is the root definition for that module that encapsulates the logic, templates, routing and child components.
 
-    ```javascript
-    // avoid
-    var app = angular.module('app', []);
-    app.controller();
-    app.factory();
+### Module theory
 
-    // recommended
-    angular
-      .module('app', [])
-      .controller()
-      .factory();
-    ```
-
-  - Note: Using `angular.module('app', []);` sets a module, whereas `angular.module('app');` gets the module. Only set once and get for all other instances.
-
-  - **Methods**: Pass functions into module methods rather than assign as a callback
-
-    ```javascript
-    // avoid
-    angular
-      .module('app', [])
-      .controller('MainCtrl', function MainCtrl () {
-
-      })
-      .service('SomeService', function SomeService () {
-
-      });
-
-    // recommended
-    function MainCtrl () {
-
-    }
-    function SomeService () {
-
-    }
-    angular
-      .module('app', [])
-      .controller('MainCtrl', MainCtrl)
-      .service('SomeService', SomeService);
-    ```
-
-  - ES6 Classes are not hoisted, which will break your code if you rely on hoisting
-  
-  - This aids with readability and reduces the volume of code "wrapped" inside the Angular framework
-  
-  - **IIFE scoping**: To avoid polluting the global scope with our function declarations that get passed into Angular, ensure build tasks wrap the concatenated files inside an IIFE
-  
-    ```javascript
-    (function () {
-
-      angular
-        .module('app', []);
-      
-      // MainCtrl.js
-      function MainCtrl () {
-
-      }
-      
-      angular
-        .module('app')
-        .controller('MainCtrl', MainCtrl);
-      
-      // SomeService.js
-      function SomeService () {
-
-      }
-      
-      angular
-        .module('app')
-        .service('SomeService', SomeService);
-        
-      // ...
-        
-    })();
-    ```
-
+The design in the modules maps directly to our folder structure, which keeps things maintainable and predictable. We should ideally have three high-level modules: root, component and common. The root module defines the base module that bootstraps our app, and the corresponding template. We then import our component and common modules into the root module to include our dependencies. The component and common modules then require lower-level component modules, which contain our components, controllers, services, directives, filters and tests for each reusable feature.
 
 **[Back to top](#table-of-contents)**
 
-## Controllers
+### Root module
 
-  - **controllerAs syntax**: Controllers are classes, so use the `controllerAs` syntax at all times
+A root module begins with a root component that defines the base element for the entire application, with a routing outlet defined, example shown using `ui-view` from `ui-router`.
 
-    ```html
-    <!-- avoid -->
-    <div ng-controller="MainCtrl">
-      {{ someObject }}
+```js
+// app.component.js
+const AppComponent = {
+  template: `
+    <header>
+        Hello world
+    </header>
+    <div>
+        <div ui-view></div>
     </div>
+    <footer>
+        Copyright MyApp 2016.
+    </footer>
+  `
+};
 
-    <!-- recommended -->
-    <div ng-controller="MainCtrl as vm">
-      {{ vm.someObject }}
+export default AppComponent;
+```
+
+A root module is then created, with `AppComponent` imported and and registered with `.component('app', AppComponent)`. Further imports for submodules (component and common modules) are made to include all components relevant for the application. We use the `.name` property on each module to access the `String` value registered for each component module.
+
+```js
+// app.js
+import angular from 'angular';
+import uiRouter from 'angular-ui-router';
+import Components from './components/components';
+import Common from './common/common';
+
+const root = angular
+  .module('app', [
+    Components.name,
+    Common.name,
+    uiRouter
+  ])
+  .component('app', AppComponent);
+
+export default root;
+```
+
+**[Back to top](#table-of-contents)**
+
+### Component module
+
+A Component module is the container reference for all reusable components. See above how we import `Components` and inject them into the Root module, this gives us a single place to import all components for the app. These modules we require are decoupled from all other modules and thus can be moved into any other application with ease.
+
+```js
+import angular from 'angular';
+import Calendar from './calendar/calendar';
+import Events from './events/events';
+
+const components = angular
+  .module('app.components', [
+    Calendar.name,
+    Events.name
+  ]);
+
+export default components;
+```
+
+**[Back to top](#table-of-contents)**
+
+### Common module
+
+The Common module is the container reference for all application specific components, that we don't want to use in another application. This can be things like layout, navigation and footers. See above how we import `Common` and inject them into the Root module, this gives us a single place to import all common components for the app.
+
+```js
+import angular from 'angular';
+import Nav from './nav/nav';
+import Footer from './footer/footer';
+
+const common = angular
+  .module('app.common', [
+    Nav.name,
+    Footer.name
+  ]);
+
+export default common;
+```
+
+**[Back to top](#table-of-contents)**
+
+### Low-level modules
+
+Low-level modules are individual component modules that contain the logic for each feature block. These will each define a module, to be imported to a higher-level module, such as a component or common module, an example below. You'll noticed routing definitions also exist here, we'll come onto this in later chapters in this guide.
+
+```js
+import angular from 'angular';
+import uiRouter from 'angular-ui-router';
+import CalendarComponent from './calendar.component';
+
+const calendar = angular
+  .module('calendar', [
+    uiRouter
+  ])
+  .component('calendar', CalendarComponent)
+  .config(($stateProvider, $urlRouterProvider) => {
+    $stateProvider
+      .state('calendar', {
+        url: '/calendar',
+        component: 'calendar'
+      });
+    $urlRouterProvider.otherwise('/');
+  });
+
+export default calendar;
+```
+
+**[Back to top](#table-of-contents)**
+
+# File naming conventions
+
+Keep it simple and lowercase, use the component name, e.g. `calendar.*.js*`, `calendar-grid.*.js` - with the name of the type of file in the middle:
+
+```
+calendar.js
+calendar.controller.js
+calendar.component.js
+calendar.service.js
+calendar.directive.js
+calendar.filter.js
+calendar.spec.js
+```
+
+**[Back to top](#table-of-contents)**
+
+### Scalable file structure
+
+File structure is extremely important, this describes a scalable and predictable structure. An example file structure to illustrate a modular component architecture.
+
+```
+├── app/
+│   ├── components/
+│   │  ├── calendar/
+│   │  │  ├── calendar.js
+│   │  │  ├── calendar.controller.js
+│   │  │  ├── calendar.component.js
+│   │  │  ├── calendar.service.js
+│   │  │  ├── calendar.spec.js
+│   │  │  └── calendar-grid/
+│   │  │     ├── calendar-grid.js
+│   │  │     ├── calendar-grid.controller.js
+│   │  │     ├── calendar-grid.component.js
+│   │  │     ├── calendar-grid.directive.js
+│   │  │     ├── calendar-grid.filter.js
+│   │  │     └── calendar-grid.spec.js
+│   │  └── events/
+│   │     ├── events.js
+│   │     ├── events.controller.js
+│   │     ├── events.component.js
+│   │     ├── events.directive.js
+│   │     ├── events.service.js
+│   │     ├── events.spec.js
+│   │     └── events-signup/
+│   │        ├── events-signup.js
+│   │        ├── events-signup.controller.js
+│   │        ├── events-signup.component.js
+│   │        ├── events-signup.service.js
+│   │        └── events-signup.spec.js
+│   ├── common/
+│   │  ├── nav/
+│   │  │     ├── nav.js
+│   │  │     ├── nav.controller.js
+│   │  │     ├── nav.component.js
+│   │  │     ├── nav.service.js
+│   │  │     └── nav.spec.js
+│   │  └── footer/
+│   │        ├── footer.js
+│   │        ├── footer.controller.js
+│   │        ├── footer.component.js
+│   │        ├── footer.service.js
+│   │        └── footer.spec.js
+│   ├── app.js
+│   └── app.component.js
+└── index.html
+```
+
+The high level folder structure simply contains `index.html` and `app/`, a directory in which all our root, component, common and low-level modules live.
+
+**[Back to top](#table-of-contents)**
+
+# Components
+
+### Component theory
+
+Components are essentially templates with a controller. They are _not_ Directives, nor should you replace Directives with Components, unless you are upgrading "template Directives" with controllers, which are best suited as a component. Components also contain bindings that define inputs and outputs for data and events, lifecycle hooks and the ability to use one-way data flow and event Objects to get data back up to a parent component. These are the new defacto standard in Angular 1.5 and above. Everything template and controller driven that we create will likely be a component, which may be a stateful, stateless or routed component. You can think of a "component" as a complete piece of code, not just the `.component()` definition Object. Let's explore some best practices and advisories for components, then dive into how you should be structuring them via stateful, stateless and routed component concepts.
+
+**[Back to top](#table-of-contents)**
+
+### Supported properties
+
+These are the supported properties for `.component()` that you can/should use:
+
+| Property | Support |
+|---|---|
+| bindings | Yes, use `'@'`, `'<'`, `'&'` only |
+| controller | Yes |
+| controllerAs | Yes, default is `$ctrl` |
+| require | Yes (new Object syntax) |
+| template | Yes |
+| templateUrl | Yes |
+| transclude | Yes |
+
+**[Back to top](#table-of-contents)**
+
+### Controllers
+
+Controllers should only be used alongside components, never anywhere else. If you feel you need a controller, what you really need is likely a stateless component to manage that particular piece of behaviour.
+
+Here are some advisories for using `Class` for controllers:
+
+* Always use the `constructor` for dependency injection purposes
+* Don't export the `Class` directly, export it's name to allow `$inject` annotations
+* If you need to access the lexical scope, use arrow functions
+* Alternatively to arrow functions, `let ctrl = this;` is also acceptable and may make more sense depending on the use case
+* Bind all public functions directly to the `Class`
+* Make use of the appropriate lifecycle hooks, `$onInit`, `$onChanges`, `$postLink` and `$onDestroy`
+* Use `require` alongside `$onInit` to reference any inherited logic
+* Do not override the default `$ctrl` alias for the `controllerAs` syntax, therefore do not use `controllerAs` anywhere
+
+**[Back to top](#table-of-contents)**
+
+### One-way dataflow and Events
+
+One-way dataflow was introduced in Angular 1.5, and redefines component communication.
+
+Here are some advisories for using one-way dataflow:
+
+* In components that receive data, always use one-way databinding syntax `'<'`
+* _Do not_ use `'='` two-way databinding syntax anymore, anywhere
+* Components that have `bindings` should use `$onChanges` to clone the one-way binding data to break Objects passing by reference and updating the parent data
+* Use `$event` as a function argument in the parent method (see stateful example below `$ctrl.addTodo($event)`)
+* Pass an `$event: {}` Object back up from a stateless component (see stateless example below `this.onAddTodo`).
+* Why? This mirrors Angular 2 and keeps consistency inside every component. It also makes state predictable.
+
+**[Back to top](#table-of-contents)**
+
+### Stateful components
+
+Let's define what we'd call a "stateful component".
+
+* Fetches state, essentially communicating to a backend API through a service
+* Does not directly mutate state
+* Renders child components that mutate state
+* Also referred to as smart/container components
+
+An example of a stateful component, complete with it's low-level module definition (this is only for demonstration, so some code has been omitted for brevity):
+
+```js
+/* ----- todo/todo.component.js ----- */
+import controller from './todo.controller';
+
+const TodoComponent = {
+  controller,
+  template: `
+    <div class="todo">
+      <todo-form 
+        todo="$ctrl.newTodo"
+        on-add-todo="$ctrl.addTodo($event);">
+      <todo-list 
+        todos="$ctrl.todos"></todo-list>
     </div>
-    ```
+  `
+};
 
-  - In the DOM we get a variable per controller, which aids nested controller methods, avoiding any `$parent` calls
+export default TodoComponent;
 
-  - The `controllerAs` syntax uses `this` inside controllers, which gets bound to `$scope`
-
-    ```javascript
-    // avoid
-    function MainCtrl ($scope) {
-      $scope.someObject = {};
-      $scope.doSomething = function () {
-
-      };
-    }
-
-    // recommended
-    function MainCtrl () {
-      this.someObject = {};
-      this.doSomething = function () {
-
-      };
-    }
-    ```
-
-  - Only use `$scope` in `controllerAs` when necessary; for example, publishing and subscribing events using `$emit`, `$broadcast`, `$on` or `$watch`. Try to limit the use of these, however, and treat `$scope` as a special use case
-
-  - **Inheritance**: Use prototypal inheritance when extending controller classes
-
-    ```javascript
-    function BaseCtrl () {
-      this.doSomething = function () {
-
-      };
-    }
-    BaseCtrl.prototype.someObject = {};
-    BaseCtrl.prototype.sharedSomething = function () {
-
+/* ----- todo/todo.controller.js ----- */
+class TodoController {
+  constructor(TodoService) {
+    this.todoService = TodoService;
+  }
+  $onInit() {
+    this.newTodo = {
+      title: '',
+      selected: false
     };
+    this.todos = [];
+    this.todoService.getTodos.then(response => this.todos = response);
+  }
+  addTodo(event.todo) {
+    if (!event.todo) return;
+    this.todos.unshift(event.todo);
+    this.newTodo = {
+      title: '',
+      selected: false
+    };
+  }
+}
 
-    AnotherCtrl.prototype = Object.create(BaseCtrl.prototype);
+TodoController.$inject = ['TodoService'];
 
-    function AnotherCtrl () {
-      this.anotherSomething = function () {
+export default TodoController;
 
-      };
-    }
-    ```
+/* ----- todo/todo.js ----- */
+import angular from 'angular';
+import TodoComponent from './todo.component';
 
-  - Use `Object.create` with a polyfill for browser support
+const todo = angular
+  .module('todo', [])
+  .component('todo', TodoComponent);
 
-  - **controllerAs 'vm'**: Capture the `this` context of the Controller using `vm`, standing for `ViewModel`
+export default todo;
+```
 
-    ```javascript
-    // avoid
-    function MainCtrl () {
-      var doSomething = function () {
-
-      };
-      this.doSomething = doSomething;
-    }
-
-    // recommended
-    function MainCtrl () {
-      var vm = this;
-      var doSomething = function () {
-        
-      };
-      vm.doSomething = doSomething;
-    }
-    ```
-
-    *Why?* : Function context changes the `this` value, use it to avoid `.bind()` calls and scoping issues
-    
-  - **ES6**: Avoid `var vm = this;` when using ES6
-
-    ```javascript
-    // avoid
-    function MainCtrl () {
-      let vm = this;
-      let doSomething = arg => {
-        console.log(vm);
-      };
-      
-      // exports
-      vm.doSomething = doSomething;
-    }
-
-    // recommended
-    function MainCtrl () {
-      
-      let doSomething = arg => {
-        console.log(this);
-      };
-      
-      // exports
-      this.doSomething = doSomething;
-      
-    }
-    ```
-
-    *Why?* : Use ES6 arrow functions when necessary to access the `this` value lexically
-
-  - **Presentational logic only (MVVM)**: Presentational logic only inside a controller, avoid Business logic (delegate to Services)
-
-    ```javascript
-    // avoid
-    function MainCtrl () {
-      
-      var vm = this;
-
-      $http
-        .get('/users')
-        .success(function (response) {
-          vm.users = response;
-        });
-
-      vm.removeUser = function (user, index) {
-        $http
-          .delete('/user/' + user.id)
-          .then(function (response) {
-            vm.users.splice(index, 1);
-          });
-      };
-
-    }
-
-    // recommended
-    function MainCtrl (UserService) {
-
-      var vm = this;
-
-      UserService
-        .getUsers()
-        .then(function (response) {
-          vm.users = response;
-        });
-
-      vm.removeUser = function (user, index) {
-        UserService
-          .removeUser(user)
-          .then(function (response) {
-            vm.users.splice(index, 1);
-          });
-      };
-
-    }
-    ```
-
-    *Why?* : Controllers should fetch Model data from Services, avoiding any Business logic. Controllers should act as a ViewModel and control the data flowing between the Model and the View presentational layer. Business logic in Controllers makes testing Services impossible.
+This example shows a stateful component, that fetches state inside the controller, through a service, and then passes it down into stateless child components. Notice how there are no Directives being used such as `ng-repeat` and friends inside the template. Instead, data and functions are delegated into `<todo-form>` and `<todo-list>` stateless components.
 
 **[Back to top](#table-of-contents)**
 
-## Services and Factory
+### Stateless components
 
-  - All Angular Services are singletons, using `.service()` or `.factory()` differs the way Objects are created.
+Let's define what we'd call a "stateless component".
 
-  **Services**: act as a `constructor` function and are instantiated with the `new` keyword. Use `this` for public methods and variables
+* Has defined inputs and outputs using `bindings: {}`
+* Data enters the component through attribute bindings (inputs)
+* Data leaves the component through events (outputs)
+* Mutates state, passes data back up on-demand (such as a click or submit event)
+* Doesn't care where data comes from, it's stateless
+* Are highly reusable components
+* Also referred to as dumb/presentational components
 
-    ```javascript
-    function SomeService () {
-      this.someMethod = function () {
+An example of a stateless component (let's use `<todo-form>` as an example), complete with it's low-level module definition (this is only for demonstration, so some code has been omitted for brevity):
 
-      };
+```js
+/* ----- todo/todo-form/todo-form.component.js ----- */
+import controller from './todo-form.controller';
+
+const TodoFormComponent = {
+  bindings: {
+    todo: '<',
+    onAddTodo: '&'
+  },
+  controller,
+  template: `
+    <form name="todoForm" ng-submit="$ctrl.onSubmit();">
+      <input type="text" ng-model="$ctrl.todo.title">
+      <button type="submit">Submit</button>
+    </form>
+  `
+};
+
+export default TodoComponent;
+
+/* ----- todo/todo-form/todo-form.controller.js ----- */
+class TodoFormController {
+  constructor() {}
+  $onChanges(changes) {
+    if (changes.todo) {
+      this.todo = Object.assign({}, this.todo);
     }
-    angular
-      .module('app')
-      .service('SomeService', SomeService);
-    ```
-
-  **Factory**: Business logic or provider modules, return an Object or closure
-
-  - Always return a host Object instead of the revealing Module pattern due to the way Object references are bound and updated
-
-    ```javascript
-    function AnotherService () {
-      var AnotherService = {};
-      AnotherService.someValue = '';
-      AnotherService.someMethod = function () {
-
-      };
-      return AnotherService;
-    }
-    angular
-      .module('app')
-      .factory('AnotherService', AnotherService);
-    ```
-
-    *Why?* : Primitive values cannot update alone using the revealing module pattern
-
-**[Back to top](#table-of-contents)**
-
-## Directives
-
-  - **Declaration restrictions**: Only use `custom element` and `custom attribute` methods for declaring your Directives (`{ restrict: 'EA' }`) depending on the Directive's role
-
-    ```html
-    <!-- avoid -->
-
-    <!-- directive: my-directive -->
-    <div class="my-directive"></div>
-
-    <!-- recommended -->
-
-    <my-directive></my-directive>
-    <div my-directive></div>
-    ```
-
-  - Comment and class name declarations are confusing and should be avoided. Comments do not play nicely with older versions of IE. Using an attribute is the safest method for browser coverage.
-
-  - **Templating**: Use `Array.join('')` for clean templating
-
-    ```javascript
-    // avoid
-    function someDirective () {
-      return {
-        template: '<div class="some-directive">' +
-          '<h1>My directive</h1>' +
-        '</div>'
-      };
-    }
-
-    // recommended
-    function someDirective () {
-      return {
-        template: [
-          '<div class="some-directive">',
-            '<h1>My directive</h1>',
-          '</div>'
-        ].join('')
-      };
-    }
-    ```
-
-    *Why?* : Improves readability as code can be indented properly, it also avoids the `+` operator which is less clean and can lead to errors if used incorrectly to split lines
-
-  - **DOM manipulation**: Takes place only inside Directives, never a controller/service
-
-    ```javascript
-    // avoid
-    function UploadCtrl () {
-      $('.dragzone').on('dragend', function () {
-        // handle drop functionality
-      });
-    }
-    angular
-      .module('app')
-      .controller('UploadCtrl', UploadCtrl);
-
-    // recommended
-    function dragUpload () {
-      return {
-        restrict: 'EA',
-        link: function (scope, element, attrs) {
-          element.on('dragend', function () {
-            // handle drop functionality
-          });
-        }
-      };
-    }
-    angular
-      .module('app')
-      .directive('dragUpload', dragUpload);
-    ```
-
-  - **Naming conventions**: Never `ng-*` prefix custom directives, they might conflict future native directives
-
-    ```javascript
-    // avoid
-    // <div ng-upload></div>
-    function ngUpload () {
-      return {};
-    }
-    angular
-      .module('app')
-      .directive('ngUpload', ngUpload);
-
-    // recommended
-    // <div drag-upload></div>
-    function dragUpload () {
-      return {};
-    }
-    angular
-      .module('app')
-      .directive('dragUpload', dragUpload);
-    ```
-
-  - Directives and Filters are the _only_ providers that have the first letter as lowercase; this is due to strict naming conventions in Directives. Angular hyphenates `camelCase`, so `dragUpload` will become `<div drag-upload></div>` when used on an element.
-
-  - **controllerAs**: Use the `controllerAs` syntax inside Directives as well
-
-    ```javascript
-    // avoid
-    function dragUpload () {
-      return {
-        controller: function ($scope) {
-
-        }
-      };
-    }
-    angular
-      .module('app')
-      .directive('dragUpload', dragUpload);
-
-    // recommended
-    function dragUpload () {
-      return {
-        controllerAs: 'vm',
-        controller: function () {
-
-        }
-      };
-    }
-    angular
-      .module('app')
-      .directive('dragUpload', dragUpload);
-    ```
-
-**[Back to top](#table-of-contents)**
-
-## Filters
-
-  - **Global filters**: Create global filters using `angular.filter()` only. Never use local filters inside Controllers/Services
-
-    ```javascript
-    // avoid
-    function SomeCtrl () {
-      this.startsWithLetterA = function (items) {
-        return items.filter(function (item) {
-          return /^a/i.test(item.name);
-        });
-      };
-    }
-    angular
-      .module('app')
-      .controller('SomeCtrl', SomeCtrl);
-
-    // recommended
-    function startsWithLetterA () {
-      return function (items) {
-        return items.filter(function (item) {
-          return /^a/i.test(item.name);
-        });
-      };
-    }
-    angular
-      .module('app')
-      .filter('startsWithLetterA', startsWithLetterA);
-    ```
-
-  - This enhances testing and reusability
-
-**[Back to top](#table-of-contents)**
-
-## Routing resolves
-
-  - **Promises**: Resolve Controller dependencies in the `$routeProvider` (or `$stateProvider` for `ui-router`), not the Controller itself
-
-    ```javascript
-    // avoid
-    function MainCtrl (SomeService) {
-      var _this = this;
-      // unresolved
-      _this.something;
-      // resolved asynchronously
-      SomeService.doSomething().then(function (response) {
-        _this.something = response;
-      });
-    }
-    angular
-      .module('app')
-      .controller('MainCtrl', MainCtrl);
-
-    // recommended
-    function config ($routeProvider) {
-      $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        resolve: {
-          // resolve here
-        }
-      });
-    }
-    angular
-      .module('app')
-      .config(config);
-    ```
-
-  - **Controller.resolve property**: Never bind logic to the router itself. Reference a `resolve` property for each Controller to couple the logic
-
-    ```javascript
-    // avoid
-    function MainCtrl (SomeService) {
-      this.something = SomeService.something;
-    }
-
-    function config ($routeProvider) {
-      $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controllerAs: 'vm',
-        controller: 'MainCtrl'
-        resolve: {
-          doSomething: function () {
-            return SomeService.doSomething();
-          }
-        }
-      });
-    }
-
-    // recommended
-    function MainCtrl (SomeService) {
-      this.something = SomeService.something;
-    }
-
-    MainCtrl.resolve = {
-      doSomething: function (SomeService) {
-        return SomeService.doSomething();
+  }
+  onSubmit() {
+    if (!this.todo.title) return;
+    this.onAddTodo({
+      $event: {
+        newTodo: this.todo
       }
-    };
-
-    function config ($routeProvider) {
-      $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controllerAs: 'vm',
-        controller: 'MainCtrl'
-        resolve: MainCtrl.resolve
-      });
-    }
-    ```
-
-  - This keeps resolve dependencies inside the same file as the Controller and the router free from logic
-
-**[Back to top](#table-of-contents)**
-
-## Publish and subscribe events
-
-  - **$scope**: Use the `$emit` and `$broadcast` methods to trigger events to direct relationship scopes only
-
-    ```javascript
-    // up the $scope
-    $scope.$emit('customEvent', data);
-
-    // down the $scope
-    $scope.$broadcast('customEvent', data);
-    ```
-
-  - **$rootScope**: Use only `$emit` as an application-wide event bus and remember to unbind listeners
-
-    ```javascript
-    // all $rootScope.$on listeners
-    $rootScope.$emit('customEvent', data);
-    ```
-
-  - Hint: Because the `$rootScope` is never destroyed, `$rootScope.$on` listeners aren't either, unlike `$scope.$on` listeners and will always persist, so they need destroying when the relevant `$scope` fires the `$destroy` event
-
-    ```javascript
-    // call the closure
-    var unbind = $rootScope.$on('customEvent'[, callback]);
-    $scope.$on('$destroy', unbind);
-    ```
-
-  - For multiple `$rootScope` listeners, use an Object literal and loop each one on the `$destroy` event to unbind all automatically
-
-    ```javascript
-    var unbind = [
-      $rootScope.$on('customEvent1'[, callback]),
-      $rootScope.$on('customEvent2'[, callback]),
-      $rootScope.$on('customEvent3'[, callback])
-    ];
-    $scope.$on('$destroy', function () {
-      unbind.forEach(function (fn) {
-        fn();
-      });
     });
-    ```
+  }
+}
+
+export default TodoFormController;
+
+/* ----- todo/todo-form/todo-form.js ----- */
+import angular from 'angular';
+import TodoFormComponent from './todo-form.component';
+
+const todoForm = angular
+  .module('todo')
+  .component('todo', TodoFormComponent);
+
+export default todoForm;
+```
+
+Note how the `<todo-form>` component fetches no state, it simply receives it, mutates an Object via the controller logic associated with it, and passes it back to the parent component through the property bindings. In this example, the `$onChanges` lifecycle hook makes a clone of the initial `this.todo` binding Object and reassigns it, which means the parent data is not affected until we submit the form, alongside one-way data flow new binding syntax `'<'`.
 
 **[Back to top](#table-of-contents)**
 
-## Performance
+### Routed components
 
-  - **One-time binding syntax**: In newer versions of Angular (v1.3.0-beta.10+), use the one-time binding syntax `{{ ::value }}` where it makes sense
+Let's define what we'd call a "routed component".
 
-    ```html
-    // avoid
-    <h1>{{ vm.title }}</h1>
+* It's essentially a stateful component, with routing definitions
+* No more `router.js` files
+* We use Routed components to define their own routing logic
+* Data "input" for the component is done via the route resolve (optional, still available in the controller with service calls)
 
-    // recommended
-    <h1>{{ ::vm.title }}</h1>
-    ```
-    
-    *Why?* : Binding once removes the watcher from the scope's `$$watchers` array after the `undefined` variable becomes resolved, thus improving performance in each dirty-check
-    
-  - **Consider $scope.$digest**: Use `$scope.$digest` over `$scope.$apply` where it makes sense. Only child scopes will update
+For this example, we're going to take the existing `<todo>` component, refactor it to use a route definition and `bindings` on the component which receives data (the secret here with `ui-router` is the `resolve` properties we create, in this case `todoData` directly map across to `bindings` for us). We treat it as a routed component because it's essentially a "view":
 
-    ```javascript
-    $scope.$digest();
-    ```
-    
-    *Why?* : `$scope.$apply` will call `$rootScope.$digest`, which causes the entire application `$$watchers` to dirty-check again. Using `$scope.$digest` will dirty check current and child scopes from the initiated `$scope`
+```js
+/* ----- todo/todo.component.js ----- */
+import controller from './todo.controller';
 
-**[Back to top](#table-of-contents)**
+const TodoComponent = {
+  bindings: {
+    todoData: '<'
+  },
+  controller,
+  template: `
+    <div class="todo">
+      <todo-form 
+        todo="$ctrl.newTodo"
+        on-add-todo="$ctrl.addTodo($event);">
+      <todo-list 
+        todos="$ctrl.todos"></todo-list>
+    </div>
+  `
+};
 
-## Angular wrapper references
+export default TodoComponent;
 
-  - **$document and $window**: Use `$document` and `$window` at all times to aid testing and Angular references
+/* ----- todo/todo.controller.js ----- */
+class TodoController {
+  constructor() {}
+  $onInit() {
+    this.newTodo = {
+      title: '',
+      selected: false
+    };
+  }
+  $onChanges(changes) {
+    if (changes.todoData) {
+      this.todos = Object.assign({}, this.todoData);
+    }
+  }
+  addTodo(event.todo) {
+    if (!event.todo) return;
+    this.todos.unshift(event.todo);
+    this.newTodo = {
+      title: '',
+      selected: false
+    };
+  }
+}
 
-    ```javascript
-    // avoid
-    function dragUpload () {
-      return {
-        link: function ($scope, $element, $attrs) {
-          document.addEventListener('click', function () {
+export default TodoController;
 
-          });
+/* ----- todo/todo.js ----- */
+import angular from 'angular';
+import TodoComponent from './todo.component';
+
+const todo = angular
+  .module('todo', [])
+  .component('todo', TodoComponent)
+  .service('TodoService', TodoService)
+  .config(($stateProvider, $urlRouterProvider) => {
+    $stateProvider
+      .state('todos', {
+        url: '/todos',
+        component: 'todo',
+        resolve: {
+          todoData: PeopleService => PeopleService.getAllPeople();
         }
-      };
-    }
+      });
+    $urlRouterProvider.otherwise('/');
+  });
 
-    // recommended
-    function dragUpload ($document) {
-      return {
-        link: function ($scope, $element, $attrs) {
-          $document.addEventListener('click', function () {
-
-          });
-        }
-      };
-    }
-    ```
-
-  - **$timeout and $interval**: Use `$timeout` and `$interval` over their native counterparts to keep Angular's two-way data binding up to date
-
-    ```javascript
-    // avoid
-    function dragUpload () {
-      return {
-        link: function ($scope, $element, $attrs) {
-          setTimeout(function () {
-            //
-          }, 1000);
-        }
-      };
-    }
-
-    // recommended
-    function dragUpload ($timeout) {
-      return {
-        link: function ($scope, $element, $attrs) {
-          $timeout(function () {
-            //
-          }, 1000);
-        }
-      };
-    }
-    ```
+export default todo;
+```
 
 **[Back to top](#table-of-contents)**
 
-## Comment standards
+# Directives
 
-  - **jsDoc**: Use jsDoc syntax to document function names, description, params and returns
+### Directive theory
 
-    ```javascript
-    /**
-     * @name SomeService
-     * @desc Main application Controller
-     */
-    function SomeService (SomeService) {
+Directives gives us `template`, `scope` bindings, `bindToController`, `link` and many other things. The usage of these should be carefully considered now `.component()` exists. Directives should not declare templates and controllers anymore, or receive data through bindings. Directives should be used solely for decorating the DOM. By this, it means extending existing HTML - created with `.component()`. In a simple sense, if you need custom DOM events/APIs and logic, use a Directive and bind it to a template inside a component. If you need a sensible amount of DOM manipulation, there is also the `$postLink` lifecycle hook to consider, however this is not a place to migrate all your DOM manipulation to, use a Directive if you can for non-Angular things.
 
-      /**
-       * @name doSomething
-       * @desc Does something awesome
-       * @param {Number} x - First number to do something with
-       * @param {Number} y - Second number to do something with
-       * @returns {Number}
-       */
-      this.doSomething = function (x, y) {
-        return x * y;
-      };
+Here are some advisories for using Directives:
 
-    }
-    angular
-      .module('app')
-      .service('SomeService', SomeService);
-    ```
+* Never use templates, scope, bindToController or controllers
+* Always `restrict: 'A'` with Directives
+* Use compile and link where necessary
+* Remember to destroy and unbind event handlers inside `$scope.$on('$destroy', fn);`
 
 **[Back to top](#table-of-contents)**
 
-## Minification and annotation
+### Recommended properties
 
-  - **ng-annotate**: Use [ng-annotate](//github.com/olov/ng-annotate) for Gulp as `ng-min` is deprecated, and comment functions that need automated dependency injection using `/** @ngInject */`
+Due to the fact directives support most of what `.component()` does (template directives were the original component), I'm recommending limiting your directive Object definitions to only these properties, to avoid using directives incorrectly:
 
-    ```javascript
-    /**
-     * @ngInject
-     */
-    function MainCtrl (SomeService) {
-      this.doSomething = SomeService.doSomething;
-    }
-    angular
-      .module('app')
-      .controller('MainCtrl', MainCtrl);
-    ```
-
-  - Which produces the following output with the `$inject` annotation
-
-    ```javascript
-    /**
-     * @ngInject
-     */
-    function MainCtrl (SomeService) {
-      this.doSomething = SomeService.doSomething;
-    }
-    MainCtrl.$inject = ['SomeService'];
-    angular
-      .module('app')
-      .controller('MainCtrl', MainCtrl);
-    ```
+| Property | Use it? | Why |
+|---|---|---|
+| bindToController | No | Use `bindings` in components |
+| compile | Yes | For pre-compile DOM manipulation/events |
+| controller | No | Use a component |
+| controllerAs | No | Use a component |
+| link functions | Yes | For pre/post DOM manipulation/events |
+| multiElement | Yes | [See docs](https://docs.angularjs.org/api/ng/service/$compile#-multielement-) |
+| priority | Yes | [See docs](https://docs.angularjs.org/api/ng/service/$compile#-priority-) |
+| require | No | Use a component |
+| restrict | Yes | Defines directive usage, always use `'A'` |
+| scope | No | Use a component |
+| template | No | Use a component |
+| templateNamespace | Yes (if you must) | [See docs](https://docs.angularjs.org/api/ng/service/$compile#-templatenamespace-) |
+| templateUrl | No | Use a component |
+| transclude | No | Use a component |
 
 **[Back to top](#table-of-contents)**
 
-## Angular docs
+### Constants or Classes
+
+There are a few ways to approach using ES2015 and directives, either with an arrow function and easier assignment, or using an ES2015 `Class`. Choose what's best for you or your team, keep in mind Angular 2 uses `Class`.
+
+Here's an example using a constant with an Arrow function an expression wrapper `() => ({})` returning an Object literal (note the usage differences inside `.directive()`):
+
+```js
+/* ----- todo/todo-autofocus.directive.js ----- */
+import angular from '../../angular';
+
+const TodoAutoFocus = ($timeout) => ({
+  restrict: 'A',
+  link($scope, $element, $attrs) {
+    $scope.$watch($attrs.todoAutofocus, (newValue, oldValue) => {
+      if (!newValue) {
+        return;
+      }
+      $timeout(() => $element[0].focus());
+    });
+  }
+});
+
+TodoAutoFocus.$inject = ['$timeout'];
+
+export default TodoAutoFocus;
+
+/* ----- todo/todo.js ----- */
+import angular from 'angular';
+import TodoComponent from './todo.component';
+import TodoAutofocus from './todo-autofocus.directive';
+
+const todo = angular
+  .module('todo', [])
+  .component('todo', TodoComponent)
+  .directive('todoAutofocus', TodoAutoFocus);
+
+export default todo;
+```
+
+Or using ES2015 `Class` (note manually calling `new TodoAutoFocus` when registering the directive) to create the Object:
+
+```js
+/* ----- todo/todo-autofocus.directive.js ----- */
+import angular from '../../angular';
+
+class TodoAutoFocus {
+  constructor() {
+    this.restrict = 'A';
+  }
+  link($scope, $element, $attrs) {
+    $scope.$watch($attrs.todoAutofocus, (newValue, oldValue) => {
+      if (!newValue) {
+        return;
+      }
+      $timeout(() => $element[0].focus());
+    });
+  }
+});
+
+TodoAutoFocus.$inject = ['$timeout'];
+
+export default TodoAutoFocus;
+
+/* ----- todo/todo.js ----- */
+import angular from 'angular';
+import TodoComponent from './todo.component';
+import TodoAutofocus from './todo-autofocus.directive';
+
+const todo = angular
+  .module('todo', [])
+  .component('todo', TodoComponent)
+  .directive('todoAutofocus', () => new TodoAutoFocus);
+
+export default todo;
+```
+
+**[Back to top](#table-of-contents)**
+
+# Services
+
+### Service theory
+
+Services are essentially containers for business logic that our components shouldn't request directly. Services contain other built-in or external services such as `$http`, that we can then inject into component controllers elsewhere in our app. We have two ways of doing services, using `.service()` or `.factory()`. With ES2015 `Class`, we should only use `.service()`, complete with dependency injection annotation using `$inject`.
+
+**[Back to top](#table-of-contents)**
+
+### Classes for Service
+
+Here's an example implementation for our `<todo>` app using ES2015 `Class`:
+
+```js
+/* ----- todo/todo.service.js ----- */
+class TodoService {
+  constructor($http) {
+    this.$http = $http;
+  }
+  getTodos() {
+    return this.$http.get('/api/todos').then(response => response.data);
+  }
+}
+
+TodoService.$inject = ['$http'];
+
+export default TodoService;
+```
+
+**[Back to top](#table-of-contents)**
+
+# ES2015 and Tooling
+
+##### ES2015
+
+* Use [Babel](https://babeljs.io/) to compile your ES2015+ code and any polyfills
+* Consider using [TypeScript](http://www.typescriptlang.org/) to make way for any Angular 2 upgrades
+
+##### Tooling
+* Use `ui-router` [latest alpha](https://github.com/angular-ui/ui-router) (see the Readme) if you want to support component-routing
+  * Otherwise you're stuck with `template: '<component>'` and no `bindings`
+* Consider using [Webpack](https://webpack.github.io/) for compiling your ES2015 code
+* Use [ngAnnotate](https://github.com/olov/ng-annotate) to automatically annotate `$inject` properties
+
+**[Back to top](#table-of-contents)**
+
+# Resources
+
+* [Understanding the .component() method](https://toddmotto.com/exploring-the-angular-1-5-component-method/)
+* [Using "require" with $onInit](https://toddmotto.com/on-init-require-object-syntax-angular-component/)
+* [Understanding all the lifecycle hooks, $onInit, $onChange, $postLink, $onDestroy](https://toddmotto.com/angular-1-5-lifecycle-hooks)
+* [Using "resolve" in routes](https://toddmotto.com/resolve-promises-in-angular-routes/)
+
+**[Back to top](#table-of-contents)**
+
+# Documentation
 For anything else, including API reference, check the [Angular documentation](//docs.angularjs.org/api).
 
-## Contributing
+# Contributing
 
-Open an issue first to discuss potential changes/additions.
+Open an issue first to discuss potential changes/additions. Please don't open issues for questions.
 
 ## License
 
 #### (The MIT License)
 
-Copyright (c) 2015-2016 Todd Motto
+Copyright (c) 2016 Todd Motto
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
