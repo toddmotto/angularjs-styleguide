@@ -409,7 +409,7 @@ class TodoFormController {
   }
   onSubmit() {
     if (!this.todo.title) return;
-    // without EventEmitter wrapper
+    // with EventEmitter wrapper
     this.onAddTodo(
       EventEmitter({
         newTodo: this.todo
