@@ -401,7 +401,7 @@ const TodoFormComponent = {
   `
 };
 
-export default TodoComponent;
+export default TodoFormComponent;
 
 /* ----- todo/todo-form/todo-form.controller.js ----- */
 class TodoFormController {
