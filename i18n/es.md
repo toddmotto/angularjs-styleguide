@@ -400,7 +400,7 @@ const TodoFormComponent = {
   `
 };
 
-export default TodoComponent;
+export default TodoFormComponent;
 
 /* ----- todo/todo-form/todo-form.controller.js ----- */
 class TodoFormController {
@@ -494,9 +494,9 @@ class TodoController {
       this.todos = Object.assign({}, this.todoData);
     }
   }
-  addTodo(event.todo) {
-    if (!event.todo) return;
-    this.todos.unshift(event.todo);
+  addTodo({ todo }) {
+    if (!todo) return;
+    this.todos.unshift(todo);
     this.newTodo = {
       title: '',
       selected: false
