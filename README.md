@@ -339,9 +339,9 @@ class TodoController {
     this.todos = [];
     this.todoService.getTodos.then(response => this.todos = response);
   }
-  addTodo(event.todo) {
-    if (!event.todo) return;
-    this.todos.unshift(event.todo);
+  addTodo({ todo }) {
+    if (!todo) return;
+    this.todos.unshift(todo);
     this.newTodo = {
       title: '',
       selected: false
@@ -495,9 +495,9 @@ class TodoController {
       this.todos = Object.assign({}, this.todoData);
     }
   }
-  addTodo(event.todo) {
-    if (!event.todo) return;
-    this.todos.unshift(event.todo);
+  addTodo({ todo }) {
+    if (!todo) return;
+    this.todos.unshift(todo);
     this.newTodo = {
       title: '',
       selected: false
