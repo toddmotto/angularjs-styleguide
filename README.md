@@ -111,7 +111,8 @@ const components = angular
   .module('app.components', [
     Calendar,
     Events
-  ]);
+  ])
+  .name;
 
 export default components;
 ```
@@ -131,7 +132,8 @@ const common = angular
   .module('app.common', [
     Nav,
     Footer
-  ]);
+  ])
+  .name;
 
 export default common;
 ```
