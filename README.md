@@ -509,7 +509,7 @@ class TodoController {
 
 export default TodoController;
 
-/* ----- todo/todo.js ----- */
+/* ----- todo/index.js ----- */
 import angular from 'angular';
 import TodoComponent from './todo.component';
 
