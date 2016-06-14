@@ -104,8 +104,8 @@ A Component module is the container reference for all reusable components. See a
 
 ```js
 import angular from 'angular';
-import Calendar from './calendar/calendar';
-import Events from './events/events';
+import Calendar from './calendar';
+import Events from './events';
 
 const components = angular
   .module('app.components', [
@@ -125,8 +125,8 @@ The Common module is the container reference for all application specific compon
 
 ```js
 import angular from 'angular';
-import Nav from './nav/nav';
-import Footer from './footer/footer';
+import Nav from './nav';
+import Footer from './footer';
 
 const common = angular
   .module('app.common', [
@@ -171,10 +171,10 @@ export default calendar;
 
 # File naming conventions
 
-Keep it simple and lowercase, use the component name, e.g. `calendar.*.js*`, `calendar-grid.*.js` - with the name of the type of file in the middle:
+Keep it simple and lowercase, use the component name, e.g. `calendar.*.js*`, `calendar-grid.*.js` - with the name of the type of file in the middle. Use `index.js` for the module definition file, so you can import the module by directory name.
 
 ```
-calendar.js
+index.js
 calendar.controller.js
 calendar.component.js
 calendar.service.js
@@ -193,40 +193,40 @@ File structure is extremely important, this describes a scalable and predictable
 ├── app/
 │   ├── components/
 │   │  ├── calendar/
-│   │  │  ├── calendar.js
+│   │  │  ├── index.js
 │   │  │  ├── calendar.controller.js
 │   │  │  ├── calendar.component.js
 │   │  │  ├── calendar.service.js
 │   │  │  ├── calendar.spec.js
 │   │  │  └── calendar-grid/
-│   │  │     ├── calendar-grid.js
+│   │  │     ├── index.js
 │   │  │     ├── calendar-grid.controller.js
 │   │  │     ├── calendar-grid.component.js
 │   │  │     ├── calendar-grid.directive.js
 │   │  │     ├── calendar-grid.filter.js
 │   │  │     └── calendar-grid.spec.js
 │   │  └── events/
-│   │     ├── events.js
+│   │     ├── index.js
 │   │     ├── events.controller.js
 │   │     ├── events.component.js
 │   │     ├── events.directive.js
 │   │     ├── events.service.js
 │   │     ├── events.spec.js
 │   │     └── events-signup/
-│   │        ├── events-signup.js
+│   │        ├── index.js
 │   │        ├── events-signup.controller.js
 │   │        ├── events-signup.component.js
 │   │        ├── events-signup.service.js
 │   │        └── events-signup.spec.js
 │   ├── common/
 │   │  ├── nav/
-│   │  │     ├── nav.js
+│   │  │     ├── index.js
 │   │  │     ├── nav.controller.js
 │   │  │     ├── nav.component.js
 │   │  │     ├── nav.service.js
 │   │  │     └── nav.spec.js
 │   │  └── footer/
-│   │        ├── footer.js
+│   │        ├── index.js
 │   │        ├── footer.controller.js
 │   │        ├── footer.component.js
 │   │        ├── footer.service.js
@@ -355,7 +355,7 @@ TodoController.$inject = ['TodoService'];
 
 export default TodoController;
 
-/* ----- todo/todo.js ----- */
+/* ----- todo/index.js ----- */
 import angular from 'angular';
 import TodoComponent from './todo.component';
 
@@ -434,7 +434,7 @@ TodoFormController.$inject = ['EventEmitter'];
 
 export default TodoFormController;
 
-/* ----- todo/todo-form/todo-form.js ----- */
+/* ----- todo/todo-form/index.js ----- */
 import angular from 'angular';
 import TodoFormComponent from './todo-form.component';
 
@@ -509,7 +509,7 @@ class TodoController {
 
 export default TodoController;
 
-/* ----- todo/todo.js ----- */
+/* ----- todo/index.js ----- */
 import angular from 'angular';
 import TodoComponent from './todo.component';
 
@@ -581,7 +581,7 @@ Here's an example using a constant with an Arrow function an expression wrapper 
 
 ```js
 /* ----- todo/todo-autofocus.directive.js ----- */
-import angular from '../../angular';
+import angular from 'angular';
 
 const TodoAutoFocus = ($timeout) => ({
   restrict: 'A',
@@ -599,7 +599,7 @@ TodoAutoFocus.$inject = ['$timeout'];
 
 export default TodoAutoFocus;
 
-/* ----- todo/todo.js ----- */
+/* ----- todo/index.js ----- */
 import angular from 'angular';
 import TodoComponent from './todo.component';
 import TodoAutofocus from './todo-autofocus.directive';
@@ -617,7 +617,7 @@ Or using ES2015 `Class` (note manually calling `new TodoAutoFocus` when register
 
 ```js
 /* ----- todo/todo-autofocus.directive.js ----- */
-import angular from '../../angular';
+import angular from 'angular';
 
 class TodoAutoFocus {
   constructor() {
@@ -637,7 +637,7 @@ TodoAutoFocus.$inject = ['$timeout'];
 
 export default TodoAutoFocus;
 
-/* ----- todo/todo.js ----- */
+/* ----- todo/index.js ----- */
 import angular from 'angular';
 import TodoComponent from './todo.component';
 import TodoAutofocus from './todo-autofocus.directive';
@@ -680,7 +680,7 @@ TodoService.$inject = ['$http'];
 
 export default TodoService;
 
-/* ----- todo/todo.js ----- */
+/* ----- todo/index.js ----- */
 import angular from 'angular';
 import TodoComponent from './todo.component';
 import TodoService from './todo.service';
