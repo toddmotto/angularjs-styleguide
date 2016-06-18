@@ -509,9 +509,24 @@ class TodoController {
 
 export default TodoController;
 
+/* ----- todo/todo.service.js ----- */
+class TodoService {
+  constructor($http) {
+    this.$http = $http;
+  }
+  getTodos() {
+    return this.$http.get('/api/todos').then(response => response.data);
+  }
+}
+
+TodoService.$inject = ['$http'];
+
+export default TodoService;
+
 /* ----- todo/index.js ----- */
 import angular from 'angular';
 import TodoComponent from './todo.component';
+import TodoService from './todo.service';
 
 const todo = angular
   .module('todo', [])
@@ -523,7 +538,7 @@ const todo = angular
         url: '/todos',
         component: 'todo',
         resolve: {
-          todoData: PeopleService => PeopleService.getAllPeople();
+          todoData: TodoService => TodoService.getTodos();
         }
       });
     $urlRouterProvider.otherwise('/');
