@@ -418,13 +418,13 @@ class TodoFormController {
     // with EventEmitter wrapper
     this.onAddTodo(
       EventEmitter({
-        newTodo: this.todo
+        todo: this.todo
       });
     );
     // without EventEmitter wrapper
     this.onAddTodo({
       $event: {
-        newTodo: this.todo
+        todo: this.todo
       }
     });
   }
