@@ -647,7 +647,7 @@ class TodoAutoFocus {
       $timeout(() => $element[0].focus());
     });
   }
-});
+}
 
 TodoAutoFocus.$inject = ['$timeout'];
 
