@@ -51,7 +51,7 @@ Cada module numa aplicação Angular é um module component. Um module component
 
 O esquema dos módulos relaciona-se diretamente com a nossa estrutura de ficheiros, que mantém tudo gerível e escalável. Devemos idealmente ter três high-level modules : root, component e common. O root module define o módulo base que faz o bootstrap (inicialização) da nossa app, e correspondente template. Podemos então importar os nossos component e common modules para o nosso root module para incluir as nossas dependências. Os component e common modules requerem por sua vez lower-level component modules, que contêm os nossos componentes, serviços, diretivas, filtros e testes para cada funcionalidade reutilizável.
 
-**[Voltar ao topo](#tabela-de-conteudos)**
+**[Voltar ao topo](#tabela-de-conteúdos)**
 
 ### Root module
 
@@ -96,7 +96,7 @@ const root = angular
 export default root;
 ```
 
-**[Voltar ao topo](#tabela-de-conteudos)**
+**[Voltar ao topo](#tabela-de-conteúdos)**
 
 ### Component module
 
@@ -117,7 +117,7 @@ const components = angular
 export default components;
 ```
 
-**[Voltar ao topo](#tabela-de-conteudos)**
+**[Voltar ao topo](#tabela-de-conteúdos)**
 
 ### Common module
 
@@ -138,7 +138,7 @@ const common = angular
 export default common;
 ```
 
-**[Voltar ao topo](#tabela-de-conteudos)**
+**[Voltar ao topo](#tabela-de-conteúdos)**
 
 ### Low-level modules
 
@@ -167,7 +167,7 @@ const calendar = angular
 export default calendar;
 ```
 
-**[Voltar ao topo](#tabela-de-conteudos)**
+**[Voltar ao topo](#tabela-de-conteúdos)**
 
 # Convenções para nomes de ficheiros
 
@@ -183,7 +183,7 @@ calendar.filter.js
 calendar.spec.js
 ```
 
-**[Voltar ao topo](#tabela-de-conteudos)**
+**[Voltar ao topo](#tabela-de-conteúdos)**
 
 ### Estrutura de ficheiros escalável
 
@@ -238,7 +238,7 @@ Estrutura de ficheiros é extremamente importante, aqui descrevemos uma estrutur
 
 A primeira diretoria de topo apenas contém um `index.html` e `app/`, a diretoria onde todos os nossos root, component, common e low-level modules estão inseridos.
 
-**[Voltar ao topo](#tabela-de-conteudos)**
+**[Voltar ao topo](#tabela-de-conteúdos)**
 
 # Componentes
 
@@ -246,7 +246,7 @@ A primeira diretoria de topo apenas contém um `index.html` e `app/`, a diretori
 
 Componentes são essencialmente templates com controllers. Eles _não_ são diretivas, nem se deve tentar substituir diretivas com componentes, a não ser que esteja a atualizar "template Directives" com controllers, que funcionam melhor como componentes. Componentes também contêm bindings que definem inputs e outputs para dados e eventos, lifecycle hooks e a habilidade de utilizar fluxo de dados unidirecional e Objetos de eventos para enviar dados para o topo para um parent component. Estes são os novos standards para Angular 1.5 e para cima. Tudo o que for template e controller driven que criarmos e muito provável que seja um componente, que pode ser stateful, stateless ou um routed component. Pode-se pensar num componente como um pedaço de código completo e não só o `.component()` definition Object. Vamos analisar algumas boas práticas e conselhos para componentes, e depois entrar em como se deve organizá-los em conceitos de stateful, stateless e routed components.
 
-**[Voltar ao topo](#tabela-de-conteudos)**
+**[Voltar ao topo](#tabela-de-conteúdos)**
 
 ### Propriedades suportadas
 
@@ -262,7 +262,7 @@ Estas são as propriedades suportadas para `.component()` que podem ser utilizad
 | templateUrl | Sim |
 | transclude | Sim |
 
-**[Voltar ao topo](#tabela-de-conteudos)**
+**[Voltar ao topo](#tabela-de-conteúdos)**
 
 ### Controllers
 
@@ -280,7 +280,7 @@ Algumas conselhos para utilizar `Class` para controllers:
 * Utilizar `require` juntamente com `$onInit` para referenciar qualquer logica herdada
 * Não substituir o default alias `$ctrl` para utilização da sintaxe `controllerAs`, ou seja não utilizar `controllerAs` em lado nenhum
 
-**[Voltar ao topo](#tabela-de-conteudos)**
+**[Voltar ao topo](#tabela-de-conteúdos)**
 
 ### Fluxo de dados unidireccional e Eventos
 
@@ -296,7 +296,7 @@ Alguns conselhos ao utilizar fluxo de dados unidireccional:
   * Bonus : Utilizar um wrapper `EventEmitter` com `.value()` para replicar Angular2, evita criação manual do objecto `$event`
 * Porquê? De forma a replicar o comportamento de Angular2 e manter consistência dentro de cada componente. Mantém também o estado (state) previsível.
 
-**[Voltar ao topo](#tabela-de-conteudos)**
+**[Voltar ao topo](#tabela-de-conteúdos)**
 
 ### Stateful components
 
@@ -369,7 +369,7 @@ export default todo;
 
 Este exemplo demonstra um stateful component, que requer estado dentro de um controller, através de um serviço, e o passa para os seus filhos stateless components. De notar que não existem quaisquer directivas a serem utilizadas como `ng-repeat` dentro do template. Em vez disso, dados e funções são delegadas para `<todo-form>` e `<todo-list>` stateless components.
 
-**[Voltar ao topo](#tabela-de-conteudos)**
+**[Voltar ao topo](#tabela-de-conteúdos)**
 
 ### Stateless components
 
@@ -448,7 +448,7 @@ export default todoForm;
 
 De notar como o componente `<todo-form>` não requer qualquer estado, apenas o recebe, muta (altera) um Objecto através do seu controller com a lógica associada, e o passa de volta para o componente pai através de property bindings. Neste exemplo lo lifecycle hook `$onChanges` faz um clone do binding inicial de `this.todo` e o reatribui, o que significa que os dados do componente pai não serão afetados até submetermos o form, juntamente com a nova sintaxe de fluxo de dados unidirecional `'<'`. 
 
-**[Voltar ao topo](#tabela-de-conteudos)**
+**[Voltar ao topo](#tabela-de-conteúdos)**
 
 ### Routed components
 
@@ -549,7 +549,7 @@ const todo = angular
 export default todo;
 ```
 
-**[Voltar ao topo](#tabela-de-conteudos)**
+**[Voltar ao topo](#tabela-de-conteúdos)**
 
 # Diretivas
 
@@ -564,7 +564,7 @@ Alguns conselhos quando utilizando diretivas:
 * Utilizar compile e link quando necessário
 * Lembrar de destruir e fazer unbind aos event handlers dentro de `$scope.$on('$destroy', fn);`
 
-**[Voltar ao topo](#tabela-de-conteudos)**
+**[Voltar ao topo](#tabela-de-conteúdos)**
 
 ### Propriedades recomendadas
 
@@ -587,7 +587,7 @@ Devido ao facto de suportarem a maioria do que `.component()` suporta (template 
 | templateUrl | Não | Utilizar um componente |
 | transclude | Não | Utilizar um componente |
 
-**[Voltar ao topo](#tabela-de-conteudos)**
+**[Voltar ao topo](#tabela-de-conteúdos)**
 
 ### Classes e Constantes
 
@@ -667,7 +667,7 @@ const todo = angular
 export default todo;
 ```
 
-**[Voltar ao topo](#tabela-de-conteudos)**
+**[Voltar ao topo](#tabela-de-conteúdos)**
 
 # Serviços
 
@@ -675,7 +675,7 @@ export default todo;
 
 Serviços são essencialmente containers com lógica de negócio que os nossos componentes não deviam requisitar diretamente. Serviços contêm outros serviços built-in como `$http`, que depois podemos injetar para controllers de componentes noutros locais da nossa aplicação. Existem duas formas de utilizar serviços, através de `.service()` ou `.factory()`. Com ES2015 `Class`, devemos utilizar apenas`.service()`, completo com dependency injection annotation utilizando `$inject`.
 
-**[Voltar ao topo](#tabela-de-conteudos)**
+**[Voltar ao topo](#tabela-de-conteúdos)**
 
 ### Classes para Serviços
 
@@ -710,7 +710,7 @@ const todo = angular
 export default todo;
 ```
 
-**[Voltar ao topo](#tabela-de-conteudos)**
+**[Voltar ao topo](#tabela-de-conteúdos)**
 
 # ES2015 e Tooling
 
@@ -726,7 +726,7 @@ export default todo;
 * Utilizar [ngAnnotate](https://github.com/olov/ng-annotate) para automaticamente anotar propriedades com `$inject`
 * Como utilizar [ngAnnotate com ES6](https://www.timroes.de/2015/07/29/using-ecmascript-6-es6-with-angularjs-1-x/)
 
-**[Voltar ao topo](#tabela-de-conteudos)**
+**[Voltar ao topo](#tabela-de-conteúdos)**
 
 # State management
 
@@ -734,7 +734,7 @@ Considerar utilizar Redux com Angular 1.5 para data management.
 
 * [Angular Redux](https://github.com/angular-redux/ng-redux)
 
-**[Voltar ao topo](#tabela-de-conteudos)**
+**[Voltar ao topo](#tabela-de-conteúdos)**
 
 # Recursos
 
@@ -744,7 +744,7 @@ Considerar utilizar Redux com Angular 1.5 para data management.
 * [Utilizando "resolve" em routes](https://toddmotto.com/resolve-promises-in-angular-routes/)
 * [Redux e Angular para state management](http://blog.rangle.io/managing-state-redux-angular/)
 
-**[Voltar ao topo](#tabela-de-conteudos)**
+**[Voltar ao topo](#tabela-de-conteúdos)**
 
 # Documentação
 Para qualquer outra informação, incluindo referências de API, consultar [Documentação de Angular](//docs.angularjs.org/api).
