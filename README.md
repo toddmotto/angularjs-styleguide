@@ -82,6 +82,7 @@ A root module is then created, with `AppComponent` imported and registered with 
 // app.js
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
+import AppComponent from './app.component';
 import Components from './components/components';
 import Common from './common/common';
 
