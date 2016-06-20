@@ -34,14 +34,14 @@ O guia de estilo antigo pode ser encontrado [aqui](https://github.com/toddmotto/
     1. [Teoria](#diretivas-teoria)
     1. [Propriedades recomendadas](#propriedades-recomendadas) 
     1. [Classes e constantes](#classes-e-constantes)
-  1. [Serviços](#servicos)
+  1. [Serviços](#serviços)
     1. [Teoria](#servicos-teoria)
-    1. [Classes para serviços](#classes-para-servicos)
+    1. [Classes para serviços](#classes-para-serviços)
   1. [ES2015 e Tooling](#es2015-e-tooling)
   1. [State management](#state-management)
   1. [Recursos](#recursos)
-  1. [Documentação](#documentacao)
-  1. [Contribuições](#contribuicoes)
+  1. [Documentação](#documentação)
+  1. [Contribuições](#contribuições)
 
 # Arquitetura modular
 
