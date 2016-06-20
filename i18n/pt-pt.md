@@ -671,7 +671,7 @@ export default todo;
 
 # Serviços
 
-### Serviços Teoría
+### Serviços Teoria
 
 Serviços são essencialmente containers com lógica de negócio que os nossos componentes não deviam requisitar diretamente. Serviços contêm outros serviços built-in como `$http`, que depois podemos injetar para controllers de componentes noutros locais da nossa aplicação. Existem duas formas de utilizar serviços, através de `.service()` ou `.factory()`. Com ES2015 `Class`, devemos utilizar apenas`.service()`, completo com dependency injection annotation utilizando `$inject`.
 
