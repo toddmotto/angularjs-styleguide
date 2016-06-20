@@ -35,7 +35,7 @@ O guia de estilo antigo pode ser encontrado [aqui](https://github.com/toddmotto/
     1. [Propriedades recomendadas](#propriedades-recomendadas) 
     1. [Classes e constantes](#classes-e-constantes)
   1. [Serviços](#serviços)
-    1. [Teoria](#servicos-teoria)
+    1. [Teoria](#serviços-teoria)
     1. [Classes para serviços](#classes-para-serviços)
   1. [ES2015 e Tooling](#es2015-e-tooling)
   1. [State management](#state-management)
@@ -242,7 +242,7 @@ A primeira diretoria de topo apenas contém um `index.html` e `app/`, a diretori
 
 # Componentes
 
-### Teoria
+### Componentes Teoria
 
 Componentes são essencialmente templates com controllers. Eles _não_ são diretivas, nem se deve tentar substituir diretivas com componentes, a não ser que esteja a atualizar "template Directives" com controllers, que funcionam melhor como componentes. Componentes também contêm bindings que definem inputs e outputs para dados e eventos, lifecycle hooks e a habilidade de utilizar fluxo de dados unidirecional e Objetos de eventos para enviar dados para o topo para um parent component. Estes são os novos standards para Angular 1.5 e para cima. Tudo o que for template e controller driven que criarmos e muito provável que seja um componente, que pode ser stateful, stateless ou um routed component. Pode-se pensar num componente como um pedaço de código completo e não só o `.component()` definition Object. Vamos analisar algumas boas práticas e conselhos para componentes, e depois entrar em como se deve organizá-los em conceitos de stateful, stateless e routed components.
 
@@ -553,7 +553,7 @@ export default todo;
 
 # Diretivas
 
-### Teoria
+### Diretivas Teoria
 
 Diretivas dão-nos `template`, `scope` bindings, `bindToController`, `link` e muitas outras coisas. A utilização delas deve ser agora cuidadosamente avaliada sendo que existe `.component()`. Diretivas não devem criar templates e controllers, nem receber dados através de bindings. Diretivas devem ser utilizadas unicamente para decoração da DOM. Com isto, significa estender HTML existente - criado com `.component()`. De uma forma simples, se precisamos de DOM events/API's custom e lógica, utilizamos diretivas e fazemos bind a um template dentro de um componente. Se precisamos de pouca quantidade de manipulação da DOM existe o lifecycle hook `$postLink` a considerar, no entanto não é o local para onde se deve migrar toda a manipulação da DOM, utilizando uma Diretiva se possível para coisas que não sejam do âmbito de Angular.
 
