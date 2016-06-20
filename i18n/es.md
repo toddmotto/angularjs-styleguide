@@ -100,7 +100,7 @@ export default root;
 
 ### Component module
 
-Un `Component module` es el contenedor referencia para todos los componentes reusables. Ve más arriba como importamos `Componentes` y los inyectamos dentro del `Root module`, esto nos da un lugar único para importar todos los componentes para la aplicación. Estos módulos que necesitas estan desconectados de los demás modulos y por lo tanto se pueden mover dentro cualqueir otra aplicación con facilidad.
+Un `Component module` es el contenedor referencia para todos los componentes reusables. Ve más arriba como importamos `Componentes` y los inyectamos dentro del `Root module`, esto nos da un lugar único para importar todos los componentes para la aplicación. Estos módulos que necesitas estan desconectados de los demás modulos y por lo tanto se pueden mover dentro de cualqueir otra aplicación con facilidad.
 
 ```js
 import angular from 'angular';
@@ -655,7 +655,7 @@ export default todo;
 
 ### Teoría
 
-Los servicios son esencialmente contenedores para la lógica de negocio que nuestros componentes no deben solicitar directamente. Los servicios contienen otros servicios incorporados o externos como lo es `$http`, que podemos inyectar dentro de los controladores de nuestro componente en otra parte de nuestra aplicación. Tenemos dos maneras de hacer servicios, utilizando `.service()` o `.factory()`. Con las `Clases` ES2015, solo debemos utilizar `.services()`, completa cla anotación de inyección de dependiencias con `$inject`.
+Los servicios son esencialmente contenedores para la lógica de negocio que nuestros componentes no deben solicitar directamente. Los servicios contienen otros servicios incorporados o externos como lo es `$http`, que podemos inyectar dentro de los controladores de nuestro componente en otra parte de nuestra aplicación. Tenemos dos maneras de hacer servicios, utilizando `.service()` o `.factory()`. Con las `Clases` ES2015, solo debemos utilizar `.services()`, completa la anotación de inyección de dependiencias con `$inject`.
 
 **[Volver arriba](#table-de-contenidos)**
 
