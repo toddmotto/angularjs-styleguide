@@ -124,7 +124,7 @@ const components = angular
 export default components;
 ```
 
-**[Back to top](#table-of-contents)**
+**[返回目录](#table-of-contents)**
 
 ### 公共模块
 
@@ -145,7 +145,7 @@ const common = angular
 export default common;
 ```
 
-**[Back to top](#table-of-contents)**
+**[返回目录](#table-of-contents)**
 
 ### Low-level modules
 
@@ -174,7 +174,7 @@ const calendar = angular
 export default calendar;
 ```
 
-**[Back to top](#table-of-contents)**
+**[返回目录](#table-of-contents)**
 
 # 文件命名规范
 
@@ -190,7 +190,7 @@ calendar.filter.js
 calendar.spec.js
 ```
 
-**[Back to top](#table-of-contents)**
+**[返回目录](#table-of-contents)**
 
 ### 易于扩展的文件结构
 
@@ -245,7 +245,7 @@ calendar.spec.js
 
 顶级目录 仅仅包含了 `index.html` 以及 `app/`, 而在`app/`目录中则包含了我们要用到的组件，公共模块，以及低级别的模块。
 
-**[Back to top](#table-of-contents)**
+**[返回目录](#table-of-contents)**
 
 # 组件
 
@@ -259,7 +259,7 @@ calendar.spec.js
 让我们来探讨一些组件最佳实践和建议，然后让你明白应该如何组织他们。
 
 
-**[Back to top](#table-of-contents)**
+**[返回目录](#table-of-contents)**
 
 ### Supported properties
 
@@ -275,7 +275,7 @@ calendar.spec.js
 | templateUrl | Yes |
 | transclude | Yes |
 
-**[Back to top](#table-of-contents)**
+**[返回目录](#table-of-contents)**
 
 ### 控制器
 
@@ -293,7 +293,7 @@ calendar.spec.js
 *  依靠 `$onInit`使用`require`  以便引用继承的逻辑；
 * 不要覆盖默认的 `$ctrl`  使用`controllerAs` 语法 起的别名, 当然也不要在别的地方使用 `controllerAs` 
 
-**[Back to top](#table-of-contents)**
+**[返回目录](#table-of-contents)**
 
 ### One-way dataflow and Events
 
@@ -309,7 +309,7 @@ calendar.spec.js
   * Bonus: 使用 包裹 `.value()` 的 `EventEmitter` 以便迁到Angular2 , 避免手动创建一个 `$event`
 * 为什么? 这和Angular2类似并且保持组件的一致性.并且可以让状态可预测。
 
-**[Back to top](#table-of-contents)**
+**[返回目录](#table-of-contents)**
 
 ### 有状态的组件
 
@@ -381,21 +381,21 @@ export default todo;
 
 这个例子显示了一个有状态的组件，在控制器哪通过服务获取状态，然后再将它传递给无状态的子组件。注意这里并没有在模版使用指令比如`ng-repeat`以及其他指令，相反，数据和功能委托到`<todo-form> `和 `<todo-list>`这两个无状态的组件。
 
-**[Back to top](#table-of-contents)**
+**[返回目录](#table-of-contents)**
 
 ### 无状态的组件
 
-Let's define what we'd call a "stateless component".
+什么是无状态的组件
 
-* Has defined inputs and outputs using `bindings: {}`
-* Data enters the component through attribute bindings (inputs)
-* Data leaves the component through events (outputs)
-* Mutates state, passes data back up on-demand (such as a click or submit event)
-* Doesn't care where data comes from, it's stateless
-* Are highly reusable components
-* Also referred to as dumb/presentational components
+* 使用`bindings: {}` 定义了输入和输出;
+* 数据通过属性绑定进入到组件内
+* 数据通过事件离开组件
+* 状态变化，会将数据进行备份 (比如触发点击和提交事件)
+* 并不需要关心的数据来自哪里
+* 可高度重复利用的组件
+* 也被称作无声活着表面组件
 
-An example of a stateless component (let's use `<todo-form>` as an example), complete with it's low-level module definition (this is only for demonstration, so some code has been omitted for brevity):
+下面是一个无状态组件的例子 (我们使用`<todo-form>` 作为例子) (仅仅用于演示，省略了部分代码):
 
 ```js
 /* ----- todo/todo-form/todo-form.component.js ----- */
@@ -458,20 +458,21 @@ const todoForm = angular
 export default todoForm;
 ```
 
-Note how the `<todo-form>` component fetches no state, it simply receives it, mutates an Object via the controller logic associated with it, and passes it back to the parent component through the property bindings. In this example, the `$onChanges` lifecycle hook makes a clone of the initial `this.todo` binding Object and reassigns it, which means the parent data is not affected until we submit the form, alongside one-way data flow new binding syntax `'<'`.
+请注意`<todo-form>`组件不获取状态，它只是接收它，它通过控制器的逻辑去改变一个对象通过绑定的属性将改变后的值传回给父组件。
+在这个例子中，`$onChanges`周期钩子 产生一个`this.todo`的对象克隆和重新分配它，这意味着原数据不受影响，直到我们提交表单，沿着单向数据流的新的绑定语法'<' 。
 
-**[Back to top](#table-of-contents)**
+**[返回目录](#table-of-contents)**
 
-### Routed components
+### 路由组件
 
-Let's define what we'd call a "routed component".
+什么是路由组件
 
-* It's essentially a stateful component, with routing definitions
-* No more `router.js` files
-* We use Routed components to define their own routing logic
-* Data "input" for the component is done via the route resolve (optional, still available in the controller with service calls)
+* 它本质上是个有状态的组件，具备路由定义
+* 没有`router.js` 文件
+*我们使用路由组件去定义它自己的路由逻辑
+*数据流入到组件是通过路由分解获得 (当然在控制器中我们通过服务获得)
 
-For this example, we're going to take the existing `<todo>` component, refactor it to use a route definition and `bindings` on the component which receives data (the secret here with `ui-router` is the `resolve` properties we create, in this case `todoData` directly map across to `bindings` for us). We treat it as a routed component because it's essentially a "view":
+在这个例子中，我们将利用现有<TODO>组件，我们会重构它，使用路由定义和以及组件上的数据绑定接收数据（在这里我们我们是通过`ui-router`产生的`reslove`,这个例子`todoData`直接映射了数据绑定）。我们把它看作一个路由组件，因为它本质上是一个"view"：
 
 ```js
 /* ----- todo/todo.component.js ----- */
@@ -560,51 +561,56 @@ const todo = angular
 export default todo;
 ```
 
-**[Back to top](#table-of-contents)**
+**[返回目录](#table-of-contents)**
 
-# Directives
+# 指令
 
-### Directive theory
+### 基本概念
 
-Directives gives us `template`, `scope` bindings, `bindToController`, `link` and many other things. The usage of these should be carefully considered now `.component()` exists. Directives should not declare templates and controllers anymore, or receive data through bindings. Directives should be used solely for decorating the DOM. By this, it means extending existing HTML - created with `.component()`. In a simple sense, if you need custom DOM events/APIs and logic, use a Directive and bind it to a template inside a component. If you need a sensible amount of DOM manipulation, there is also the `$postLink` lifecycle hook to consider, however this is not a place to migrate all your DOM manipulation to, use a Directive if you can for non-Angular things.
+指令给予了我们的模板，scope 版的，与控制器绑定，链接和许多其他的事情。这些的使用使我们慎重考虑`.component（）`的存在。指令不应在声明模板和控制器了，或者通过绑定接收数据。指令应该仅仅是为了装饰DOM使用。这样，就意味着扩展现有的HTML - 如果用`.component（）`创建。简而言之，如果你需要自定义DOM事件/ API和逻辑，使用一个指令并将其绑定到一个组件内的模板。如果你需要的足够的数量的 DOM变化，`postLink`生命周期钩子值得考虑，但是这并不是迁移所有的的DOM操作。你可以给一个无需Android的地方使用directive
 
-Here are some advisories for using Directives:
+使用指令的小建议:
 
-* Never use templates, scope, bindToController or controllers
-* Always `restrict: 'A'` with Directives
-* Use compile and link where necessary
-* Remember to destroy and unbind event handlers inside `$scope.$on('$destroy', fn);`
+* 不要使用模板 scope，控制器
+* 一直设置 `restrict: 'A'`
+* 在需要的地方使用 `compile` and `link`
+* 记得 `$scope.$on('$destroy', fn) 进行销毁和事件解除;`
 
-**[Back to top](#table-of-contents)**
 
-### Recommended properties
 
-Due to the fact directives support most of what `.component()` does (template directives were the original component), I'm recommending limiting your directive Object definitions to only these properties, to avoid using directives incorrectly:
+**[返回目录](#table-of-contents)**
+
+### 推荐的属性
+
+由于指令支持了大多数 `.component()` 的语法 (模板指令就是最原始的组件), 建议限制指令中的的 Object,以及避免使用错误的指令方法。
 
 | Property | Use it? | Why |
 |---|---|---|
-| bindToController | No | Use `bindings` in components |
-| compile | Yes | For pre-compile DOM manipulation/events |
-| controller | No | Use a component |
-| controllerAs | No | Use a component |
-| link functions | Yes | For pre/post DOM manipulation/events |
-| multiElement | Yes | [See docs](https://docs.angularjs.org/api/ng/service/$compile#-multielement-) |
-| priority | Yes | [See docs](https://docs.angularjs.org/api/ng/service/$compile#-priority-) |
-| require | No | Use a component |
-| restrict | Yes | Defines directive usage, always use `'A'` |
-| scope | No | Use a component |
-| template | No | Use a component |
+| bindToController | No | 在组件中使用 `bindings` |
+| compile | Yes | 预编译 DOM 操作/事件 |
+| controller | No | 使用一个组件 |
+| controllerAs | No | 使用一个组件 |
+| link functions | Yes | 对于 DOM操作/事件 的前后|
+| multiElement | Yes | [文档](https://docs.angularjs.org/api/ng/service/$compile#-multielement-) |
+| priority | Yes | [文档](https://docs.angularjs.org/api/ng/service/$compile#-priority-) |
+| require | No | 使用一个组件 |
+| restrict | Yes | 定义一个组件并使用 `A` |
+| scope | No | 使用一个组件  |
+| template | No | 使用一个组件  |
 | templateNamespace | Yes (if you must) | [See docs](https://docs.angularjs.org/api/ng/service/$compile#-templatenamespace-) |
-| templateUrl | No | Use a component |
-| transclude | No | Use a component |
+| templateUrl | No | 使用一个组件|
+| transclude | No | 使用一个组件 |
 
-**[Back to top](#table-of-contents)**
+**[返回目录](#table-of-contents)**
 
-### Constants or Classes
+### 常量 和 类
 
-There are a few ways to approach using ES2015 and directives, either with an arrow function and easier assignment, or using an ES2015 `Class`. Choose what's best for you or your team, keep in mind Angular 2 uses `Class`.
+下面有几个使用es2015和指令的方法，无论是带有箭头函数，更容易分配，或使用ES2015`Class`。记住选择最适合自己或者团队的方法，并且记住 Angular 2中使用 Class.
 
-Here's an example using a constant with an Arrow function an expression wrapper `() => ({})` returning an Object literal (note the usage differences inside `.directive()`):
+
+
+下面是一个恒在箭头函数的表达式`（）=>（{}）`使用常量的例子，它返回一个对象面（注意里面与`.directive`的使用差异（））:
+
 
 ```js
 /* ----- todo/todo-autofocus.directive.js ----- */
@@ -640,7 +646,7 @@ const todo = angular
 export default todo;
 ```
 
-Or using ES2015 `Class` (note manually calling `new TodoAutoFocus` when registering the directive) to create the Object:
+或者用ES2015类（注意在注册指令时手动调用 `new TodoAutoFocus`）来创建对象:
 
 ```js
 /* ----- todo/todo-autofocus.directive.js ----- */
@@ -678,19 +684,19 @@ const todo = angular
 export default todo;
 ```
 
-**[Back to top](#table-of-contents)**
+**[返回目录](#table-of-contents)**
 
-# Services
+# 服务
 
-### Service theory
+### 基本理论
 
-Services are essentially containers for business logic that our components shouldn't request directly. Services contain other built-in or external services such as `$http`, that we can then inject into component controllers elsewhere in our app. We have two ways of doing services, using `.service()` or `.factory()`. With ES2015 `Class`, we should only use `.service()`, complete with dependency injection annotation using `$inject`.
+服务本质上是包含业务逻辑的容器，而我们的组件不应该直接进行请求。服务包含其它内置或外部服务，如`$http`，我们可以随时随地的在应用程序注入到组件控制器。我们在开发服务有两种方式，`.service()` 以及 `.factory()`。使用ES2015`Class`，我们应该只使用`.service()`，通过$inject完成依赖注入。
 
-**[Back to top](#table-of-contents)**
+**[返回目录](#table-of-contents)**
 
-### Classes for Service
+### 构建服务Class
 
-Here's an example implementation for our `<todo>` app using ES2015 `Class`:
+下面的 `<todo>` 就是使用 ES2015 `Class`:
 
 ```js
 /* ----- todo/todo.service.js ----- */
@@ -721,48 +727,48 @@ const todo = angular
 export default todo;
 ```
 
-**[Back to top](#table-of-contents)**
+**[返回目录](#table-of-contents)**
 
-# ES2015 and Tooling
+# ES2015 以及相关工具
 
 ##### ES2015
 
-* Use [Babel](https://babeljs.io/) to compile your ES2015+ code and any polyfills
-* Consider using [TypeScript](http://www.typescriptlang.org/) to make way for any Angular 2 upgrades
+* 使用 [Babel](https://babeljs.io/) 将ES2015进行转换为当前浏览器所支持的代码
+* 考虑使用 [TypeScript](http://www.typescriptlang.org/) 让你更好的迁移到Angular2
 
-##### Tooling
-* Use `ui-router` [latest alpha](https://github.com/angular-ui/ui-router) (see the Readme) if you want to support component-routing
-  * Otherwise you're stuck with `template: '<component>'` and no `bindings`
-* Consider using [Webpack](https://webpack.github.io/) for compiling your ES2015 code
-* Use [ngAnnotate](https://github.com/olov/ng-annotate) to automatically annotate `$inject` properties
-* How to use [ngAnnotate with ES6](https://www.timroes.de/2015/07/29/using-ecmascript-6-es6-with-angularjs-1-x/)
+##### 工具
+* 使用 `ui-router` [latest alpha](https://github.com/angular-ui/ui-router) (查看 Readme) 如果你希望支持路由钻
+  * 你可能会在 `template: '<component>'` 以及 不需要 `bindings`中遇到一些挫折
+* 考虑使用 [Webpack](https://webpack.github.io/) 来编译es2016的代码
+* 使用 [ngAnnotate](https://github.com/olov/ng-annotate) 自动完成 `$inject` 属性注入
+* 如何使用[ngAnnotate with ES6](https://www.timroes.de/2015/07/29/using-ecmascript-6-es6-with-angularjs-1-x/)
 
-**[Back to top](#table-of-contents)**
+**[返回目录](#table-of-contents)**
 
-# State management
+# 状态管理
 
-Consider using Redux with Angular 1.5 for data management.
+考虑使用 Redux 用于 数据管理.
 
 * [Angular Redux](https://github.com/angular-redux/ng-redux)
 
-**[Back to top](#table-of-contents)**
+**[返回目录](#table-of-contents)**
 
-# Resources
+# 资源
 
-* [Understanding the .component() method](https://toddmotto.com/exploring-the-angular-1-5-component-method/)
-* [Using "require" with $onInit](https://toddmotto.com/on-init-require-object-syntax-angular-component/)
-* [Understanding all the lifecycle hooks, $onInit, $onChange, $postLink, $onDestroy](https://toddmotto.com/angular-1-5-lifecycle-hooks)
-* [Using "resolve" in routes](https://toddmotto.com/resolve-promises-in-angular-routes/)
-* [Redux and Angular state management](http://blog.rangle.io/managing-state-redux-angular/)
+* [理解 .component() 方法](https://toddmotto.com/exploring-the-angular-1-5-component-method/)
+* [使用 "require" 与 $onInit](https://toddmotto.com/on-init-require-object-syntax-angular-component/)
+* [理解生命周期钩子, $onInit, $onChange, $postLink, $onDestroy](https://toddmotto.com/angular-1-5-lifecycle-hooks)
+* [在路由中使用 "resolve"](https://toddmotto.com/resolve-promises-in-angular-routes/)
+* [Redux 以及 Angular 状态管理](http://blog.rangle.io/managing-state-redux-angular/)
 
-**[Back to top](#table-of-contents)**
+**[返回目录](#table-of-contents)**
 
-# Documentation
-For anything else, including API reference, check the [Angular documentation](//docs.angularjs.org/api).
+# 文档
+关于Angular API [Angular documentation](//docs.angularjs.org/api).
 
-# Contributing
+# 贡献
 
-Open an issue first to discuss potential changes/additions. Please don't open issues for questions.
+打开issues，讨论可能的更改/添加。请不要在issues提任何问题. 
 
 ## License
 
