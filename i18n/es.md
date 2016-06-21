@@ -456,7 +456,7 @@ Vamos a definir a lo que llamaríamos un "routed component".
 * Utilizamos componentes routed para definir su propia lógica de ruteo
 * Los datos de "ingreso" para el componente son realizados a través del route resolve(opcional, todavía disponible en el controlador a través de llamadas del service)
 
-Para este ejemplo, vamos a tomar el componente existente `<todo>`, refactorizarlo para utilizar la definición route y `bindings` en el componente que recibe los datos (el secreto aquí con `ui-router` es la propiedad `resolve` que creamos, en este caso `todoData` mapea directamente a través de los `bindings` por nosotros). Lo tratamos como un routed component por que esesencialmente  una "vista":
+Para este ejemplo, vamos a tomar el componente existente `<todo>`, refactorizarlo para utilizar la definición route y `bindings` en el componente que recibe los datos (el secreto aquí con `ui-router` es la propiedad `resolve` que creamos, en este caso `todoData` mapea directamente a través de los `bindings` por nosotros). Lo tratamos como un routed component por que es esencialmente una "vista":
 
 ```js
 /* ----- todo/todo.component.js ----- */
