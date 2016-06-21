@@ -5,9 +5,9 @@
 *来自 [@toddmotto](//twitter.com/toddmotto) 团队的编码指南*
 
 Angular 的编码风格以及架构已经使用ES2015进行重写,这些在Angular 1.5+的变化可以更好帮助您的更好的升级到Angular2.。
-这份指南包括了新的单向数据流的时间，事件委托，组件架构和组件路由。
+这份指南包括了新的单向数据流，事件委托，组件架构和组件路由。
 
-老版本的指南你可以在[这里](https://github.com/toddmotto/angular-styleguide/tree/angular-old-es5)找到,  在这里[here](https://toddmotto.com/rewriting-angular-styleguide-angular-2)看到最新的.
+老版本的指南你可以在[这里](https://github.com/toddmotto/angular-styleguide/tree/angular-old-es5)找到,  在[这里](https://toddmotto.com/rewriting-angular-styleguide-angular-2)你能看到最新的.
 
 > 加入我们无与伦比的angularjs学习体验中来，构建更加快速和易于扩展的App.
 
@@ -16,7 +16,7 @@ Angular 的编码风格以及架构已经使用ES2015进行重写,这些在Angul
 ## 目录
 
   1. [模块架构](#module-architecture)
-    1. [基本理论](#module-theory)
+    1. [基本概念](#module-theory)
     1. [根 模块](#root-module)
     1. [组件模块](#component-module)
     1. [公共模块](#common-module)
@@ -24,7 +24,7 @@ Angular 的编码风格以及架构已经使用ES2015进行重写,这些在Angul
     1. [可扩展的文件结构](#scalable-file-structure)
     1. [文件命名规范](#file-naming-conventions)
   1. [组件](#components)
-    1. [基本里路](#component-theory)
+    1. [基本概念](#component-theory)
     1. [支持的属性](#supported-properties) 
     1. [控制器](#controllers)
     1. [单向数据流和事件](#one-way-dataflow-and-events)
@@ -32,12 +32,12 @@ Angular 的编码风格以及架构已经使用ES2015进行重写,这些在Angul
     1. [无状态组件](#stateless-components)
     1. [路由组件](#routed-components)
   1. [指令](#directives)
-    1. [基本理论](#directive-theory)
+    1. [基本概念](#directive-theory)
     1. [建议的属性](#recommended-properties) 
     1. [常量和类](#constants-or-classes)
   1. [服务](#services)
-    1. [基本理论](#service-theory)
-    1. [Service](#classes-for-service)
+    1. [基本概念](#service-theory)
+    1. [服务](#classes-for-service)
   1. [ES2015 和工具推荐](#es2015-and-tooling)
   1. [状态管理](#state-management)
   1. [资源](#resources)
@@ -48,7 +48,7 @@ Angular 的编码风格以及架构已经使用ES2015进行重写,这些在Angul
 
 Angular 中的每一个模块都是一个模块组件。一个模块组件囊括了逻辑，模版，路由和子组件。
 
-### Module theory
+### Module 基本概念
 
 在模块的设计直接反映到我们的文件夹结构，从而保证我们项目的可维护性和可预测性。
 我们最好应该有三个高层次的模块：根，组件和常用模块。根模块定义了用于启动App和相应的模板的基本架子。
@@ -147,10 +147,10 @@ export default common;
 
 **[返回目录](#table-of-contents)**
 
-### Low-level modules
+### 低级别的模块
 
 低层次的模块是一些独立的组件，它们包含逻辑和功能。这些将分别定义成模块，被引入到较高层次模块中，
-比如如一个组件或通用模块。一定要记住每次创建一个新的模块时(并非引用)，记得在`export`中添加后缀。你会注意到路由定义也存在这里，我们将在随后的部分讲到它。
+比如一个组件或通用模块。一定要记住每次创建一个新的模块时(并非引用)，记得在`export`中添加后缀。你会注意到路由定义也是在这里，我们将在随后的部分讲到它。
 ```js
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
@@ -178,7 +178,7 @@ export default calendar;
 
 # 文件命名规范
 
-使用小写并保持命名的见解, 比如使用组件名称时, e.g. `calendar.*.js*`, `calendar-grid.*.js` - 将名称放到中间. 使用 `index.js` 作为模块的定义文件 ，这样你就可以直接通过目录引入了。
+使用小写并保持命名的简介, 比如使用组件名称时, e.g. `calendar.*.js*`, `calendar-grid.*.js` - 将名称放到中间. 使用 `index.js` 作为模块的定义文件 ，这样你就可以直接通过目录引入了。
 
 ```
 index.js
@@ -194,7 +194,7 @@ calendar.spec.js
 
 ### 易于扩展的文件结构
 
-文件目录结构实际上十分重要，它有利于我们更好的扩展和前瞻。下面的例子展示了模块组件的基本架构。
+文件目录结构实际上十分重要，它有利于我们更好的扩展和预测。下面的例子展示了模块组件的基本架构。
 
 ```
 ├── app/
@@ -252,16 +252,16 @@ calendar.spec.js
 ### 组件的基本概念
 
 组件实际上就是带有控制器的模板。他们即不是指令，也不应该使用组件代替指令，除非你正在用控制器升级“模板指令”，
-部件还包含定义为数据和⌚️输入与输出，生命周期钩子和使用单向数据流和从父组件上获取数据的事件对象。
-获取数据备份到父组件的能力的输入和输出的绑定。这些都是在Angular 1.5及以上退出的新标准。
+组件还包含数据事件的输入与输出，生命周期钩子和使用单向数据流以及从父组件上获取数据的事件对象。
+从父组件获取数据备份。这些都是在Angular 1.5及以上推出的新标准。
 我们创建的一切模板，控制器都可能是一个组件，它们可能是是有状态的，无状态或路由组件。
 你可以把一个“部件”作为一个完整的一段代码，而不仅仅是`.component（）`定义的对象。
-让我们来探讨一些组件最佳实践和建议，然后让你明白应该如何组织他们。
+让我们来探讨一些组件最佳实践和建议，然后你应该可以明白如何组织他们。
 
 
 **[返回目录](#table-of-contents)**
 
-### Supported properties
+### 支持的属性
 
 下面是一些`.component()`你可能会使用到的属性 :
 
@@ -289,9 +289,9 @@ calendar.spec.js
 * 另外关于箭头 函数, `let ctrl = this;` 也是可以接受的，当然这更取决于使用场景；
 * 绑定到所有公共函数到`Class`上；
 * 适当的利用生命周期的一些钩子, `$onInit`, `$onChanges`, `$postLink` 以及`$onDestroy`。
-  * 注意: `$onChanges` 是 `$onInit`之后调用的, 这里 [resources](#resources) 有更深一步的讲解。
-*  依靠 `$onInit`使用`require`  以便引用继承的逻辑；
-* 不要覆盖默认的 `$ctrl`  使用`controllerAs` 语法 起的别名, 当然也不要在别的地方使用 `controllerAs` 
+  * 注意: `$onChanges` 是 `$onInit`之后调用的, 这里 [扩展阅读](#resources) 有更深一步的讲解。
+*  在`$onInit`使用`require`  以便引用继承的逻辑；
+* 不要覆盖默认  `$ctrl`  使用`controllerAs` 起的别名, 当然也不要在别的地方使用 `controllerAs` 
 
 **[返回目录](#table-of-contents)**
 
@@ -313,7 +313,7 @@ calendar.spec.js
 
 ### 有状态的组件
 
-我们定义什么事的“有状态的组件”
+什么是“有状态的组件”
 
 * 获取状态，通过服务与后端API通信
 * 不直接发生状态变化
@@ -458,8 +458,8 @@ const todoForm = angular
 export default todoForm;
 ```
 
-请注意`<todo-form>`组件不获取状态，它只是接收它，它通过控制器的逻辑去改变一个对象通过绑定的属性将改变后的值传回给父组件。
-在这个例子中，`$onChanges`周期钩子 产生一个`this.todo`的对象克隆和重新分配它，这意味着原数据不受影响，直到我们提交表单，沿着单向数据流的新的绑定语法'<' 。
+请注意`<todo-form>`组件不获取状态，它只是接收，它通过控制器的逻辑去改变一个对象然后通过绑定的属性将改变后的值传回给父组件。
+在这个例子中，`$onChanges`周期钩子 产生一个`this.todo`的对象克隆并重新分配它，这意味着原数据不受影响，直到我们提交表单，沿着单向数据流的新的绑定语法'<' 。
 
 **[返回目录](#table-of-contents)**
 
@@ -567,11 +567,11 @@ export default todo;
 
 ### 基本概念
 
-指令给予了我们的模板，scope 版的，与控制器绑定，链接和许多其他的事情。这些的使用使我们慎重考虑`.component（）`的存在。指令不应在声明模板和控制器了，或者通过绑定接收数据。指令应该仅仅是为了装饰DOM使用。这样，就意味着扩展现有的HTML - 如果用`.component（）`创建。简而言之，如果你需要自定义DOM事件/ API和逻辑，使用一个指令并将其绑定到一个组件内的模板。如果你需要的足够的数量的 DOM变化，`postLink`生命周期钩子值得考虑，但是这并不是迁移所有的的DOM操作。你可以给一个无需Android的地方使用directive
+指令给予了我们的模板，scope ，与控制器绑定，链接和许多其他的事情。这些的使用使我们慎重考虑 `.component（）`的存在。指令不应在声明模板和控制器了，或者通过绑定接收数据。指令应该仅仅是为了装饰DOM使用。这样，就意味着扩展现有的HTML - 如果用`.component（）`创建。简而言之，如果你需要自定义DOM事件/ API和逻辑，使用一个指令并将其绑定到一个组件内的模板。如果你需要的足够的数量的 DOM变化，`postLink`生命周期钩子值得考虑，但是这并不是迁移所有的的DOM操作。你可以给一个无需Angular的地方使用directive
 
 使用指令的小建议:
 
-* 不要使用模板 scope，控制器
+* 不要使用模板 ,scope，控制器
 * 一直设置 `restrict: 'A'`
 * 在需要的地方使用 `compile` and `link`
 * 记得 `$scope.$on('$destroy', fn) 进行销毁和事件解除;`
@@ -605,7 +605,7 @@ export default todo;
 
 ### 常量 和 类
 
-下面有几个使用es2015和指令的方法，无论是带有箭头函数，更容易分配，或使用ES2015`Class`。记住选择最适合自己或者团队的方法，并且记住 Angular 2中使用 Class.
+下面有几个使用es2015和指令的方法，无论是带有箭头函数，更容易的操作，或使用ES2015`Class`。记住选择最适合自己或者团队的方法，并且记住 Angular 2中使用 Class.
 
 
 
@@ -646,7 +646,7 @@ const todo = angular
 export default todo;
 ```
 
-或者用ES2015类（注意在注册指令时手动调用 `new TodoAutoFocus`）来创建对象:
+或者用ES2015 Class（注意在注册指令时手动调用 `new TodoAutoFocus`）来创建对象:
 
 ```js
 /* ----- todo/todo-autofocus.directive.js ----- */
