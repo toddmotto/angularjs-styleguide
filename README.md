@@ -14,7 +14,7 @@ You can find the old styleguide [here](https://github.com/toddmotto/angular-styl
 
 ## Table of Contents
 
-  1. [Modular architecture](#module-architecture)
+  1. [Modular architecture](#modular-architecture)
     1. [Theory](#module-theory)
     1. [Root module](#root-module)
     1. [Component module](#component-module)
