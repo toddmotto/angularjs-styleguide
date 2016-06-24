@@ -724,7 +724,7 @@ export default todo;
   * Otherwise you're stuck with `template: '<component>'` and no `bindings`
 * Consider using [Webpack](https://webpack.github.io/) for compiling your ES2015 code
 * Use [ngAnnotate](https://github.com/olov/ng-annotate) to automatically annotate `$inject` properties
-* How to use [ngAnnotate with ES6](https://www.timroes.de/2015/07/29/using-ecmascript-6-es6-with-angularjs-1-x/)
+* How to use [ngAnnotate with ES6](https://www.timroes.de/2015/07/29/using-ecmascript-6-es6-with-angularjs-1-x/#ng-annotate)
 
 **[Back to top](#table-of-contents)**
 
