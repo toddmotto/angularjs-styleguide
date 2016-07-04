@@ -20,7 +20,7 @@ Angular 的编码风格以及架构已经使用ES2015进行重写,这些在Angul
     1. [根 模块](#root-module)
     1. [组件模块](#component-module)
     1. [公共模块](#common-module)
-    1. [低 级别模块](#low-level-modules)
+    1. [低级别模块](#low-level-modules)
     1. [可扩展的文件结构](#scalable-file-structure)
     1. [文件命名规范](#file-naming-conventions)
   1. [组件](#components)
