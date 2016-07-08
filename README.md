@@ -24,7 +24,7 @@ You can find the old styleguide [here](https://github.com/toddmotto/angular-styl
     1. [File naming conventions](#file-naming-conventions)
   1. [Components](#components)
     1. [Theory](#component-theory)
-    1. [Supported properties](#supported-properties) 
+    1. [Supported properties](#supported-properties)
     1. [Controllers](#controllers)
     1. [One-way dataflow and Events](#one-way-dataflow-and-events)
     1. [Stateful Components](#stateful-components)
@@ -32,7 +32,7 @@ You can find the old styleguide [here](https://github.com/toddmotto/angular-styl
     1. [Routed Components](#routed-components)
   1. [Directives](#directives)
     1. [Theory](#directive-theory)
-    1. [Recommended properties](#recommended-properties) 
+    1. [Recommended properties](#recommended-properties)
     1. [Constants or Classes](#constants-or-classes)
   1. [Services](#services)
     1. [Theory](#service-theory)
@@ -92,7 +92,8 @@ const root = angular
     Common,
     uiRouter
   ])
-  .component('app', AppComponent);
+  .component('app', AppComponent)
+  .name;
 
 export default root;
 ```
@@ -318,10 +319,10 @@ const TodoComponent = {
   controller,
   template: `
     <div class="todo">
-      <todo-form 
+      <todo-form
         todo="$ctrl.newTodo"
         on-add-todo="$ctrl.addTodo($event);">
-      <todo-list 
+      <todo-list
         todos="$ctrl.todos"></todo-list>
     </div>
   `
@@ -442,7 +443,8 @@ import TodoFormComponent from './todo-form.component';
 const todoForm = angular
   .module('todo.form', [])
   .component('todoForm', TodoFormComponent)
-  .value('EventEmitter', payload => ({ $event: payload});
+  .value('EventEmitter', payload => ({ $event: payload})
+  .name;
 
 export default todoForm;
 ```
@@ -473,10 +475,10 @@ const TodoComponent = {
   controller,
   template: `
     <div class="todo">
-      <todo-form 
+      <todo-form
         todo="$ctrl.newTodo"
         on-add-todo="$ctrl.addTodo($event);">
-      <todo-list 
+      <todo-list
         todos="$ctrl.todos"></todo-list>
     </div>
   `
