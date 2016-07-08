@@ -440,8 +440,8 @@ import angular from 'angular';
 import TodoFormComponent from './todo-form.component';
 
 const todoForm = angular
-  .module('todo')
-  .component('todo', TodoFormComponent)
+  .module('todo.form', [])
+  .component('todoForm', TodoFormComponent)
   .value('EventEmitter', payload => ({ $event: payload});
 
 export default todoForm;
