@@ -20,8 +20,8 @@ You can find the old styleguide [here](https://github.com/toddmotto/angular-styl
     1. [Component module](#component-module)
     1. [Common module](#common-module)
     1. [Low-level modules](#low-level-modules)
-    1. [Scalable file structure](#scalable-file-structure)
     1. [File naming conventions](#file-naming-conventions)
+    1. [Scalable file structure](#scalable-file-structure)
   1. [Components](#components)
     1. [Theory](#component-theory)
     1. [Supported properties](#supported-properties) 
@@ -170,7 +170,7 @@ export default calendar;
 
 **[Back to top](#table-of-contents)**
 
-# File naming conventions
+### File naming conventions
 
 Keep it simple and lowercase, use the component name, e.g. `calendar.*.js*`, `calendar-grid.*.js` - with the name of the type of file in the middle. Use `index.js` for the module definition file, so you can import the module by directory name.
 
