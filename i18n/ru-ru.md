@@ -14,45 +14,45 @@
 
 ## Содержание
 
-  1. [Модульная архитектура](#modular-architecture)
-    1. [Теория](#module-theory)
-    1. [Главный/Корневой модуль](#root-module)
-    1. [Модуль Component](#component-module)
-    1. [Модуль Common](#common-module)
-    1. [Низкоуровневые модули](#low-level-modules)
-    1. [Конвенция наименования файлов](#file-naming-conventions)
-    1. [Масштабируемая структура файлов/папок](#scalable-file-structure)
-  1. [Компоненты](#components)
-    1. [Теория](#component-theory)
-    1. [Поддерживаемые свойства](#supported-properties)
-    1. [Контролеры](#controllers)
-    1. [События и односторонний обмен данными](#one-way-dataflow-and-events)
-    1. [Stateful компоненты](#stateful-components)
-    1. [Stateless компоненты](#stateless-components)
-    1. [Компоненты маршрутизации](#routed-components)
-  1. [Директивы](#directives)
-    1. [Теория](#directive-theory)
-    1. [Рекомендуемые свойства](#recommended-properties)
-    1. [Константы или Классы](#constants-or-classes)
-  1. [Сервисы](#services)
-    1. [Теория](#service-theory)
-    1. [Используем классы как сервис](#classes-for-service)
-  1. [ES2015 и Утилиты](#es2015-and-tooling)
-  1. [Управление состоянием](#state-management)
-  1. [Ресурсы](#resources)
-  1. [Документация](#documentation)
-  1. [Контрибуция](#contributing)
+  1. [Модульная архитектура](#модульная-архитектура)
+    1. [Теория](#теория-о-модуле)
+    1. [Главный/Корневой модуль](#корневой-модуль)
+    1. [Модуль Component](#модуль-component)
+    1. [Модуль Common](#модуль-common)
+    1. [Низкоуровневые модули](#низкоуровневые-модули)
+    1. [Конвенция наименования файлов](#конвенция-наименования-файлов)
+    1. [Масштабируемая структура файлов/папок](#масштабируемая-структура-файлов)
+  1. [Компоненты](#компоненты)
+    1. [Теория](#теория-о-компонентах)
+    1. [Поддерживаемые свойства](#поддерживаемые-свойства)
+    1. [Контроллеры](#контроллеры)
+    1. [События и односторонний обмен данными](#события-и-односторонний-обмен-данными)
+    1. [Stateful компоненты](#stateful-компоненты)
+    1. [Stateless компоненты](#stateless-компоненты)
+    1. [Компоненты маршрутизации](#компоненты-маршрутизации)
+  1. [Директивы](#директивы)
+    1. [Теория](#теория-о-директивах)
+    1. [Рекомендуемые свойства](#рекомендуемые-свойства)
+    1. [Константы или Классы](#константы-или-классы)
+  1. [Сервисы](#сервисы)
+    1. [Теория](#теория-о-сервисах)
+    1. [Используем классы в сервисе](#используем-классы-в-сервисе)
+  1. [ES2015 и Утилиты](#es2015-и-утилиты)
+  1. [Управление состоянием](#управление-состоянием)
+  1. [Ресурсы](#ресурсы)
+  1. [Документация](#документация)
+  1. [Помощь проекту](#помощь-проекту)
 
-# Модульная ахитектура
+# Модульная архитектура
 
 Каждый модуль в Angular приложении - это модульный компонент. Модульный компонент - это определение для модуля который инкапсулирует логику, шаблоны, маршрутизацию и дочерние компоненты.
 
-### Теория
+### Теория о модуле
 
-Проектирование модуля напрямую зависит от структуры папки, которая проста в поддерживании и легко читаемая. В идеальном случае у нас должно быть три корневых модуля: root, component и common. Root модуль является нашим базовым модулем который собирает наше приложение в одно целое и соответствующие шаблоны. Мы импортируем наши component'ы и common модули в root модуль, чтобы подключить все зависимости. А component и common модули в свою очередь подключают низкоуровневые модули-компоненты, которые содержут наши компоненты, контролеры, сервисы, директивы, фильтры и тесты для каждой фичи которую можно многоразово использовать. 
+Проектирование модуля напрямую зависит от структуры папки, которая проста в поддерживании и легко читаемая. В идеальном случае у нас должно быть три корневых модуля: root, component и common. Root модуль является нашим базовым модулем который собирает наше приложение в одно целое и соответствующие шаблоны. Мы импортируем наши component'ы и common модули в root модуль, чтобы подключить все зависимости. А component и common модули в свою очередь подключают низкоуровневые модули-компоненты, которые содержут наши компоненты, контроллеры, сервисы, директивы, фильтры и тесты для каждой фичи которую можно многоразово использовать. 
 
 
-**[Наверх](#table-of-contents)**
+**[Наверх](#содержание)**
 
 ### Корневой модуль
 
@@ -99,9 +99,9 @@ const root = angular
 export default root;
 ```
 
-**[Наверх](#table-of-contents)**
+**[Наверх](#содержание)**
 
-### Component модуль
+### Модуль Component
 
 Модуль Component - это контейнер с ссылками на все переиспользуемые компоненты. Смотрите ниже как мы импортируем `Components` и внедряем его в Root модуль, таким образом мы получили единое место для импорта всех компонентов в приложение. Эти модули не связаны с другими модулями и это дает нам возможность переиспользовать их легко в других приложениях.
 
@@ -120,9 +120,9 @@ const components = angular
 export default components;
 ```
 
-**[Наверх](#table-of-contents)**
+**[Наверх](#содержание)**
 
-### Common модуль
+### Модуль Common
 
 Модуль Common - это контейнер для всех компонентов с логикой для вашего приложения, эти компоненты мы не будем переиспользовать в другом приложении. Например, это могут быть вещи такие как: layout, навигация и footers. Смотрите далее как мы импортируем `Common` и внедряем его в Root модуль, это дает нам возможность импортировать все наши common компоненты в одном месте.
 
@@ -141,7 +141,7 @@ const common = angular
 export default common;
 ```
 
-**[Наверх](#table-of-contents)**
+**[Наверх](#содержание)**
 
 ### Низкоуровневые модули
 
@@ -170,7 +170,7 @@ const calendar = angular
 export default calendar;
 ```
 
-**[Наверх](#table-of-contents)**
+**[Наверх](#содержание)**
 
 ### Конвенция наименования файлов
 
@@ -186,11 +186,11 @@ calendar.filter.js
 calendar.spec.js
 ```
 
-**[Наверх](#table-of-contents)**
+**[Наверх](#содержание)**
 
-### Масштабируемая файловая структура
+### Масштабируемая структура файлов
 
-File structure is extremely important, this describes a scalable and predictable structure. An example file structure to illustrate a modular component architecture.
+Структура файлов проекта очень важная часть, эта секция описывает масштабируемую и предсказуемую структуру. Ниже показан пример файловой структуры для модульной компонентной архитектуры.
 
 ```
 ├── app/
@@ -239,78 +239,79 @@ File structure is extremely important, this describes a scalable and predictable
 └── index.html
 ```
 
-The high level folder structure simply contains `index.html` and `app/`, a directory in which all our root, component, common and low-level modules live.
+В корне проекта находится `index.html` и `app/`, директория в которой находятся все наши root, component, common и низкоуровневые модули.
 
-**[Back to top](#table-of-contents)**
+**[BНаверх](#содержание)**
 
-# Components
+# Компоненты
 
-### Component theory
+### Теория о компонентах
 
-Components are essentially templates with a controller. They are _not_ Directives, nor should you replace Directives with Components, unless you are upgrading "template Directives" with controllers, which are best suited as a component. Components also contain bindings that define inputs and outputs for data and events, lifecycle hooks and the ability to use one-way data flow and event Objects to get data back up to a parent component. These are the new defacto standard in Angular 1.5 and above. Everything template and controller driven that we create will likely be a component, which may be a stateful, stateless or routed component. You can think of a "component" as a complete piece of code, not just the `.component()` definition Object. Let's explore some best practices and advisories for components, then dive into how you should be structuring them via stateful, stateless and routed component concepts.
+Проще говоря, Компоненты - это шаблоны с контроллером. Компоненты _не являются_ директивами, и вы не должны заменять директивы компонентами, до тех пор пока вы не столкнулись с ситуацией когда надо улучшить шиблон директивы и добавить контроллер, которые лучше использовать вместе с компонентами. Компоненты так же имеют "связки" которые определяют направления для данных и событий, хуки и возможность использовать односторонний обмен данными и объекты события, для отправки данных обратно в родительский компонент. Это новый стандарт _по умолчанию_ начиная с Angular 1.5 и ниже. Все что имеет шаблон и контроллер, с уверенностью на 99%, должно быть компонентом, который может быть stateful, stateless(не зависимый от состояния) или маршрутизатором. Думайте о "компоненте", как о полноценном куске кода, не только как определение объекта `.component()`. Давайте рассмотрим лучшие практики и советы по использованию компонентов, и далее копнем глубже, чтобы понять как вы могли бы использовать компоненты как stateful, stateless и маршрутизатор.
 
-**[Back to top](#table-of-contents)**
+**[Наверз](#содержание)**
 
-### Supported properties
+### Поддерживаемые свойства
 
-These are the supported properties for `.component()` that you can/should use:
+Ниже приведен список поддерживаемых свойст у `.component()` который вам следуем использовать:
 
-| Property | Support |
+| Свойство | Поддержка |
 |---|---|
-| bindings | Yes, use `'@'`, `'<'`, `'&'` only |
-| controller | Yes |
-| controllerAs | Yes, default is `$ctrl` |
-| require | Yes (new Object syntax) |
-| template | Yes |
-| templateUrl | Yes |
-| transclude | Yes |
+| bindings | Да, используйте только `'@'`, `'<'`, `'&'` |
+| controller | Да |
+| controllerAs | Да, по умолчанию это `$ctrl` |
+| require | Да (new Object синтакс) |
+| template | Да |
+| templateUrl | Да |
+| transclude | Да |
 
-**[Back to top](#table-of-contents)**
+**[Наверх](#содержание)**
 
-### Controllers
+### Контроллеры
 
-Controllers should only be used alongside components, never anywhere else. If you feel you need a controller, what you really need is likely a stateless component to manage that particular piece of behaviour.
+Контролеры должны использоваться вместе с компонентами, и больше нигде. Если вы видите, что вам нужен контроллер, знайте, вам на самом деле нужен stateless компонент, чтобы описать то или иное свецифическое поведение.
 
-Here are some advisories for using `Class` for controllers:
+Далее вы найдете некоторые советы по использованию `Class` для контроллеров:
 
-* Always use the `constructor` for dependency injection purposes
-* Don't export the `Class` directly, export it's name to allow `$inject` annotations
-* If you need to access the lexical scope, use arrow functions
-* Alternatively to arrow functions, `let ctrl = this;` is also acceptable and may make more sense depending on the use case
-* Bind all public functions directly to the `Class`
-* Make use of the appropriate lifecycle hooks, `$onInit`, `$onChanges`, `$postLink` and `$onDestroy`
-  * Note: `$onChanges` is called before `$onInit`, see [resources](#resources) section for articles detailing this in more depth
-* Use `require` alongside `$onInit` to reference any inherited logic
-* Do not override the default `$ctrl` alias for the `controllerAs` syntax, therefore do not use `controllerAs` anywhere
+* Всегда используйте `constructor` если у вас есть внешние зависимости
+* Не экспортируйте `Class` напрямую, экспортируйте имя для использования с`$inject` аннотациями
+* Если вам необходимо достучаться до lexical scope, используйте arrow функции
+* Как альтернатива для arrow функций, `let ctrl = this;` так же приемлемо и может быть более прозрачным в использовании
+* Определите все публичные функции прямо в `Class`
+* Используйте необходимые lifecycle хуки, `$onInit`, `$onChanges`, `$postLink` и `$onDestroy`
+  * Внимание: `$onChanges` вызывается до `$onInit`, смотрите статью с дисскучией на эту тему в секции [ресурсы](#resources)
+* Используйте `require` вместе с `$onInit` для ссылок на внутреннию/наследованную логику
+* Не переопределяйте алиас `$ctrl` если используете `controllerAs` синтакс, но лучше забудьте про `controllerAs`
 
-**[Back to top](#table-of-contents)**
+**[Наверх](#содержание)**
 
-### One-way dataflow and Events
+### События и Односторонний обмен данными
 
-One-way dataflow was introduced in Angular 1.5, and redefines component communication.
+Односторонний обмен данными появился в Angular 1.5, и переопределяет то как взаимодействуют компоненты.
 
-Here are some advisories for using one-way dataflow:
+Далее приведен список советов по использованию одностороннего обмена данными:
 
-* In components that receive data, always use one-way databinding syntax `'<'`
-* _Do not_ use `'='` two-way databinding syntax anymore, anywhere
-* Components that have `bindings` should use `$onChanges` to clone the one-way binding data to break Objects passing by reference and updating the parent data
-* Use `$event` as a function argument in the parent method (see stateful example below `$ctrl.addTodo($event)`)
-* Pass an `$event: {}` Object back up from a stateless component (see stateless example below `this.onAddTodo`).
-  * Bonus: Use an `EventEmitter` wrapper with `.value()` to mirror Angular 2, avoids manual `$event` Object creation
-* Why? This mirrors Angular 2 and keeps consistency inside every component. It also makes state predictable.
+* В компонентах которые получают данные, всегда используйте синтаксис одностороннего обмена данными `'<'`
+* _Не_ используйте синтакс двухстороннего обмена данными`'='` больше нигде и никогда
+* Компоненты в которых используется `bindings` должны использовать `$onChanges` и клонировать переданные данные путем одностороннего обмена данными, для удаления
+ ссылки на переданные объекты и таким образом предвидеть обновление переданного объекта в родительском скопе.
+* Используйте `$event` как аргумент функции в родительском методе (смотрите пример stateful компонента ниже `$ctrl.addTodo($event)`)
+* Возвращайте `$event: {}` объект обратно из stateless компонента (смотрите пример stateless компонента ниже `this.onAddTodo`).
+  * Бонус: Используйте `EventEmitter` обертку вместе с `.value()` прямо как в Angular 2, что позволит избежать ручного создания `$event` объекта
+* Почему? Потому что так же сделано в Angular 2 и это позволяет сохранить консистентность компонентов. Так же это позволяет предсказать состояние.
 
-**[Back to top](#table-of-contents)**
+**[Наверх](#содержание)**
 
-### Stateful components
+### Stateful компоненты
 
-Let's define what we'd call a "stateful component".
+Давайте определим, что такое "stateful компонент".
 
-* Fetches state, essentially communicating to a backend API through a service
-* Does not directly mutate state
-* Renders child components that mutate state
-* Also referred to as smart/container components
+* Получает состояние, в большинстве случаем через обзение с серверным API через сервис
+* Напрямую не изменяет состояние
+* Отрисовывает нижестоящие компоненты которые изменяют состояние
+* Так же может называться умным компонентом или компонентом контейнером
 
-An example of a stateful component, complete with it's low-level module definition (this is only for demonstration, so some code has been omitted for brevity):
+Пример stateful компонента, вместе с определением низкоуровневого модуля (этот пример создан только для демонстрации, и лишний код был убран для краткости):
 
 ```js
 /* ----- todo/todo.component.js ----- */
@@ -370,23 +371,23 @@ const todo = angular
 export default todo;
 ```
 
-This example shows a stateful component, that fetches state inside the controller, through a service, and then passes it down into stateless child components. Notice how there are no Directives being used such as `ng-repeat` and friends inside the template. Instead, data and functions are delegated into `<todo-form>` and `<todo-list>` stateless components.
+Этот пример показывает stateful компонент, который получает состояние внутри контроллера, с помощью сервиса, и передает изменения далее в ниже стоящие stateless компоненты. Заметьте как мы обошлись без использования директив, таких как `ng-repeat` и его друзей внутри шаблона. Вместо этого, данные и функции переданы в `<todo-form>` и `<todo-list>` - stateless компоненты.
 
-**[Back to top](#table-of-contents)**
+**[Наверх](#содержание)**
 
-### Stateless components
+### Stateless компоненты
 
-Let's define what we'd call a "stateless component".
+Давайте определим, что такое "stateless компонент".
 
-* Has defined inputs and outputs using `bindings: {}`
-* Data enters the component through attribute bindings (inputs)
-* Data leaves the component through events (outputs)
-* Mutates state, passes data back up on-demand (such as a click or submit event)
-* Doesn't care where data comes from, it's stateless
-* Are highly reusable components
-* Also referred to as dumb/presentational components
+* Имеет определение точек входа и выхода данных через `bindings: {}`
+* Данные поступают в компонент через аттрибуты (inputs)
+* Данные уходят из компонента путем событий (outputs)
+* Изменяет состояние, передает данные обратно вверх по запросу (к примеру клик или событие сабмита формы)
+* Ему все равно откуда пришли данные, этот компонент stateless
+* Такой компонент является переиспользуемым, можно использовать в других приложениях
+* Так же известен как простой компонент или компонент вида(вьюшки, презентации)
 
-An example of a stateless component (let's use `<todo-form>` as an example), complete with it's low-level module definition (this is only for demonstration, so some code has been omitted for brevity):
+Пример stateless компонента (давайте возьмем `<todo-form>` как пример), вместе с низкоуровневым определением модуля (этот пример создан только для демонстрации, и лишний код был убран для краткости):
 
 ```js
 /* ----- todo/todo-form/todo-form.component.js ----- */
@@ -418,13 +419,13 @@ class TodoFormController {
   }
   onSubmit() {
     if (!this.todo.title) return;
-    // with EventEmitter wrapper
+    // с EventEmitter оберткой
     this.onAddTodo(
       EventEmitter({
         todo: this.todo
       });
     );
-    // without EventEmitter wrapper
+    // без EventEmitter обертки
     this.onAddTodo({
       $event: {
         todo: this.todo
@@ -450,20 +451,20 @@ const todoForm = angular
 export default todoForm;
 ```
 
-Note how the `<todo-form>` component fetches no state, it simply receives it, mutates an Object via the controller logic associated with it, and passes it back to the parent component through the property bindings. In this example, the `$onChanges` lifecycle hook makes a clone of the initial `this.todo` binding Object and reassigns it, which means the parent data is not affected until we submit the form, alongside one-way data flow new binding syntax `'<'`.
+Обратите внимание как `<todo-form>` компонент использует состояние просто получив его, изменяет Object путем логики контроллера ассоциированной с ним, и передает обратно в родительский компонент через свойство в bindings. В данном примере `$onChanges` хук клонирует `this.todo` Object и переприсваивает его. С помощью такого финта мы убираем ссылку на объект в родительском компоненте, чтобы случайно не обновить его. Мы используем синтаксис одностороннего обмена данным `'<'`.
 
-**[Back to top](#table-of-contents)**
+**[Наверх](#содержание)**
 
-### Routed components
+### Компоненты маршрутизации
 
-Let's define what we'd call a "routed component".
+Давайте определим, что такое "routed component".
 
-* It's essentially a stateful component, with routing definitions
-* No more `router.js` files
-* We use Routed components to define their own routing logic
-* Data "input" for the component is done via the route resolve (optional, still available in the controller with service calls)
+* В целом это stateful компонент, с определением маршрутов/навигации
+* Забудьте про `router.js` файлы
+* В компонентах маршрутизации мы можем писать логику связанную с навигацией и маршрутизацией 
+* Данные поступают в компонент через route resolve (опционально, можно продолжить использовать сервисы в контроллере)
 
-For this example, we're going to take the existing `<todo>` component, refactor it to use a route definition and `bindings` on the component which receives data (the secret here with `ui-router` is the `resolve` properties we create, in this case `todoData` directly map across to `bindings` for us). We treat it as a routed component because it's essentially a "view":
+Для примера мы возьмем `<todo>` компонент, изменим его добавив маршруты и `bindings` для компонентов которые получают данные (фишка с `ui-router` в использовании свойства `resolve`, в нашем примере `todoData` напрямую передается через `bindings`). Мы называем этот компонент маршрутизатором потому, что по существу это "view":
 
 ```js
 /* ----- todo/todo.component.js ----- */
@@ -552,51 +553,49 @@ const todo = angular
 export default todo;
 ```
 
-**[Back to top](#table-of-contents)**
+**[Наверх](#содержание)**
 
-# Directives
+# Директивы
 
-### Directive theory
+### Теория о директивах
 
-Directives gives us `template`, `scope` bindings, `bindToController`, `link` and many other things. The usage of these should be carefully considered now `.component()` exists. Directives should not declare templates and controllers anymore, or receive data through bindings. Directives should be used solely for decorating the DOM. By this, it means extending existing HTML - created with `.component()`. In a simple sense, if you need custom DOM events/APIs and logic, use a Directive and bind it to a template inside a component. If you need a sensible amount of DOM manipulation, there is also the `$postLink` lifecycle hook to consider, however this is not a place to migrate all your DOM manipulation to, use a Directive if you can for non-Angular things.
+Директивы дают нам возможность использовать `template`, `scope` связки, `bindToController`, `link` и множество других вещей. Использование всех этих свойств должно быть тщательно обдуманно, так как теперь есть `.component()`. Директивы больше не должны определять шаблоны и контроллеры или получать данные через bindings. Директивы должны быть использованы теперь только для декорирования DOM. Т.е. расширение существующего HTML - созданного с помощью `.component()`. Проще говоря, если вам нужны специфические DOM события/API и логика, используйте директиву и присоедините ее внутри шаблона который используется в компоненте. Если вам нужно внушительное количество манипуляций с DOM, используйте `$postLink` хук, но помните, что это не то место куда надо перенести все ваши манипуляции с DOM. Используйте директиву, если можете, для не-Angular фишек.
 
-Here are some advisories for using Directives:
+Список некоторых полезных советов по использованию директив:
 
-* Never use templates, scope, bindToController or controllers
-* Always `restrict: 'A'` with Directives
-* Use compile and link where necessary
-* Remember to destroy and unbind event handlers inside `$scope.$on('$destroy', fn);`
+* Больше никогда не используйте templates, scope, bindToController или controllers
+* Испоьзуйте всегда `restrict: 'A'` вместе с директивами
+* Используйте compile и link где необходимо
+* Помните destroy и unbind обрабочики событий внутри `$scope.$on('$destroy', fn);`
 
-**[Back to top](#table-of-contents)**
+**[Наверх](#содержание)**
 
-### Recommended properties
+### Рекомендуемые свойства
 
-Due to the fact directives support most of what `.component()` does (template directives were the original component), I'm recommending limiting your directive Object definitions to only these properties, to avoid using directives incorrectly:
+Из-за того что директивы поддерживают большинство свойст из `.component()` (шаблон директивы был изначально компонентом), я рекомендую ограничить стек свойст директивы для использования, чтобы использовать директивы правильно:
 
-| Property | Use it? | Why |
+| Свойство | Использовать? | Почему |
 |---|---|---|
-| bindToController | No | Use `bindings` in components |
-| compile | Yes | For pre-compile DOM manipulation/events |
-| controller | No | Use a component |
-| controllerAs | No | Use a component |
-| link functions | Yes | For pre/post DOM manipulation/events |
-| multiElement | Yes | [See docs](https://docs.angularjs.org/api/ng/service/$compile#-multielement-) |
-| priority | Yes | [See docs](https://docs.angularjs.org/api/ng/service/$compile#-priority-) |
-| require | No | Use a component |
-| restrict | Yes | Defines directive usage, always use `'A'` |
-| scope | No | Use a component |
-| template | No | Use a component |
-| templateNamespace | Yes (if you must) | [See docs](https://docs.angularjs.org/api/ng/service/$compile#-templatenamespace-) |
-| templateUrl | No | Use a component |
-| transclude | No | Use a component |
+| bindToController | Нет | Используйте `bindings` в компонентах |
+| compile | Да | Для pre-compile DOM манипуляций и событий |
+| controller | Нет | Используйте компонент |
+| controllerAs | Нет | Используйте компонент |
+| link functions | Да | Для pre/post DOM манипуляций и событий |
+| multiElement | Да | [Смотрите документацию](https://docs.angularjs.org/api/ng/service/$compile#-multielement-) |
+| priority | Да | [Смотрите документацию](https://docs.angularjs.org/api/ng/service/$compile#-priority-) |
+| require | Нет | Используйте компонент |
+| restrict | Да | Определяет как будет использоваться директива, всегда используйте `'A'` |
+| scope | Нет | Используйте компонент |
+| template | Нет | Используйте компонент |
+| templateNamespace | Да (если не обойтись уж никак) | [Смотрите документацию](https://docs.angularjs.org/api/ng/service/$compile#-templatenamespace-) |
+| templateUrl | Нет | Используйте компонент |
+| transclude | Нет | Используйте компонент |
 
-**[Back to top](#table-of-contents)**
+**[Наверх](#содержание)**
 
-### Constants or Classes
+### Константы или Классы
 
-There are a few ways to approach using ES2015 and directives, either with an arrow function and easier assignment, or using an ES2015 `Class`. Choose what's best for you or your team, keep in mind Angular 2 uses `Class`.
-
-Here's an example using a constant with an Arrow function an expression wrapper `() => ({})` returning an Object literal (note the usage differences inside `.directive()`):
+Существует несколько путей совместного использования ES2015 и директив, с помощью arrow функций и легкого назначения, или используя ES2015 `Class`. Выберите то, что лучше всего подходит вам и вашей команде, но помните, что Angular 2 использует `Class`. Далее рассмотрим пример использования констант с arrow функцией, обертка выражения `() => ({})` возвращает Object литерал (обратите внимание на разницу в использовании внутри `.directive()`):
 
 ```js
 /* ----- todo/todo-autofocus.directive.js ----- */
@@ -632,7 +631,7 @@ const todo = angular
 export default todo;
 ```
 
-Or using ES2015 `Class` (note manually calling `new TodoAutoFocus` when registering the directive) to create the Object:
+Или с использование ES2015 ключего слова `Class` (обратите внимание на ручное создание объекта с помощью `new TodoAutoFocus` когда регистрируем директиву) для создания объекта:
 
 ```js
 /* ----- todo/todo-autofocus.directive.js ----- */
@@ -670,19 +669,19 @@ const todo = angular
 export default todo;
 ```
 
-**[Back to top](#table-of-contents)**
+**[Наверх](#содержание)**
 
-# Services
+# Сервисы
 
-### Service theory
+### Теория о сервисах
 
-Services are essentially containers for business logic that our components shouldn't request directly. Services contain other built-in or external services such as `$http`, that we can then inject into component controllers elsewhere in our app. We have two ways of doing services, using `.service()` or `.factory()`. With ES2015 `Class`, we should only use `.service()`, complete with dependency injection annotation using `$inject`.
+Сервисы по существу это контейнеры для бизнес логики, которую наши компоненты не должны запрашивать/использовать напрямую. Сервисы используют другие встроенные или внешние сервисы, например `$http`, которые мы можем внедрить в контроллер компонентов где угодно в нашем приложении. Существуют два пути создания сервисов, используя `.service()` или `.factory()`. Используя ES2015 ключевое слово `Class`, мы должны использовать только `.service()`, вместе с dependency injection аннотацией используя `$inject`.
 
-**[Back to top](#table-of-contents)**
+**[Назад](#содержание)**
 
-### Classes for Service
+### Используем классы в сервисе
 
-Here's an example implementation for our `<todo>` app using ES2015 `Class`:
+Ниже приведен пример нашего `<todo>` используя ES2015 ключевое слово`Class`:
 
 ```js
 /* ----- todo/todo.service.js ----- */
@@ -713,50 +712,50 @@ const todo = angular
 export default todo;
 ```
 
-**[Back to top](#table-of-contents)**
+**[Наверх](#содержание)**
 
-# ES2015 and Tooling
+# ES2015 и Утилиты
 
 ##### ES2015
 
-* Use [Babel](https://babeljs.io/) to compile your ES2015+ code and any polyfills
-* Consider using [TypeScript](http://www.typescriptlang.org/) to make way for any Angular 2 upgrades
+* Используйте [Babel](https://babeljs.io/) чтобы скомпилировать ES2015+ код и любые полифилы
+* Не стесняйтесь использовать [TypeScript](http://www.typescriptlang.org/) чтобы легче прошел переход на Angular 2
 
-##### Tooling
-* Use `ui-router` [latest alpha](https://github.com/angular-ui/ui-router) (see the Readme) if you want to support component-routing
-  * Otherwise you're stuck with `template: '<component>'` and no `bindings`
-* Consider using [Webpack](https://webpack.github.io/) for compiling your ES2015 code
-* Use [ngAnnotate](https://github.com/olov/ng-annotate) to automatically annotate `$inject` properties
-* How to use [ngAnnotate with ES6](https://www.timroes.de/2015/07/29/using-ecmascript-6-es6-with-angularjs-1-x/#ng-annotate)
+##### Утилиты
+* Используйте `ui-router` [последняя alpha](https://github.com/angular-ui/ui-router) (смотрите Readme) если вы хотите использовать компонентную маршрутизацию
+  * В другом случае вы застряли с `template: '<component>'` без `bindings`
+* Начинайте использовать [Webpack](https://webpack.github.io/) для компиляции вашего ES2015 кода
+* Используйте [ngAnnotate](https://github.com/olov/ng-annotate) для автоматической аннотации `$inject` свойств
+* Как использовать [ngAnnotate вместе с ES6](https://www.timroes.de/2015/07/29/using-ecmascript-6-es6-with-angularjs-1-x/#ng-annotate)
 
-**[Back to top](#table-of-contents)**
+**[Наверх](#содержание)**
 
-# State management
+# Управление состоянием
 
-Consider using Redux with Angular 1.5 for data management.
+Начните использовать Redux вместе с Angular 1.5 для управления данными.
 
 * [Angular Redux](https://github.com/angular-redux/ng-redux)
 
-**[Back to top](#table-of-contents)**
+**[Назад](#содержание)**
 
-# Resources
+# Ресурсы
 
-* [Understanding the .component() method](https://toddmotto.com/exploring-the-angular-1-5-component-method/)
-* [Using "require" with $onInit](https://toddmotto.com/on-init-require-object-syntax-angular-component/)
-* [Understanding all the lifecycle hooks, $onInit, $onChange, $postLink, $onDestroy](https://toddmotto.com/angular-1-5-lifecycle-hooks)
-* [Using "resolve" in routes](https://toddmotto.com/resolve-promises-in-angular-routes/)
-* [Redux and Angular state management](http://blog.rangle.io/managing-state-redux-angular/)
+* [Объяснение метода .component()](https://toddmotto.com/exploring-the-angular-1-5-component-method/)
+* [Использование "require" вместе с $onInit](https://toddmotto.com/on-init-require-object-syntax-angular-component/)
+* [Объяснение всех lifecycle хуков, $onInit, $onChange, $postLink, $onDestroy](https://toddmotto.com/angular-1-5-lifecycle-hooks)
+* [Использование "resolve" в маршрутах](https://toddmotto.com/resolve-promises-in-angular-routes/)
+* [Управление состоянием в Angular с помощью Redux](http://blog.rangle.io/managing-state-redux-angular/)
 
-**[Back to top](#table-of-contents)**
+**[Наверх](#содержание)**
 
-# Documentation
-For anything else, including API reference, check the [Angular documentation](//docs.angularjs.org/api).
+# Документация
+Все что было упущено, можно найти в [Angular документации](//docs.angularjs.org/api).
 
-# Contributing
+# Помощь проекту
 
-Open an issue first to discuss potential changes/additions. Please don't open issues for questions.
+Создайте issue, чтобы обсудить возможные изменения/добавления. Пожалуйста, не создавайте issue ради вопросов.
 
-## License
+## Лицензия
 
 #### (The MIT License)
 
