@@ -4,15 +4,15 @@
 
 *Un guide de style adapté aux équipes par [@toddmotto](//twitter.com/toddmotto)*
 
-Cette architecture et guide de style a été réécris avec ES2015 en t^te, ainsi que les changement d'Angular 1.5+ pour une future mise à jour vers Angular 2. Ce guide inclut les nouvelles bonnes pratiques pour du one-way dataflow, la délégation d'évènements, l'architecture des components et le routing de ceux-ci.
+Cette architecture et guide de style a été réécrit avec ES2015 en tête, ainsi que les changements d'Angular 1.5+ pour une future mise à jour vers Angular 2. Ce guide inclut les nouvelles bonnes pratiques pour du one-way dataflow, la délégation d'évènements, l'architecture des components et le routing de ceux-ci.
 
-Vous pouvez trouver l'ancien guide de style [ici](https://github.com/toddmotto/angular-styleguide/tree/angular-old-es5), et le raisonnement derriere le nouveau [ici](https://toddmotto.com/rewriting-angular-styleguide-angular-2).
+Vous pouvez trouver l'ancien guide de style [ici](https://github.com/toddmotto/angular-styleguide/tree/angular-old-es5), et le raisonnement derrière le nouveau [ici](https://toddmotto.com/rewriting-angular-styleguide-angular-2).
 
-> Rejoignez l'Ultime experience d'apprentissage AngularJS pour maitriser completement les fonctionnalités Angular, de base, et avancée, pour construire de vraies applications rapides et scalables.
+> Rejoignez l'Ultime expérience d'apprentissage AngularJS pour maitriser complètement les fonctionnalités Angular, de base, et avancées, pour construire de vraies applications rapides et scalables.
 
 <a href="https://courses.toddmotto.com" target="_blank"><img src="https://toddmotto.com/img/ua.png"></a>
 
-## Table des matieres
+## Table des matières
 
   1. [Architecture modulaire](#architecture-modulaire)
     1. [Théorie des modules](#théorie-des-modules)
@@ -45,17 +45,17 @@ Vous pouvez trouver l'ancien guide de style [ici](https://github.com/toddmotto/a
 
 # Architecture modulaire
 
-Chaque module dans une application Angular est un module component. Un module component est la principale définition pour ce module qui encapsule la logique, les templates, le routage et les components enfants.
+Chaque module dans une application Angular est un module component. Un module component est la définition qui encapsule la logique, les templates, le routage et les components enfants.
 
 ### Théorie des modules
 
-La structure d'un module se retrouve directement dans la structure de nos répertoires, ce qui permet de garder les choses maintenable et prédictible. Idéalement on devrait avoir trois modules de haut niveau: root, component et common. Le module root définit le module de base qui bootstrap notre app, et le template correspondant. On importe ensuite nos modules component et common dans le root module pour inclure ses dépendances. Les modules component et common font appel aux modules de bas niveau, qui contiennent nos components, controllers, services, directives, filtres, et nos tests pour chaque fonctionnalité réutilisables
+La structure d'un module se retrouve directement dans la structure de nos répertoires, ce qui permet de garder les choses maintenables et prédictibles. Idéalement on devrait avoir trois modules de haut niveau: root, component et common. Le module root définit le module de base qui bootstrap notre app, et le template correspondant. On importe ensuite nos modules component et common dans le root module pour inclure ses dépendances. Les modules component et common font appel aux modules de bas niveau, qui contiennent nos components, controllers, services, directives, filtres, et nos tests pour chaque fonctionnalité réutilisables
 
 **[Haut de page](#table-des-matieres)**
 
 ### Module Root
 
-Un module root commence par un root component qui définit l'élément de base pour l'application, avec le routage définit, l'exemple ci-dessous utilise `ui-view` depuis `ui-router`.
+Un module root commence par un root component qui définit l'élément de base pour l'application, avec le routage défini, l'exemple ci-dessous utilise `ui-view` depuis `ui-router`.
 
 ```js
 // app.component.js
@@ -76,7 +76,7 @@ const AppComponent = {
 export default AppComponent;
 ```
 
-Un module root est ensuite créé, avec `AppComponent` puis importé et enregistré avec `.component('app', AppComponent)`. Les imports supplémentaires pour les sous-modules (modules component et common) sont censé inclure tous les components pertinents pour l'application.
+Un module root est ensuite créé, avec `AppComponent` puis importé et enregistré avec `.component('app', AppComponent)`. Les imports supplémentaires pour les sous-modules (modules component et common) sont censés inclure tous les components pertinents pour l'application.
 
 ```js
 // app.js
@@ -123,7 +123,7 @@ export default components;
 
 ### Module Common
 
-Le module Common contient les références pour tous les components spécifiques à l'application, ceux qu'on ne souhaite pas utiliser dans une autre application. Ca peut etre de la mise en page (layout), de la navigation ou des bas de pages (footers). Ci-dessus nous avons importé `Common` puis injecté dans le module Root, cela nous donne un seul endroit où importer tous les components common de l'app.
+Le module Common contient les références pour tous les components spécifiques à l'application, ceux qu'on ne souhaite pas utiliser dans une autre application. Cela peut être de la mise en page (layout), de la navigation ou des bas de pages (footers). Ci-dessus nous avons importé `Common` puis injecté dans le module Root, cela nous donne un seul endroit où importer tous les components common de l'app.
 
 ```js
 import angular from 'angular';
@@ -144,7 +144,7 @@ export default common;
 
 ### Modules Low-level
 
-Les modules Low-level sont des modules component individuels qui contiennent la logique de chaque fonctionnalité. Ils definiront chacun un module, qui sera importé à un module de plus haut niveau, comme un component ou un module common (exemple ci-dessous). Ne pas oublier d'ajouter le suffix `.name` à chaque `export` à la création d'un _nouveau_ module et non pas lorsqu'on fait référence à un module existant. Vous noterez que les définitions de routage (routing) existent ici aussi, un prochain chapitre couvrira ce point.
+Les modules Low-level sont des modules component individuels qui contiennent la logique de chaque fonctionnalités. Ils definiront chacun un module, qui sera importé à un module de plus haut niveau, comme un component ou un module common (exemple ci-dessous). Ne pas oublier d'ajouter le suffix `.name` à chaque `export` à la création d'un _nouveau_ module et non pas lorsque l'on fait référence à un module existant. Vous noterez que les définitions de routage (routing) existent ici aussi, un prochain chapitre couvrira ce point.
 
 ```js
 import angular from 'angular';
@@ -173,7 +173,7 @@ export default calendar;
 
 ### Convention de nommage des fichiers
 
-Gardez des noms simple, en minuscules, utilisez le nom du component, e.g. `calendar.*.js*`, `calendar-grid.*.js` - avec le nom du type de fichier au milieu. Utilisez `index.js` pour le fichier de definition de module, pour pouvoir importer ces modules par nom de dossier.
+Gardez des noms simple, en minuscules, utilisez le nom du component, e.g. `calendar.*.js*`, `calendar-grid.*.js` - avec le nom du type de fichier au milieu. Utilisez `index.js` pour le fichier de définition de module, pour pouvoir importer ces modules par nom de dossier.
 
 ```
 index.js
@@ -246,7 +246,7 @@ Le dossier racine contient simplement `index.html` et `app/`, un répertoire dan
 
 ### Théorie des components
 
-Les Components sont en fait des templates avec un controller. Ils ne sont _pas_ des Directives, et vous ne devriez pas remplacer les Directives par des components, à moins d'upgrader les "Directives template" avec des controllers, qui sont mieux adaptés en tant que component. Les components contiennent aussi des bindings (liaisons) qui définissent les entrées et sorties pour les données et les evenements, les lifecycle hooks (fonctions qui s'executent à des moments clé du cycle de vie d'un component), et la possibilité d'utiliser le one-way data flow (propagation unidirectionnelle des données) et les event Object (objet evenement) qui permettent de transmettre des données à un component parent. Le Component est le nouveau standard Angular 1.5 et au dessus. Tout ce que l'on créé qui contient un template et un controller sera vraisemblablement un component, qui peut etre un component stateful (avec état), stateless (sans état), ou routed (routé). On peut réfléchir à un "component" comme un morceau de code complet, et non pas juste sa definition Object `.component()`. Explorons maintenant quelques bonne pratiques des components, et examinons la façon dont vous devriez les structurer via les concepts de components stateful, stateless, et routed.
+Les Components sont en fait des templates avec un controller. Ils ne sont _pas_ des Directives, et vous ne devriez pas remplacer les Directives par des components, à moins d'upgrader les "Directives template" avec des controllers, qui sont mieux adaptés en tant que component. Les components contiennent aussi des bindings (liaisons) qui définissent les entrées et sorties pour les données et les évènements, les lifecycle hooks (fonctions qui s'exécutent à des moments clés du cycle de vie d'un component), et la possibilité d'utiliser le one-way data flow (propagation unidirectionnelle des données) et les event Objects (objets evenement) qui permettent de transmettre des données à un component parent. Le Component est le nouveau standard Angular 1.5 et au dessus. Tout ce que l'on créé qui contient un template et un controller sera vraisemblablement un component, qui peut être un component stateful (avec état), stateless (sans état), ou routed (routé). On peut réfléchir à un "component" comme un morceau de code complet, et non pas juste sa definition Object `.component()`. Explorons maintenant quelques bonne pratiques des components, et examinons la façon dont vous devriez les structurer via les concepts de components stateful, stateless, et routed.
 
 **[Haut de page](#table-des-matieres)**
 
@@ -259,7 +259,7 @@ Voilà ci-dessous les propriétés supportées pour `.component()` que vous pouv
 | bindings | Oui, utiliser seulement `'@'`, `'<'`, `'&'`|
 | controller | Oui |
 | controllerAs | Oui, par defaut est à la valeur `$ctrl` |
-| require | Oui (nouvelle synthaxe Object) |
+| require | Oui (nouvelle syntaxe Object) |
 | template | Oui |
 | templateUrl | Oui |
 | transclude | Oui |
@@ -268,46 +268,46 @@ Voilà ci-dessous les propriétés supportées pour `.component()` que vous pouv
 
 ### Controllers
 
-Les Controllers ne devrait etre utilisés qu'aux cotés de components, jamais autre part. Si vous pensez avoir besoin d'un controller, en réalité vous avez surement besoin d'un component stateless qui va gérer ce comportement particulier.
+Les Controllers ne devraient être utilisés qu'aux cotés de components, jamais autre part. Si vous pensez avoir besoin d'un controller, en réalité vous avez surement besoin d'un component stateless qui va gérer ce comportement particulier.
 
 Voilà quelques conseils pour l'utilisation de `Class` pour les controllers:
 
 * Toujours utiliser le `constructor` pour l'injection de dépendance
-* Ne pas exporter directement la `Class`, exportez son nom pour pouvoir utiliser la notation `$inject`
-* Si vous avez besoin d'accèder au lexical scope (portée lexical) utilisez les fonctions flechées (arrow function)
+* Ne pas exporter directement la `Class`, exportez son nom pour pouvoir utiliser la notation `$inject`.
+* Si vous avez besoin d'accèder au lexical scope (portée lexicale) utilisez les fonctions flechées (arrow function).
 * Une alternative aux fonctions flechées pour acceder au lexical scope `let ctrl = this;` est aussi acceptable et peut etre plus logique en fonction du cas.
-* Lier toutes les fonctions public directement à la `Class`
-* Mettez à profit l'utilisation des lifecycle hooks appropriés, `$onInit`, `$onChanges`, `$postLink` et `$onDestroy`
-  * Note: `$onChanges` est appelée avant `$onInit`, voir la section [ressources](#ressources) pour des articles qui traitent du sujet plus en profondeur.
-* Utilisez `require` de pair avec `$onInit` pour référencer toute logique héritée
-* Ne pas redefinir la valeur par defaut `$ctrl` qui est l'alias de la syntaxe `controllerAs`, n'utilisez donc pas du tout `controllerAs`
+* Lier toutes les fonctions publiques directement à la `Class`.
+* Mettez à profit l'utilisation des lifecycle hooks appropriés, `$onInit`, `$onChanges`, `$postLink` et `$onDestroy`.
+  * Note: `$onChanges` est appelé avant `$onInit`, voir la section [ressources](#ressources) pour des articles qui traitent du sujet plus en profondeur.
+* Utilisez `require` de pair avec `$onInit` pour référencer toute logique héritée.
+* Ne pas redéfinir la valeur par defaut `$ctrl` qui est l'alias de la syntaxe `controllerAs`, n'utilisez donc pas du tout `controllerAs`
 
 **[Haut de page](#table-des-matieres)**
 
 ### One-way dataflow et évènements
 
-Le one-way dataflow (propagation unidirectionnelle des données) a été introduit dans Angular 1.5, et il redéfinit la communication entre components.
+Le one-way dataflow (propagation unidirectionnelle des données) a été introduit dans Angular 1.5, et redéfinit la communication entre components.
 
-Voici quelques conseil pour l'utilisation du one-way dataflow
+Voici quelques conseils pour l'utilisation du one-way dataflow
 
-* Dans les components qui reçoivent des données, toujours utiliser la synthaxe `'<'` de one-way databinding
-* _Ne plus_ utiliser la synthaxe `'='` de two-way databinding
-* Les components qui possèdent des `bindings` devraient utiliser `$onChanges` pour cloner les données issues du one-way databinding, casser les passage d'object par références, et mettre à jour les données parentes.
-* Utiliser `$event` comme argument de fonction dans la méthode parente (voir exemple stateful dessous `$ctrl.addTodo($event)`)
+* Dans les components qui reçoivent des données, toujours utiliser la synthaxe `'<'` de one-way databinding.
+* _Ne plus_ utiliser la synthaxe `'='` de two-way databinding.
+* Les components qui possèdent des `bindings` devraient utiliser `$onChanges` pour cloner les données issues du one-way databinding, casser les passages d'objets par référence, et mettre à jour les données parentes.
+* Utiliser `$event` comme argument de fonction dans la méthode parente (voir exemple stateful dessous `$ctrl.addTodo($event)`).
 * Passer un Object `$event: {}`  depuis un stateless component (voir exemple stateless dessous `this.onAddTodo`).
   * Bonus: Utiliser un wrapper de `EventEmitter`  avec `.value()` pour mimer le comportement d'Angular 2, cela permet d'éviter la création manuelle d'Object `$event`
-* Pourquoi ? Cela imite le comportement d'Angular 2  et garde une plus grande cohérence dans chaque component. Cela permet aussi d'avoir un state prédictible.
+* Pourquoi ? Cela imite le comportement d'Angular 2 et permet de rester cohérent entre chaque components. Cela permet aussi d'avoir un état (state) prédictible.
 
 **[Haut de page](#table-des-matieres)**
 
 ### Components stateful
 
-Definissons ce qu'on appelle "component stateful"
+Definissons ce que l'on appelle "component stateful"
 
 * Fetch le state, communique essentiellement avec une API backend au travers d'un service
 * Ne fais pas d'opération de mutation sur le state
-* Render les components enfant qui opèrent des mutations sur le state
-* Aussi appelé components intelligents/contenant (smart/container)
+* Render les components enfants qui opèrent des mutations sur le state
+* Aussi appelés components intelligents / contenants (smart / container)
 
 Un exemple de component stateful, complet avec ses définitions de module low-level (seulement une démonstration, une partie du code à été omise par soucis de clareté):
 
@@ -369,8 +369,8 @@ const todo = angular
 export default todo;
 ```
 
-Cet exemple montre un component stateful, qui fetch le state dans un controller, au travers d'un service, puis qui le passe à ses component stateless enfants. Remarquez qu'il n'y a aucune Directive utilisées comme `ng-repeat` ou autre à l'intérieur du template.
-A la place, les données et les fonctions sont déléguées dans les component stateless `<todo-form>` et `<todo-list>`.
+Cet exemple montre un component stateful, qui fetch le state dans un controller, au travers d'un service, puis qui le passe à ses component stateless enfants. Remarquez qu'il n'y a aucune Directive utilisée comme `ng-repeat` ou autres à l'intérieur du template.
+À la place, les données et les fonctions sont déléguées dans les component stateless `<todo-form>` et `<todo-list>`.
 
 **[Haut de page](#table-des-matieres)**
 
@@ -378,13 +378,13 @@ A la place, les données et les fonctions sont déléguées dans les component s
 
 Definissons ce qu'on appelle "component stateless"
 
-* Possède des inputs et outputs définits en utilisant `bindings: {}`
+* Possède des inputs et outputs définis en utilisant `bindings: {}`
 * Les données arrivent au component via des bindings d'attributs (inputs)
 * Les données quittent le component via des events (outputs)
 * Opère des mutations sur le state, renvoie les données vers le parent sur demande (comme un click ou un event submit)
 * Ne se soucie pas d'où viennent les données, il est stateless
 * Sont des components hautement réutilisables
-* Aussi appelés component idiot/de présentation
+* Aussi appelés component idiot / de présentation
 
 Un exemple de component stateless (utilisons `<todo-form>` comme exemple), complet avec les definitions de module low-level (seulement une démonstration, une partie du code à été omise par soucis de clareté):
 
@@ -450,7 +450,7 @@ const todoForm = angular
 export default todoForm;
 ```
 
-Notez comme le component `<todo-form>` ne fetch pas de state, il le reçoit simplement, opère une mutation d'un Object via le code logique du controller associé au component, et le rend au component parent au travers des bindings de propriété. Dans cet exemple, le lifecycle hook `$onChanges` fabrique un clone du binding Object original `this.todo` et le réassigne, ce qui veut dire que les données parents ne sont pas affectés tant que le formulaire n'est pas soumis, cote a cote avec la nouvelle synthaxe de one-way dataflow `'<'`.
+Notez comme le component `<todo-form>` ne fetch pas de state, il le reçoit simplement, opère une mutation d'un Object via le code logique du controller associé au component, et le rend au component parent au travers des bindings de propriétés. Dans cet exemple, le lifecycle hook `$onChanges` fabrique un clone du binding Object original `this.todo` et le réassigne, ce qui veut dire que les données parentes ne sont pas affectées tant que le formulaire n'est pas soumis, cote a cote avec la nouvelle syntaxe de one-way dataflow `'<'`.
 
 **[Haut de page](#table-des-matieres)**
 
@@ -460,7 +460,7 @@ Definissons ce qu'on appelle un "routed component".
 
 * C'est fondamentalement un component stateful, avec des definitions de routing
 * Plus de fichiers `router.js`
-* On utilise les routed component pour définir leur propre logique de routing
+* On utilise les routed components pour définir leur propre logique de routing
 * Les "input" de données pour le component est fait via le route resolve (optionel, toujours disponible dans le controller avec les appels au service)
 
 Pour cet exemple, nous allons prendre le component existant `<todo>`, le refactorer pour qu'il utilise une definition de route et des `bindings` sur le component qui recevront les données (le secret ici avec `ui-router` réside dans les propriétés `resolve` que l'on créé, en l'occurrence `todoData` map directement pour nous vers les `bindings`). On le considère comme un routed component parce que c'est essentiellement une "view":
@@ -558,13 +558,13 @@ export default todo;
 
 ### Théorie des directives
 
-Les directives nous donnent un `template`, `scope` bindings, `bindToController`, `link` et beaucoup d'autres choses. L'usage de ces dernieres doit etre examiné avec attention maintenant que `.component()` existe. Les directives ne doivent plus déclarer de templates ni de controllers, ou recevoir des données via des bindings. Les directives ne doivent utilisées que pour "décorer" la DOM. Cela signifie enrichir le HTML existant - créé avec `component()`. Dans son aspect le plus simple, si on a besoin d'events/APIs DOM sur mesure et de code logique, utiliser une Directive et la binder à un template d'un component. Si on a besoin d'une quantité raisonnable de manipulations DOM, il y a aussi le lifecycle jook `$postLink` à considérer, néanmoins ce n'est pas un endroit pour faire migrer toutes vos manipulation DOM, n'utiliser les Directive que pour les choses détachées d'Angular si vous pouvez.
+Les directives nous donnent un `template`, `scope` bindings, `bindToController`, `link` et beaucoup d'autres choses. L'usage de ces dernieres doit etre examiné avec attention maintenant que `.component()` existe. Les directives ne doivent plus déclarer de templates ni de controllers, ou recevoir des données via des bindings. Les directives ne doivent utilisées que pour "décorer" le DOM. Cela signifie enrichir le HTML existant - créé avec `component()`. Dans son aspect le plus simple, si on a besoin d'events/APIs DOM sur mesure et de code logique, utiliser une Directive et la binder à un template d'un component. Si on a besoin d'une quantité raisonnable de manipulations de DOM, il y a aussi le lifecycle jook `$postLink` à considérer, néanmoins ce n'est pas un endroit pour faire migrer toutes vos manipulation de DOM, n'utiliser les Directives que pour les choses hors d'Angular si vous pouvez.
 
 Voici quelques conseils pour l'utilisation des Directives:
 
-* Ne jamais utiliser templates, scope, bindToController ou controllers
-* Toujours `restrict: 'A'` avec les Directives
-* Utilise compile et link quand nécessaire
+* Ne jamais utiliser template, scope, bindToController ou controller.
+* Toujours `restrict: 'A'` avec les Directives.
+* Utiliser compile et link quand nécessaire.
 * Ne pas oublier de destroy et unbind les event handlers dans `$scope.$on('$destroy', fn);`
 
 **[Haut de page](#table-des-matieres)**
@@ -576,10 +576,10 @@ Comme les directives supportent la plupart de ce que fait `.component()` (les di
 | Propriété | L'utiliser ? | Pourquoi |
 |---|---|---|
 | bindToController | Non | Utiliser `bindings` dans les components |
-| compile | Oui | Pour pre-compiler les manipulations/events de la DOM |
+| compile | Oui | Pour pre-compiler les manipulations/events de DOM |
 | controller | Non | Utiliser un component |
 | controllerAs | Non | Utiliser un component |
-| link functions | Oui | Pour pre/post manipulations/events de la DOM |
+| link functions | Oui | Pour pre/post manipulations/events du DOM |
 | multiElement | Oui | [Voir documentation](https://docs.angularjs.org/api/ng/service/$compile#-multielement-) |
 | priority | Oui | [Voir documentation](https://docs.angularjs.org/api/ng/service/$compile#-priority-) |
 | require | Non | Utiliser un component |
@@ -594,9 +594,9 @@ Comme les directives supportent la plupart de ce que fait `.component()` (les di
 
 ### Constantes ou Classes
 
-Il y a quelques façons d'aborder l'utilisation d'ES2015 et des directives, soit avec les fonctions fléchées et la facilitation d'assignation, soit utiliser une `Class` ES2015. Choisissez ce qui convient le mieux à vous ou votre équipe, garder en tete qu'Angular 2 utilise `Class`.
+Il y a quelques façons d'aborder l'utilisation d'ES2015 et des directives, soit avec les "fat arrow functions" et la facilitation d'assignation, soit utiliser une `Class` ES2015. Choisissez ce qui convient le mieux à vous ou votre équipe, garder en tête qu'Angular 2 utilise `Class`.
 
-Voici un exemple qui utilise une constante avec une fonction fléchée un wrapper d'expression `() => ({})` qui retourne un Object literal (notez les différences d'utilisation dans `.directive()`):
+Voici un exemple qui utilise une constante avec une  "fat arrow function",  un wrapper d'expression `() => ({})` qui retourne un Object literal (notez les différences d'utilisation dans `.directive()`):
 
 ```js
 /* ----- todo/todo-autofocus.directive.js ----- */
@@ -676,7 +676,7 @@ export default todo;
 
 ### Théorie des services
 
-Les services sont essentiellement des contenant pour la logique métier que nos components ne devraient pas demander directement. Les services contiennent des autres services intégrés ou externes comme `$http`, que nous pouvons injecter dans les component controllers autre part dans notre app. Il y a deux manières pour faire des services, en utilisant `.service()` ou `.factory()`. Avec `Class` de ES2015, nous ne devrions utiliser que `.service()`, avec l'annotation de l'injection des dépendances en utilisant `$inject`. 
+Les services sont essentiellement des contenants pour la logique métier que nos components ne devraient pas demander directement. Les services contiennent d'autres services intégrés ou externes comme `$http`, que nous pouvons injecter dans les component controllers autre part dans notre application. Il y a deux manières pour faire des services, en utilisant `.service()` ou `.factory()`. Avec `Class` de ES2015, nous ne devrions utiliser que `.service()`, avec l'annotation de l'injection des dépendances en utilisant `$inject`. 
 
 **[Haut de page](#table-des-matieres)**
 
@@ -720,7 +720,7 @@ export default todo;
 ##### ES2015
 
 * Utiliser [Babel](https://babeljs.io/) pour compiler votre code ES2015+ et tous les polyfills 
-* Envisager d'utiliser [TypeScript](http://www.typescriptlang.org/) pour dégager la route vers une upgrade Angular 2
+* Envisager d'utiliser [TypeScript](http://www.typescriptlang.org/) simplifier la transition vers Angular 2
 
 ##### Outils
 * Utiliser `ui-router` [la dernière alpha](https://github.com/angular-ui/ui-router) (voir le Readme) si vous voulez supporter le component-routing
@@ -741,7 +741,7 @@ Envisager d'utiliser Redux avec Angular 1.5 pour la gestion des données.
 
 # Ressources
 
-* [Comprendre la methode .component()](https://toddmotto.com/exploring-the-angular-1-5-component-method/)
+* [Comprendre la méthode .component()](https://toddmotto.com/exploring-the-angular-1-5-component-method/)
 * [Utilisation de "require" avec $onInit](https://toddmotto.com/on-init-require-object-syntax-angular-component/)
 * [Comprendre tous les lifecycle hooks, $onInit, $onChange, $postLink, $onDestroy](https://toddmotto.com/angular-1-5-lifecycle-hooks)
 * [Utiliser "resolve" dans vos routes](https://toddmotto.com/resolve-promises-in-angular-routes/)
@@ -750,11 +750,11 @@ Envisager d'utiliser Redux avec Angular 1.5 pour la gestion des données.
 **[Haut de page](#table-des-matieres)**
 
 # Documentation
-Pour autre chose, y compris les références à l'API, voici la [documentation Angular](//docs.angularjs.org/api)
+Pour d'autres informations, y compris les références à l'API, voici la [documentation Angular](//docs.angularjs.org/api)
 
 # Contribuer
 
-D'abord, ouvrir un issue pour discuter des changements/additions potentielles. N'ouvrez pas d'issues pour des questions.
+D'abord, ouvrir un issue pour discuter des changements/additions potentiels. N'ouvrez pas d'issues pour des questions.
 
 ## License
 
