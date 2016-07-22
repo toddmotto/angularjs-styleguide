@@ -25,7 +25,7 @@ Angular 的编码风格以及架构已经使用ES2015进行重写,这些在Angul
     1. [文件命名规范](#file-naming-conventions)
   1. [组件](#components)
     1. [基本概念](#component-theory)
-    1. [支持的属性](#supported-properties) 
+    1. [支持的属性](#supported-properties)
     1. [控制器](#controllers)
     1. [单向数据流和事件](#one-way-dataflow-and-events)
     1. [状态组件](#stateful-components)
@@ -33,7 +33,7 @@ Angular 的编码风格以及架构已经使用ES2015进行重写,这些在Angul
     1. [路由组件](#routed-components)
   1. [指令](#directives)
     1. [基本概念](#directive-theory)
-    1. [建议的属性](#recommended-properties) 
+    1. [建议的属性](#recommended-properties)
     1. [常量和类](#constants-or-classes)
   1. [服务](#services)
     1. [基本概念](#service-theory)
@@ -291,7 +291,7 @@ calendar.spec.js
 * 适当的利用生命周期的一些钩子, `$onInit`, `$onChanges`, `$postLink` 以及`$onDestroy`。
   * 注意: `$onChanges` 是 `$onInit`之后调用的, 这里 [扩展阅读](#resources) 有更深一步的讲解。
 *  在`$onInit`使用`require`  以便引用继承的逻辑；
-* 不要覆盖默认  `$ctrl`  使用`controllerAs` 起的别名, 当然也不要在别的地方使用 `controllerAs` 
+* 不要覆盖默认  `$ctrl`  使用`controllerAs` 起的别名, 当然也不要在别的地方使用 `controllerAs`
 
 **[返回目录](#table-of-contents)**
 
@@ -329,10 +329,10 @@ const TodoComponent = {
   controller,
   template: `
     <div class="todo">
-      <todo-form 
+      <todo-form
         todo="$ctrl.newTodo"
         on-add-todo="$ctrl.addTodo($event);">
-      <todo-list 
+      <todo-list
         todos="$ctrl.todos"></todo-list>
     </div>
   `
@@ -485,10 +485,10 @@ const TodoComponent = {
   controller,
   template: `
     <div class="todo">
-      <todo-form 
+      <todo-form
         todo="$ctrl.newTodo"
         on-add-todo="$ctrl.addTodo($event);">
-      <todo-list 
+      <todo-list
         todos="$ctrl.todos"></todo-list>
     </div>
   `
@@ -538,11 +538,14 @@ export default TodoService;
 
 /* ----- todo/index.js ----- */
 import angular from 'angular';
+import uiRouter from 'angular-ui-router';
 import TodoComponent from './todo.component';
 import TodoService from './todo.service';
 
 const todo = angular
-  .module('todo', [])
+  .module('todo', [
+    uiRouter
+  ])
   .component('todo', TodoComponent)
   .service('TodoService', TodoService)
   .config(($stateProvider, $urlRouterProvider) => {
@@ -768,7 +771,7 @@ export default todo;
 
 # 贡献
 
-打开issues，讨论可能的更改/添加。请不要在issues提任何问题. 
+打开issues，讨论可能的更改/添加。请不要在issues提任何问题.
 
 ## License
 

@@ -528,11 +528,14 @@ export default TodoService;
 
 /* ----- todo/index.js ----- */
 import angular from 'angular';
+import uiRouter from 'angular-ui-router';
 import TodoComponent from './todo.component';
 import TodoService from './todo.service';
 
 const todo = angular
-  .module('todo', [])
+  .module('todo', [
+    uiRouter
+  ])
   .component('todo', TodoComponent)
   .service('TodoService', TodoService)
   .config(($stateProvider, $urlRouterProvider) => {
