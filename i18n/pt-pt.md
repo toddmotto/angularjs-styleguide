@@ -24,7 +24,7 @@ O guia de estilo antigo pode ser encontrado [aqui](https://github.com/toddmotto/
     1. [Convenções para nomes de ficheiros](#convenções-para-nomes-de-ficheiros)
   1. [Componentes](#componentes)
     1. [Teoria](#componentes-teoria)
-    1. [Propriedades suportadas](#propriedades-suportadas) 
+    1. [Propriedades suportadas](#propriedades-suportadas)
     1. [Controllers](#controllers)
     1. [One-way dataflow e Eventos](#one-way-dataflow-e-eventos)
     1. [Stateful Components](#stateful-components)
@@ -32,7 +32,7 @@ O guia de estilo antigo pode ser encontrado [aqui](https://github.com/toddmotto/
     1. [Routed Components](#routed-components)
   1. [Diretivas](#diretivas)
     1. [Teoria](#diretivas-teoria)
-    1. [Propriedades recomendadas](#propriedades-recomendadas) 
+    1. [Propriedades recomendadas](#propriedades-recomendadas)
     1. [Classes e constantes](#classes-e-constantes)
   1. [Serviços](#serviços)
     1. [Teoria](#serviços-teoria)
@@ -268,7 +268,7 @@ Estas são as propriedades suportadas para `.component()` que podem ser utilizad
 
 Controllers devem ser utilizados juntamente com componentes, e nunca em qualquer outro sitio. Se pensamos que precisamos de um controller, o que realmente precisamos é um stateless component para gerir este pedaço de comportamento.
 
-Algumas conselhos para utilizar `Class` para controllers: 
+Algumas conselhos para utilizar `Class` para controllers:
 
 * Utilizar sempre o `constructor` para propósitos de dependency injection
 * Não exportar a `Class` diretamnete mas sim o nome para permitir `$inject` annotations
@@ -317,10 +317,10 @@ const TodoComponent = {
   controller,
   template: `
     <div class="todo">
-      <todo-form 
+      <todo-form
         todo="$ctrl.newTodo"
         on-add-todo="$ctrl.addTodo($event);">
-      <todo-list 
+      <todo-list
         todos="$ctrl.todos"></todo-list>
     </div>
   `
@@ -375,7 +375,7 @@ Este exemplo demonstra um stateful component, que requer estado dentro de um con
 
 Vamos definir o que chamamos de "stateless component".
 
-* Tem input e outputs definidos utilizando `bindings: {}` 
+* Tem input e outputs definidos utilizando `bindings: {}`
 * Dados entram no componente através de attribute bindings (inputs)
 * Dados saem do componente através de eventos (outputs)
 * Altera estado, passa dados para cima quando necessário (como um click ou um evento submit)
@@ -446,7 +446,7 @@ const todoForm = angular
 export default todoForm;
 ```
 
-De notar como o componente `<todo-form>` não requer qualquer estado, apenas o recebe, muta (altera) um Objecto através do seu controller com a lógica associada, e o passa de volta para o componente pai através de property bindings. Neste exemplo lo lifecycle hook `$onChanges` faz um clone do binding inicial de `this.todo` e o reatribui, o que significa que os dados do componente pai não serão afetados até submetermos o form, juntamente com a nova sintaxe de fluxo de dados unidirecional `'<'`. 
+De notar como o componente `<todo-form>` não requer qualquer estado, apenas o recebe, muta (altera) um Objecto através do seu controller com a lógica associada, e o passa de volta para o componente pai através de property bindings. Neste exemplo lo lifecycle hook `$onChanges` faz um clone do binding inicial de `this.todo` e o reatribui, o que significa que os dados do componente pai não serão afetados até submetermos o form, juntamente com a nova sintaxe de fluxo de dados unidirecional `'<'`.
 
 **[Voltar ao topo](#tabela-de-conteúdos)**
 
@@ -473,10 +473,10 @@ const TodoComponent = {
   controller,
   template: `
     <div class="todo">
-      <todo-form 
+      <todo-form
         todo="$ctrl.newTodo"
         on-add-todo="$ctrl.addTodo($event);">
-      <todo-list 
+      <todo-list
         todos="$ctrl.todos"></todo-list>
     </div>
   `
@@ -526,11 +526,14 @@ export default TodoService;
 
 /* ----- todo/index.js ----- */
 import angular from 'angular';
+import uiRouter from 'angular-ui-router';
 import TodoComponent from './todo.component';
 import TodoService from './todo.service';
 
 const todo = angular
-  .module('todo', [])
+  .module('todo', [
+    uiRouter
+  ])
   .component('todo', TodoComponent)
   .service('TodoService', TodoService)
   .config(($stateProvider, $urlRouterProvider) => {
@@ -679,7 +682,7 @@ Serviços são essencialmente containers com lógica de negócio que os nossos c
 
 ### Classes para Serviços
 
-Aqui está um exemplo de implementação da nossa `<todo>` app utilizando ES2015 `Class`: 
+Aqui está um exemplo de implementação da nossa `<todo>` app utilizando ES2015 `Class`:
 
 ```js
 /* ----- todo/todo.service.js ----- */

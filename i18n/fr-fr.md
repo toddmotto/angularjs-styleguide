@@ -1,6 +1,6 @@
 # Guide de style Angular 1.x (ES2015)
 
-### Architecture, structure de fichier, components (composants), one-way dataflow et bonnes pratiques 
+### Architecture, structure de fichier, components (composants), one-way dataflow et bonnes pratiques
 
 *Un guide de style adapté aux équipes par [@toddmotto](//twitter.com/toddmotto)*
 
@@ -114,7 +114,7 @@ const components = angular
     Calendar,
     Events
   ])
-  .name;  
+  .name;
 
 export default components;
 ```
@@ -189,7 +189,7 @@ calendar.spec.js
 
 ### Structure des dossiers scalable
 
-Structurer les dossiers du projet est extrement important, cela se transcrit par une structure scalable et predictible. Ci-dessous, un example de structure qui suit une architecture component modulaire. 
+Structurer les dossiers du projet est extrement important, cela se transcrit par une structure scalable et predictible. Ci-dessous, un example de structure qui suit une architecture component modulaire.
 
 ```
 ├── app/
@@ -529,11 +529,14 @@ export default TodoService;
 
 /* ----- todo/index.js ----- */
 import angular from 'angular';
+import uiRouter from 'angular-ui-router';
 import TodoComponent from './todo.component';
 import TodoService from './todo.service';
 
 const todo = angular
-  .module('todo', [])
+  .module('todo', [
+    uiRouter
+  ])
   .component('todo', TodoComponent)
   .service('TodoService', TodoService)
   .config(($stateProvider, $urlRouterProvider) => {
@@ -676,7 +679,7 @@ export default todo;
 
 ### Théorie des services
 
-Les services sont essentiellement des contenants pour la logique métier que nos components ne devraient pas demander directement. Les services contiennent d'autres services intégrés ou externes comme `$http`, que nous pouvons injecter dans les component controllers autre part dans notre application. Il y a deux manières pour faire des services, en utilisant `.service()` ou `.factory()`. Avec `Class` de ES2015, nous ne devrions utiliser que `.service()`, avec l'annotation de l'injection des dépendances en utilisant `$inject`. 
+Les services sont essentiellement des contenants pour la logique métier que nos components ne devraient pas demander directement. Les services contiennent d'autres services intégrés ou externes comme `$http`, que nous pouvons injecter dans les component controllers autre part dans notre application. Il y a deux manières pour faire des services, en utilisant `.service()` ou `.factory()`. Avec `Class` de ES2015, nous ne devrions utiliser que `.service()`, avec l'annotation de l'injection des dépendances en utilisant `$inject`.
 
 **[Haut de page](#table-des-matieres)**
 
@@ -719,7 +722,7 @@ export default todo;
 
 ##### ES2015
 
-* Utiliser [Babel](https://babeljs.io/) pour compiler votre code ES2015+ et tous les polyfills 
+* Utiliser [Babel](https://babeljs.io/) pour compiler votre code ES2015+ et tous les polyfills
 * Envisager d'utiliser [TypeScript](http://www.typescriptlang.org/) simplifier la transition vers Angular 2
 
 ##### Outils
