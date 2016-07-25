@@ -726,7 +726,10 @@ export default todo;
 
 ##### Tooling
 * Use `ui-router` [latest alpha](https://github.com/angular-ui/ui-router) (see the Readme) if you want to support component-routing
-  * Otherwise you're stuck with `template: '<component>'` and no `bindings`
+  * Otherwise you're stuck with `template: '<component>'` and no `bindings`/resolve mapping
+* Consider preloading templates into `$templateCache` with `angular-templates`
+  * [Gulp version](https://www.npmjs.com/package/gulp-angular-templatecache)
+  * [Grunt version](https://www.npmjs.com/package/grunt-angular-templates)
 * Consider using [Webpack](https://webpack.github.io/) for compiling your ES2015 code
 * Use [ngAnnotate](https://github.com/olov/ng-annotate) to automatically annotate `$inject` properties
 * How to use [ngAnnotate with ES6](https://www.timroes.de/2015/07/29/using-ecmascript-6-es6-with-angularjs-1-x/#ng-annotate)
