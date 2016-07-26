@@ -743,7 +743,7 @@ Considerar utilizar Redux com Angular 1.5 para data management.
 
 * [Compreender o método .component()](https://toddmotto.com/exploring-the-angular-1-5-component-method/)
 * [Utilizar "require" com $onInit](https://toddmotto.com/on-init-require-object-syntax-angular-component/)
-* [Compreender todos os lifecycle hooks, $onInit, $onChange, $postLink, $onDestroy](https://toddmotto.com/angular-1-5-lifecycle-hooks)
+* [Compreender todos os lifecycle hooks, $onInit, $onChanges, $postLink, $onDestroy](https://toddmotto.com/angular-1-5-lifecycle-hooks)
 * [Utilizando "resolve" em routes](https://toddmotto.com/resolve-promises-in-angular-routes/)
 * [Redux e Angular para state management](http://blog.rangle.io/managing-state-redux-angular/)
 

@@ -760,7 +760,7 @@ export default todo;
 
 * [理解 .component() 方法](https://toddmotto.com/exploring-the-angular-1-5-component-method/)
 * [使用 "require" 与 $onInit](https://toddmotto.com/on-init-require-object-syntax-angular-component/)
-* [理解生命周期钩子, $onInit, $onChange, $postLink, $onDestroy](https://toddmotto.com/angular-1-5-lifecycle-hooks)
+* [理解生命周期钩子, $onInit, $onChanges, $postLink, $onDestroy](https://toddmotto.com/angular-1-5-lifecycle-hooks)
 * [在路由中使用 "resolve"](https://toddmotto.com/resolve-promises-in-angular-routes/)
 * [Redux 以及 Angular 状态管理](http://blog.rangle.io/managing-state-redux-angular/)
 
