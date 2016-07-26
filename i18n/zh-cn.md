@@ -331,7 +331,7 @@ const TodoComponent = {
     <div class="todo">
       <todo-form
         todo="$ctrl.newTodo"
-        on-add-todo="$ctrl.addTodo($event);">
+        on-add-todo="$ctrl.addTodo($event);"></todo-form>
       <todo-list
         todos="$ctrl.todos"></todo-list>
     </div>
@@ -487,7 +487,7 @@ const TodoComponent = {
     <div class="todo">
       <todo-form
         todo="$ctrl.newTodo"
-        on-add-todo="$ctrl.addTodo($event);">
+        on-add-todo="$ctrl.addTodo($event);"></todo-form>
       <todo-list
         todos="$ctrl.todos"></todo-list>
     </div>
