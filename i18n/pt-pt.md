@@ -339,7 +339,7 @@ class TodoController {
       selected: false
     };
     this.todos = [];
-    this.todoService.getTodos.then(response => this.todos = response);
+    this.todoService.getTodos().then(response => this.todos = response);
   }
   addTodo({ todo }) {
     if (!todo) return;

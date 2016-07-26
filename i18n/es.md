@@ -338,7 +338,7 @@ class TodoController {
       selected: false
     };
     this.todos = [];
-    this.todoService.getTodos.then(response => this.todos = response);
+    this.todoService.getTodos().then(response => this.todos = response);
   }
   addTodo(event.todo) {
     if (!event.todo) return;
