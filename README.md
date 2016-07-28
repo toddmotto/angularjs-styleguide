@@ -321,7 +321,7 @@ const TodoComponent = {
     <div class="todo">
       <todo-form
         todo="$ctrl.newTodo"
-        on-add-todo="$ctrl.addTodo($event);">
+        on-add-todo="$ctrl.addTodo($event);"></todo-form>
       <todo-list
         todos="$ctrl.todos"></todo-list>
     </div>
@@ -443,7 +443,7 @@ import TodoFormComponent from './todo-form.component';
 const todoForm = angular
   .module('todo.form', [])
   .component('todoForm', TodoFormComponent)
-  .value('EventEmitter', payload => ({ $event: payload})
+  .value('EventEmitter', payload => ({ $event: payload}))
   .name;
 
 export default todoForm;
@@ -477,7 +477,7 @@ const TodoComponent = {
     <div class="todo">
       <todo-form
         todo="$ctrl.newTodo"
-        on-add-todo="$ctrl.addTodo($event);">
+        on-add-todo="$ctrl.addTodo($event);"></todo-form>
       <todo-list
         todos="$ctrl.todos"></todo-list>
     </div>
@@ -751,6 +751,7 @@ Consider using Redux with Angular 1.5 for data management.
 * [Understanding all the lifecycle hooks, $onInit, $onChange, $postLink, $onDestroy](https://toddmotto.com/angular-1-5-lifecycle-hooks)
 * [Using "resolve" in routes](https://toddmotto.com/resolve-promises-in-angular-routes/)
 * [Redux and Angular state management](http://blog.rangle.io/managing-state-redux-angular/)
+* [Sample Application from Community](https://github.com/chihab/angular-styleguide-sample)
 
 **[Back to top](#table-of-contents)**
 
