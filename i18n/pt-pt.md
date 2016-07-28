@@ -319,7 +319,7 @@ const TodoComponent = {
     <div class="todo">
       <todo-form
         todo="$ctrl.newTodo"
-        on-add-todo="$ctrl.addTodo($event);">
+        on-add-todo="$ctrl.addTodo($event);"></todo-form>
       <todo-list
         todos="$ctrl.todos"></todo-list>
     </div>
@@ -339,7 +339,7 @@ class TodoController {
       selected: false
     };
     this.todos = [];
-    this.todoService.getTodos.then(response => this.todos = response);
+    this.todoService.getTodos().then(response => this.todos = response);
   }
   addTodo({ todo }) {
     if (!todo) return;
@@ -475,7 +475,7 @@ const TodoComponent = {
     <div class="todo">
       <todo-form
         todo="$ctrl.newTodo"
-        on-add-todo="$ctrl.addTodo($event);">
+        on-add-todo="$ctrl.addTodo($event);"></todo-form>
       <todo-list
         todos="$ctrl.todos"></todo-list>
     </div>
@@ -743,7 +743,7 @@ Considerar utilizar Redux com Angular 1.5 para data management.
 
 * [Compreender o método .component()](https://toddmotto.com/exploring-the-angular-1-5-component-method/)
 * [Utilizar "require" com $onInit](https://toddmotto.com/on-init-require-object-syntax-angular-component/)
-* [Compreender todos os lifecycle hooks, $onInit, $onChange, $postLink, $onDestroy](https://toddmotto.com/angular-1-5-lifecycle-hooks)
+* [Compreender todos os lifecycle hooks, $onInit, $onChanges, $postLink, $onDestroy](https://toddmotto.com/angular-1-5-lifecycle-hooks)
 * [Utilizando "resolve" em routes](https://toddmotto.com/resolve-promises-in-angular-routes/)
 * [Redux e Angular para state management](http://blog.rangle.io/managing-state-redux-angular/)
 
