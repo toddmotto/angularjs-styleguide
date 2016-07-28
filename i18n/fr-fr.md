@@ -749,6 +749,7 @@ Envisager d'utiliser Redux avec Angular 1.5 pour la gestion des données.
 * [Comprendre tous les lifecycle hooks, $onInit, $onChanges, $postLink, $onDestroy](https://toddmotto.com/angular-1-5-lifecycle-hooks)
 * [Utiliser "resolve" dans vos routes](https://toddmotto.com/resolve-promises-in-angular-routes/)
 * [Gestion du state avec Redux et Angular](http://blog.rangle.io/managing-state-redux-angular/)
+* [Exemple d'application](https://github.com/chihab/angular-styleguide-sample)
 
 **[Haut de page](#table-des-matieres)**
 

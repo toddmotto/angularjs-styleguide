@@ -748,6 +748,7 @@ export default todo;
 * [Объяснение всех lifecycle хуков, $onInit, $onChanges, $postLink, $onDestroy](https://toddmotto.com/angular-1-5-lifecycle-hooks)
 * [Использование "resolve" в маршрутах](https://toddmotto.com/resolve-promises-in-angular-routes/)
 * [Управление состоянием в Angular с помощью Redux](http://blog.rangle.io/managing-state-redux-angular/)
+* [Sample Application from Community](https://github.com/chihab/angular-styleguide-sample)
 
 **[Наверх](#содержание)**
 

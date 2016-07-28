@@ -763,6 +763,7 @@ export default todo;
 * [理解生命周期钩子, $onInit, $onChanges, $postLink, $onDestroy](https://toddmotto.com/angular-1-5-lifecycle-hooks)
 * [在路由中使用 "resolve"](https://toddmotto.com/resolve-promises-in-angular-routes/)
 * [Redux 以及 Angular 状态管理](http://blog.rangle.io/managing-state-redux-angular/)
+* [Sample Application from Community](https://github.com/chihab/angular-styleguide-sample)
 
 **[返回目录](#table-of-contents)**
 
