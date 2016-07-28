@@ -173,7 +173,7 @@ export default calendar;
 
 ### Convention de nommage des fichiers
 
-Gardez des noms simple, en minuscules, utilisez le nom du component, e.g. `calendar.*.js*`, `calendar-grid.*.js` - avec le nom du type de fichier au milieu. Utilisez `index.js` pour le fichier de définition de module, pour pouvoir importer ces modules par nom de dossier.
+Gardez des noms simples, en minuscules, utilisez le nom du component, e.g. `calendar.*.js*`, `calendar-grid.*.js` - avec le nom du type de fichier au milieu. Utilisez `index.js` pour le fichier de définition de module, pour pouvoir importer ces modules par nom de dossier.
 
 ```
 index.js
@@ -189,7 +189,7 @@ calendar.spec.js
 
 ### Structure des dossiers scalable
 
-Structurer les dossiers du projet est extrement important, cela se transcrit par une structure scalable et predictible. Ci-dessous, un example de structure qui suit une architecture component modulaire.
+Structurer les dossiers du projet est extrêmement important, cela se transcrit par une structure scalable et predictible. Ci-dessous, un exemple de structure qui suit une architecture component modulaire.
 
 ```
 ├── app/
@@ -321,7 +321,7 @@ const TodoComponent = {
     <div class="todo">
       <todo-form
         todo="$ctrl.newTodo"
-        on-add-todo="$ctrl.addTodo($event);">
+        on-add-todo="$ctrl.addTodo($event);"></todo-form>
       <todo-list
         todos="$ctrl.todos"></todo-list>
     </div>
@@ -341,7 +341,7 @@ class TodoController {
       selected: false
     };
     this.todos = [];
-    this.todoService.getTodos.then(response => this.todos = response);
+    this.todoService.getTodos().then(response => this.todos = response);
   }
   addTodo({ todo }) {
     if (!todo) return;
@@ -478,7 +478,7 @@ const TodoComponent = {
     <div class="todo">
       <todo-form
         todo="$ctrl.newTodo"
-        on-add-todo="$ctrl.addTodo($event);">
+        on-add-todo="$ctrl.addTodo($event);"></todo-form>
       <todo-list
         todos="$ctrl.todos"></todo-list>
     </div>
@@ -561,7 +561,7 @@ export default todo;
 
 ### Théorie des directives
 
-Les directives nous donnent un `template`, `scope` bindings, `bindToController`, `link` et beaucoup d'autres choses. L'usage de ces dernieres doit etre examiné avec attention maintenant que `.component()` existe. Les directives ne doivent plus déclarer de templates ni de controllers, ou recevoir des données via des bindings. Les directives ne doivent utilisées que pour "décorer" le DOM. Cela signifie enrichir le HTML existant - créé avec `component()`. Dans son aspect le plus simple, si on a besoin d'events/APIs DOM sur mesure et de code logique, utiliser une Directive et la binder à un template d'un component. Si on a besoin d'une quantité raisonnable de manipulations de DOM, il y a aussi le lifecycle jook `$postLink` à considérer, néanmoins ce n'est pas un endroit pour faire migrer toutes vos manipulation de DOM, n'utiliser les Directives que pour les choses hors d'Angular si vous pouvez.
+Les directives nous donnent un `template`, `scope` bindings, `bindToController`, `link` et beaucoup d'autres choses. L'usage de ces dernières doit etre examiné avec attention maintenant que `.component()` existe. Les directives ne doivent plus déclarer de templates ni de controllers, ou recevoir des données via des bindings. Les directives ne doivent être utilisées que pour "décorer" le DOM. Cela signifie enrichir le HTML existant - créé avec `component()`. Dans son aspect le plus simple, si on a besoin d'events/APIs DOM sur mesure et de code logique, utiliser une Directive et la binder à un template d'un component. Si on a besoin d'une quantité raisonnable de manipulations de DOM, il y a aussi le lifecycle hook `$postLink` à considérer, néanmoins ce n'est pas un endroit pour faire migrer toutes vos manipulation de DOM, n'utilisez les Directives que pour les choses hors Angular si vous le pouvez.
 
 Voici quelques conseils pour l'utilisation des Directives:
 
@@ -723,7 +723,7 @@ export default todo;
 ##### ES2015
 
 * Utiliser [Babel](https://babeljs.io/) pour compiler votre code ES2015+ et tous les polyfills
-* Envisager d'utiliser [TypeScript](http://www.typescriptlang.org/) simplifier la transition vers Angular 2
+* Envisager d'utiliser [TypeScript](http://www.typescriptlang.org/) pour simplifier la transition vers Angular 2
 
 ##### Outils
 * Utiliser `ui-router` [la dernière alpha](https://github.com/angular-ui/ui-router) (voir le Readme) si vous voulez supporter le component-routing
@@ -746,7 +746,7 @@ Envisager d'utiliser Redux avec Angular 1.5 pour la gestion des données.
 
 * [Comprendre la méthode .component()](https://toddmotto.com/exploring-the-angular-1-5-component-method/)
 * [Utilisation de "require" avec $onInit](https://toddmotto.com/on-init-require-object-syntax-angular-component/)
-* [Comprendre tous les lifecycle hooks, $onInit, $onChange, $postLink, $onDestroy](https://toddmotto.com/angular-1-5-lifecycle-hooks)
+* [Comprendre tous les lifecycle hooks, $onInit, $onChanges, $postLink, $onDestroy](https://toddmotto.com/angular-1-5-lifecycle-hooks)
 * [Utiliser "resolve" dans vos routes](https://toddmotto.com/resolve-promises-in-angular-routes/)
 * [Gestion du state avec Redux et Angular](http://blog.rangle.io/managing-state-redux-angular/)
 

@@ -24,7 +24,7 @@ Puedes encontrar la vieja guía de estilo [aquí](https://github.com/toddmotto/a
     1. [Estructura de archivos escalable](#estructura-de-archivos-escalable)
   1. [Componentes](#componentes)
     1. [Teoría](#teoría-del-component)
-    1. [Propiedades admitidas](#propiedades-admitidas) 
+    1. [Propiedades admitidas](#propiedades-admitidas)
     1. [Controllers](#controllers)
     1. [One-way dataflow y eventos](#one-way-dataflow-y-eventos)
     1. [Stateful Components](#stateful-components)
@@ -32,7 +32,7 @@ Puedes encontrar la vieja guía de estilo [aquí](https://github.com/toddmotto/a
     1. [Routed Components](#routed-components)
   1. [Directivas](#directivas)
     1. [Teoría](#teoría-de-directiva)
-    1. [Propiedades recomendadas](#propiedades-recomendadas) 
+    1. [Propiedades recomendadas](#propiedades-recomendadas)
     1. [Constantes o Clases](#constantes-o-clases)
   1. [Servicios](#servicios)
     1. [Teoría](#teoría-de-servicios)
@@ -273,9 +273,9 @@ Estas son algunas advertencias para usar `Class` en un controlador:
 * No exportes la `clase`directamente, exporta su nombre para permitir anotaciones `$inject`
 * Si necesitas acceder al `lexical scope`, utilizar arrow functions
 * Una alternativa a las arrow functions, `let ctrl = this;` es también aceptable  y puede tener más sentido según el caso de uso
-* Liga todas las funciones publicas directamente a la `Clase` 
+* Liga todas las funciones publicas directamente a la `Clase`
 * Haz uso del apropiado `lifecycle hook`, `$onInit`, `$onChanges`, `$postLink` y `$onDestroy`
-  * Nota: `$onChanges` es llamado antes de `$onInit`, ve la sección de [recursos](#resources) para encontrar artículos que detallan esto en más profundidad. 
+  * Nota: `$onChanges` es llamado antes de `$onInit`, ve la sección de [recursos](#resources) para encontrar artículos que detallan esto en más profundidad.
 * Utiliza `require` junto con `$onInit` para referencia una lógica heredada
 * No sobreescribas el alias default `$ctrl` para la sintaxis `controllerAs`, por lo tanto no uses `controllerAs` en cualquier sitio.
 
@@ -287,12 +287,12 @@ One-way dataflow fue introducido en Angular 1.5, y redefine la comunicación de 
 
 Estas son algunas advertencias para usar one-way dataflow:
 
-* En componentes que reciben datos, siempre utiliza la sintaxis one-way databindings `'<'` 
+* En componentes que reciben datos, siempre utiliza la sintaxis one-way databindings `'<'`
 * _No utilices_ `'='` la sintaxis two-way databiding nunca más, en nigún sitio
 * Los componentes que tengan `bindings` deben itilizar `$onChanges` para clonar el one-way binding data para romper los objetos que para por referencia y actualizar la información de los padres.
-* Utiliza `$event` como un argumento de la función en el método padre (mirá el ejemplo stateful abajo `$ctrl.addTodo($event)`) 
+* Utiliza `$event` como un argumento de la función en el método padre (mirá el ejemplo stateful abajo `$ctrl.addTodo($event)`)
 * Pasa un objeto de respaldo `$event: {}` de un stateless component (mirá el ejemplo stateless abajo `this.onAddTodo`)
-  * Bonus: Utiliza una wrapper `EventEmitter` con `.value()` para reflejar Angular 2,evita la creación manual de objetos `$event`. 
+  * Bonus: Utiliza una wrapper `EventEmitter` con `.value()` para reflejar Angular 2,evita la creación manual de objetos `$event`.
 * ¿Por qué? Este refleja Angular 2 y mantiene la consistencia dentro de cada componente. Si no que también hace un estado predecible.
 
 **[Volver arriba](#table-de-contenidos)**
@@ -316,10 +316,10 @@ const TodoComponent = {
   controller,
   template: `
     <div class="todo">
-      <todo-form 
+      <todo-form
         todo="$ctrl.newTodo"
-        on-add-todo="$ctrl.addTodo($event);">
-      <todo-list 
+        on-add-todo="$ctrl.addTodo($event);"></todo-form>
+      <todo-list
         todos="$ctrl.todos"></todo-list>
     </div>
   `
@@ -338,7 +338,7 @@ class TodoController {
       selected: false
     };
     this.todos = [];
-    this.todoService.getTodos.then(response => this.todos = response);
+    this.todoService.getTodos().then(response => this.todos = response);
   }
   addTodo(event.todo) {
     if (!event.todo) return;
@@ -470,10 +470,10 @@ const TodoComponent = {
   controller,
   template: `
     <div class="todo">
-      <todo-form 
+      <todo-form
         todo="$ctrl.newTodo"
-        on-add-todo="$ctrl.addTodo($event);">
-      <todo-list 
+        on-add-todo="$ctrl.addTodo($event);"></todo-form>
+      <todo-list
         todos="$ctrl.todos"></todo-list>
     </div>
   `
@@ -722,7 +722,7 @@ Considera el uso de Redux con Angular 1.5 para la gestión de datos.
 
 * [Comprendiendo el método .component()](https://toddmotto.com/exploring-the-angular-1-5-component-method/)
 * [Utilizando "require" con $onInit](https://toddmotto.com/on-init-require-object-syntax-angular-component/)
-* [Comprendiendo todo el lifecycle hooks, $onInit, $onChange, $postLink, $onDestroy](https://toddmotto.com/angular-1-5-lifecycle-hooks)
+* [Comprendiendo todo el lifecycle hooks, $onInit, $onChanges, $postLink, $onDestroy](https://toddmotto.com/angular-1-5-lifecycle-hooks)
 * [Utilizando "resolve" en routes](https://toddmotto.com/resolve-promises-in-angular-routes/)
 * [Redux y Angular state management](http://blog.rangle.io/managing-state-redux-angular/)
 

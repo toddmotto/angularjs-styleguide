@@ -323,7 +323,7 @@ const TodoComponent = {
     <div class="todo">
       <todo-form
         todo="$ctrl.newTodo"
-        on-add-todo="$ctrl.addTodo($event);">
+        on-add-todo="$ctrl.addTodo($event);"></todo-form>
       <todo-list
         todos="$ctrl.todos"></todo-list>
     </div>
@@ -479,7 +479,7 @@ const TodoComponent = {
     <div class="todo">
       <todo-form
         todo="$ctrl.newTodo"
-        on-add-todo="$ctrl.addTodo($event);">
+        on-add-todo="$ctrl.addTodo($event);"></todo-form>
       <todo-list
         todos="$ctrl.todos"></todo-list>
     </div>
@@ -745,7 +745,7 @@ export default todo;
 
 * [Объяснение метода .component()](https://toddmotto.com/exploring-the-angular-1-5-component-method/)
 * [Использование "require" вместе с $onInit](https://toddmotto.com/on-init-require-object-syntax-angular-component/)
-* [Объяснение всех lifecycle хуков, $onInit, $onChange, $postLink, $onDestroy](https://toddmotto.com/angular-1-5-lifecycle-hooks)
+* [Объяснение всех lifecycle хуков, $onInit, $onChanges, $postLink, $onDestroy](https://toddmotto.com/angular-1-5-lifecycle-hooks)
 * [Использование "resolve" в маршрутах](https://toddmotto.com/resolve-promises-in-angular-routes/)
 * [Управление состоянием в Angular с помощью Redux](http://blog.rangle.io/managing-state-redux-angular/)
 
