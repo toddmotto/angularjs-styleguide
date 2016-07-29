@@ -751,6 +751,7 @@ Consider using Redux with Angular 1.5 for data management.
 * [Understanding all the lifecycle hooks, $onInit, $onChanges, $postLink, $onDestroy](https://toddmotto.com/angular-1-5-lifecycle-hooks)
 * [Using "resolve" in routes](https://toddmotto.com/resolve-promises-in-angular-routes/)
 * [Redux and Angular state management](http://blog.rangle.io/managing-state-redux-angular/)
+* [Sample Application from Community](https://github.com/chihab/angular-styleguide-sample)
 
 **[Back to top](#table-of-contents)**
 
