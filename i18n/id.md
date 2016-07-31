@@ -257,7 +257,7 @@ Berikut adalah properti yang didukung untuk `.component()` yang dapat/harus Anda
 | Properti | Dukungan |
 |---|---|
 | bindings | Ya, gunakan `'@'`, `'<'`, `'&'` saja |
-| pengendali | Ya |
+| controller | Ya |
 | controllerAs | Ya, standarnya adalah `$ctrl` |
 | require | Ya (sintak Obyek baru) |
 | template | Ya |
