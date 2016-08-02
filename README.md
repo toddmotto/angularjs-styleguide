@@ -412,7 +412,7 @@ class TodoFormController {
   constructor(EventEmitter) {}
   $onChanges(changes) {
     if (changes.todo) {
-      this.todo = Object.assign({}, this.todo);
+      this.todo = Object.assign({}, changes.todo.currentValue);
     }
   }
   onSubmit() {
@@ -497,7 +497,7 @@ class TodoController {
   }
   $onChanges(changes) {
     if (changes.todoData) {
-      this.todos = Object.assign({}, this.todoData);
+      this.todos = Object.assign({}, changes.todoData.currentValue);
     }
   }
   addTodo({ todo }) {
