@@ -273,7 +273,7 @@ Controllers should only be used alongside components, never anywhere else. If yo
 Here are some advisories for using `Class` for controllers:
 
 * Always use the `constructor` for dependency injection purposes
-* Don't export the `Class` directly, export it's name to allow `$inject` annotations
+* Don't export the `Class` directly, export its name to allow `$inject` annotations
 * If you need to access the lexical scope, use arrow functions
 * Alternatively to arrow functions, `let ctrl = this;` is also acceptable and may make more sense depending on the use case
 * Bind all public functions directly to the `Class`
@@ -309,7 +309,7 @@ Let's define what we'd call a "stateful component".
 * Renders child components that mutate state
 * Also referred to as smart/container components
 
-An example of a stateful component, complete with it's low-level module definition (this is only for demonstration, so some code has been omitted for brevity):
+An example of a stateful component, complete with its low-level module definition (this is only for demonstration, so some code has been omitted for brevity):
 
 ```js
 /* ----- todo/todo.component.js ----- */
@@ -381,7 +381,7 @@ Let's define what we'd call a "stateless component".
 * Data enters the component through attribute bindings (inputs)
 * Data leaves the component through events (outputs)
 * Mutates state, passes data back up on-demand (such as a click or submit event)
-* Doesn't care where data comes from, it's stateless
+* Doesn't care where data comes from, its stateless
 * Are highly reusable components
 * Also referred to as dumb/presentational components
 
