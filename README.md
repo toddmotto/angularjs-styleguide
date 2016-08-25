@@ -2,6 +2,12 @@
 
 ### Architecture, file structure, components, one-way dataflow and best practices
 
+---
+
+> Want an example structure as reference? Check out my [component based architecture 1.5 app](https://github.com/toddmotto/angular-1-5-components-app).
+
+---
+
 *A sensible styleguide for teams by [@toddmotto](//twitter.com/toddmotto)*
 
 This architecture and styleguide has been rewritten from the ground up for ES2015, the changes in Angular 1.5+ for future-upgrading your application to Angular 2. This guide includes new best practices for one-way dataflow, event delegation, component architecture and component routing.
