@@ -387,11 +387,11 @@ Let's define what we'd call a "stateless component".
 * Data enters the component through attribute bindings (inputs)
 * Data leaves the component through events (outputs)
 * Mutates state, passes data back up on-demand (such as a click or submit event)
-* Doesn't care where data comes from, its stateless
+* Doesn't care where data comes from - it's stateless
 * Are highly reusable components
 * Also referred to as dumb/presentational components
 
-An example of a stateless component (let's use `<todo-form>` as an example), complete with it's low-level module definition (this is only for demonstration, so some code has been omitted for brevity):
+An example of a stateless component (let's use `<todo-form>` as an example), complete with its low-level module definition (this is only for demonstration, so some code has been omitted for brevity):
 
 ```js
 /* ----- todo/todo-form/todo-form.component.js ----- */
