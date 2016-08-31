@@ -619,18 +619,19 @@ O utilizando una clases ES2015 (toma en cuenta la llamada manual de `new TodoAut
 import angular from '../../angular';
 
 class TodoAutoFocus {
-  constructor() {
+  constructor($timeout) {
     this.restrict = 'A';
+    this.$timeout = $timeout;
   }
   link($scope, $element, $attrs) {
     $scope.$watch($attrs.todoAutofocus, (newValue, oldValue) => {
       if (!newValue) {
         return;
       }
-      $timeout(() => $element[0].focus());
+      this.$timeout(() => $element[0].focus());
     });
   }
-});
+}
 
 TodoAutoFocus.$inject = ['$timeout'];
 

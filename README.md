@@ -647,15 +647,16 @@ Or using ES2015 `Class` (note manually calling `new TodoAutoFocus` when register
 import angular from 'angular';
 
 class TodoAutoFocus {
-  constructor() {
+  constructor($timeout) {
     this.restrict = 'A';
+    this.$timeout = $timeout;
   }
   link($scope, $element, $attrs) {
     $scope.$watch($attrs.todoAutofocus, (newValue, oldValue) => {
       if (!newValue) {
         return;
       }
-      $timeout(() => $element[0].focus());
+      this.$timeout(() => $element[0].focus());
     });
   }
 }
