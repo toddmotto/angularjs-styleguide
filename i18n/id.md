@@ -409,7 +409,9 @@ export default TodoFormComponent;
 
 /* ----- todo/todo-form/todo-form.controller.js ----- */
 class TodoFormController {
-  constructor(EventEmitter) {}
+  constructor(EventEmitter) {
+      this.EventEmitter = EventEmitter;
+  }
   $onChanges(changes) {
     if (changes.todo) {
       this.todo = Object.assign({}, this.todo);
@@ -419,7 +421,7 @@ class TodoFormController {
     if (!this.todo.title) return;
     // with EventEmitter wrapper
     this.onAddTodo(
-      EventEmitter({
+      this.EventEmitter({
         todo: this.todo
       });
     );
