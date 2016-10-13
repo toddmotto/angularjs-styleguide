@@ -105,8 +105,8 @@ Um component module é a aquele que contém referência para todos os componente
 
 ```js
 import angular from 'angular';
-import CalendarModule from './calendar';
-import EventsModule from './events';
+import CalendarModule from './calendar/calendar.module';
+import EventsModule from './events/events.module';
 
 const ComponentsModule = angular
   .module('app.components', [

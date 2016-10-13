@@ -106,8 +106,8 @@ Un `Component module` es el contenedor referencia para todos los componentes reu
 
 ```js
 import angular from 'angular';
-import CalendarModule from './calendar/calendar';
-import EventsModule from './events/events';
+import CalendarModule from './calendar/calendar.module';
+import EventsModule from './events/events.module';
 
 const ComponentsModule = angular
   .module('app.components', [
@@ -588,7 +588,7 @@ Aquí hay un ejemplo utilizando una constante con una `Arrow function` y `expres
 
 ```js
 /* ----- todo/todo-autofocus.directive.js ----- */
-import angular from '../../angular';
+import angular from 'angular';
 
 const TodoAutoFocus = ($timeout) => ({
   restrict: 'A',
@@ -624,7 +624,7 @@ O utilizando una clases ES2015 (toma en cuenta la llamada manual de `new TodoAut
 
 ```js
 /* ----- todo/todo-autofocus.directive.js ----- */
-import angular from '../../angular';
+import angular from 'angular';
 
 class TodoAutoFocus {
   constructor($timeout) {
