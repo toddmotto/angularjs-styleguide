@@ -59,7 +59,7 @@ A root module begins with a root component that defines the base element for the
 
 ```ts
 // app.component.ts
-const AppComponent = {
+const AppComponent: angular.IComponentOptions  = {
   template: `
     <header>
         Hello world
@@ -322,7 +322,7 @@ import controller from './todo.controller';
 import TodoService from './todo.service';
 import TodoItem from '../common/model/todo';
 
-const TodoComponent = {
+const TodoComponent: angular.IComponentOptions  = {
   controller,
   template: `
     <div class="todo">
