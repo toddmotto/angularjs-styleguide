@@ -79,65 +79,65 @@ export default AppComponent;
 Un module root est ensuite créé, avec `AppComponent` puis importé et enregistré avec `.component('app', AppComponent)`. Les imports supplémentaires pour les sous-modules (modules component et common) sont censés inclure tous les components pertinents pour l'application.
 
 ```js
-// app.js
+// app.module.js
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import AppComponent from './app.component';
-import Components from './components/components';
-import Common from './common/common';
+import ComponentsModule from './components/components.module';
+import CommonModule from './common/common.module';
 
-const root = angular
+const AppModule = angular
   .module('app', [
-    Components,
-    Common,
+    ComponentsModule,
+    CommonModule,
     uiRouter
   ])
   .component('app', AppComponent)
   .name;
 
-export default root;
+export default AppModule;
 ```
 
 **[Haut de page](#table-des-matieres)**
 
 ### Module Component
 
-Un module component contient les références pour tous les components réutilisables. Ci-dessus nous avons importé `Components` puis injecté dans le module Root, cela nous donne un seul endroit où importer tous les components de l'app. Ces modules en question sont dissociés de tous les autres modules et peuvent donc etre aisément utilisé dans d'autres applications.
+Un module component contient les références pour tous les components réutilisables. Ci-dessus nous avons importé `ComponentsModule` puis injecté dans le module Root, cela nous donne un seul endroit où importer tous les components de l'app. Ces modules en question sont dissociés de tous les autres modules et peuvent donc etre aisément utilisé dans d'autres applications.
 
 ```js
 import angular from 'angular';
-import Calendar from './calendar';
-import Events from './events';
+import CalendarModule from './calendar';
+import EventsModule from './events';
 
-const components = angular
+const ComponentsModule = angular
   .module('app.components', [
-    Calendar,
-    Events
+    CalendarModule,
+    EventsModule
   ])
   .name;
 
-export default components;
+export default ComponentsModule;
 ```
 
 **[Haut de page](#table-des-matieres)**
 
 ### Module Common
 
-Le module Common contient les références pour tous les components spécifiques à l'application, ceux qu'on ne souhaite pas utiliser dans une autre application. Cela peut être de la mise en page (layout), de la navigation ou des bas de pages (footers). Ci-dessus nous avons importé `Common` puis injecté dans le module Root, cela nous donne un seul endroit où importer tous les components common de l'app.
+Le module Common contient les références pour tous les components spécifiques à l'application, ceux qu'on ne souhaite pas utiliser dans une autre application. Cela peut être de la mise en page (layout), de la navigation ou des bas de pages (footers). Ci-dessus nous avons importé `CommonModule` puis injecté dans le module Root, cela nous donne un seul endroit où importer tous les components common de l'app.
 
 ```js
 import angular from 'angular';
-import Nav from './nav';
-import Footer from './footer';
+import NavModule from './nav/nav.module';
+import FooterModule from './footer/footer.module';
 
-const common = angular
+const CommonModule = angular
   .module('app.common', [
-    Nav,
-    Footer
+    NavModule,
+    FooterModule
   ])
   .name;
 
-export default common;
+export default CommonModule;
 ```
 
 **[Haut de page](#table-des-matieres)**
@@ -151,7 +151,7 @@ import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import CalendarComponent from './calendar.component';
 
-const calendar = angular
+const CalendarModule = angular
   .module('calendar', [
     uiRouter
   ])
@@ -166,17 +166,17 @@ const calendar = angular
   })
   .name;
 
-export default calendar;
+export default CalendarModule;
 ```
 
 **[Haut de page](#table-des-matieres)**
 
 ### Convention de nommage des fichiers
 
-Gardez des noms simples, en minuscules, utilisez le nom du component, e.g. `calendar.*.js*`, `calendar-grid.*.js` - avec le nom du type de fichier au milieu. Utilisez `index.js` pour le fichier de définition de module, pour pouvoir importer ces modules par nom de dossier.
+Gardez des noms simples, en minuscules, utilisez le nom du component, e.g. `calendar.*.js*`, `calendar-grid.*.js` - avec le nom du type de fichier au milieu. Utilisez `*.module.js` pour le fichier de définition de module, pour pouvoir importer ces modules par nom de dossier.
 
 ```
-index.js
+calendar.module.js
 calendar.controller.js
 calendar.component.js
 calendar.service.js
@@ -195,45 +195,47 @@ Structurer les dossiers du projet est extrêmement important, cela se transcrit 
 ├── app/
 │   ├── components/
 │   │  ├── calendar/
-│   │  │  ├── index.js
+│   │  │  ├── calendar.module.js
 │   │  │  ├── calendar.controller.js
 │   │  │  ├── calendar.component.js
 │   │  │  ├── calendar.service.js
 │   │  │  ├── calendar.spec.js
 │   │  │  └── calendar-grid/
-│   │  │     ├── index.js
+│   │  │     ├── calendar-grid.module.js
 │   │  │     ├── calendar-grid.controller.js
 │   │  │     ├── calendar-grid.component.js
 │   │  │     ├── calendar-grid.directive.js
 │   │  │     ├── calendar-grid.filter.js
 │   │  │     └── calendar-grid.spec.js
-│   │  └── events/
-│   │     ├── index.js
-│   │     ├── events.controller.js
-│   │     ├── events.component.js
-│   │     ├── events.directive.js
-│   │     ├── events.service.js
-│   │     ├── events.spec.js
-│   │     └── events-signup/
-│   │        ├── index.js
-│   │        ├── events-signup.controller.js
-│   │        ├── events-signup.component.js
-│   │        ├── events-signup.service.js
-│   │        └── events-signup.spec.js
+│   │  ├── events/
+│   │  │  ├── events.module.js
+│   │  │  ├── events.controller.js
+│   │  │  ├── events.component.js
+│   │  │  ├── events.directive.js
+│   │  │  ├── events.service.js
+│   │  │  ├── events.spec.js
+│   │  │  └── events-signup/
+│   │  │     ├── events-signup.module.js
+│   │  │     ├── events-signup.controller.js
+│   │  │     ├── events-signup.component.js
+│   │  │     ├── events-signup.service.js
+│   │  │     └── events-signup.spec.js
+│   │  └── components.module.js
 │   ├── common/
 │   │  ├── nav/
-│   │  │     ├── index.js
+│   │  │     ├── nav.module.js
 │   │  │     ├── nav.controller.js
 │   │  │     ├── nav.component.js
 │   │  │     ├── nav.service.js
 │   │  │     └── nav.spec.js
-│   │  └── footer/
-│   │        ├── index.js
-│   │        ├── footer.controller.js
-│   │        ├── footer.component.js
-│   │        ├── footer.service.js
-│   │        └── footer.spec.js
-│   ├── app.js
+│   │  ├── footer/
+│   │  │     ├── footer.module.js
+│   │  │     ├── footer.controller.js
+│   │  │     ├── footer.component.js
+│   │  │     ├── footer.service.js
+│   │  │     └── footer.spec.js
+│   │  └── common.module.js
+│   ├── app.module.js
 │   └── app.component.js
 └── index.html
 ```
@@ -357,16 +359,16 @@ TodoController.$inject = ['TodoService'];
 
 export default TodoController;
 
-/* ----- todo/index.js ----- */
+/* ----- todo/todo.module.js ----- */
 import angular from 'angular';
 import TodoComponent from './todo.component';
 
-const todo = angular
+const TodoModule = angular
   .module('todo', [])
   .component('todo', TodoComponent)
   .name;
 
-export default todo;
+export default TodoModule;
 ```
 
 Cet exemple montre un component stateful, qui fetch le state dans un controller, au travers d'un service, puis qui le passe à ses component stateless enfants. Remarquez qu'il n'y a aucune Directive utilisée comme `ng-repeat` ou autres à l'intérieur du template.
@@ -424,7 +426,7 @@ class TodoFormController {
     this.onAddTodo(
       this.EventEmitter({
         todo: this.todo
-      });
+      })
     );
     // without EventEmitter wrapper
     this.onAddTodo({
@@ -439,17 +441,17 @@ TodoFormController.$inject = ['EventEmitter'];
 
 export default TodoFormController;
 
-/* ----- todo/todo-form/index.js ----- */
+/* ----- todo/todo-form/todo-form.module.js ----- */
 import angular from 'angular';
 import TodoFormComponent from './todo-form.component';
 
-const todoForm = angular
+const TodoFormModule = angular
   .module('todo.form', [])
   .component('todoForm', TodoFormComponent)
-  .value('EventEmitter', payload => ({ $event: payload})
+  .value('EventEmitter', payload => ({ $event: payload}))
   .name;
 
-export default todoForm;
+export default TodoFormModule; 
 ```
 
 Notez comme le component `<todo-form>` ne fetch pas de state, il le reçoit simplement, opère une mutation d'un Object via le code logique du controller associé au component, et le rend au component parent au travers des bindings de propriétés. Dans cet exemple, le lifecycle hook `$onChanges` fabrique un clone du binding Object original `this.todo` et le réassigne, ce qui veut dire que les données parentes ne sont pas affectées tant que le formulaire n'est pas soumis, cote a cote avec la nouvelle syntaxe de one-way dataflow `'<'`.
@@ -529,13 +531,13 @@ TodoService.$inject = ['$http'];
 
 export default TodoService;
 
-/* ----- todo/index.js ----- */
+/* ----- todo/todo.module.js ----- */
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import TodoComponent from './todo.component';
 import TodoService from './todo.service';
 
-const todo = angular
+const TodoModule = angular
   .module('todo', [
     uiRouter
   ])
@@ -547,14 +549,14 @@ const todo = angular
         url: '/todos',
         component: 'todo',
         resolve: {
-          todoData: TodoService => TodoService.getTodos();
+          todoData: TodoService => TodoService.getTodos()
         }
       });
     $urlRouterProvider.otherwise('/');
   })
   .name;
 
-export default todo;
+export default TodoModule;
 ```
 
 **[Haut de page](#table-des-matieres)**
@@ -623,18 +625,18 @@ TodoAutoFocus.$inject = ['$timeout'];
 
 export default TodoAutoFocus;
 
-/* ----- todo/index.js ----- */
+/* ----- todo/todo.module.js ----- */
 import angular from 'angular';
 import TodoComponent from './todo.component';
 import TodoAutofocus from './todo-autofocus.directive';
 
-const todo = angular
+const TodoModule = angular
   .module('todo', [])
   .component('todo', TodoComponent)
   .directive('todoAutofocus', TodoAutoFocus)
   .name;
 
-export default todo;
+export default TodoModule;
 ```
 
 Ou en utilisant les `Class` d'ES2015 (notez qu'appeler manuellement `new TodoAutoFocus` lorsque l'on enregistre une directive) pour créér l'Object:
@@ -662,18 +664,18 @@ TodoAutoFocus.$inject = ['$timeout'];
 
 export default TodoAutoFocus;
 
-/* ----- todo/index.js ----- */
+/* ----- todo/todo.module.js ----- */
 import angular from 'angular';
 import TodoComponent from './todo.component';
 import TodoAutofocus from './todo-autofocus.directive';
 
-const todo = angular
+const TodoModule = angular
   .module('todo', [])
   .component('todo', TodoComponent)
   .directive('todoAutofocus', () => new TodoAutoFocus)
   .name;
 
-export default todo;
+export default TodoModule;
 ```
 
 **[Haut de page](#table-des-matieres)**
@@ -705,18 +707,18 @@ TodoService.$inject = ['$http'];
 
 export default TodoService;
 
-/* ----- todo/index.js ----- */
+/* ----- todo/todo.module.js ----- */
 import angular from 'angular';
 import TodoComponent from './todo.component';
 import TodoService from './todo.service';
 
-const todo = angular
+const TodoModule = angular
   .module('todo', [])
   .component('todo', TodoComponent)
   .service('TodoService', TodoService)
   .name;
 
-export default todo;
+export default TodoModule;
 ```
 
 **[Haut de page](#table-des-matieres)**
