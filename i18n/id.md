@@ -79,65 +79,65 @@ export default AppComponent;
 Sebuah modul Pangkal kemudian dibuat, dengan `AppComponent` yang diimpor dan didaftarkan dengan `.component('app', AppComponent)`. Pengimporan submodul berikutnya (modul-modul komponen dan umum) dibuat untuk menyertakan semua komponen yang berhubungan dengan aplikasinya.
 
 ```js
-// app.js
+// app.module.js
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import AppComponent from './app.component';
-import Components from './components/components';
-import Common from './common/common';
+import ComponentsModule from './components/components.module';
+import CommonModule from './common/common.module';
 
-const root = angular
+const AppModule = angular
   .module('app', [
-    Components,
-    Common,
+    ComponentsModule,
+    CommonModule,
     uiRouter
   ])
   .component('app', AppComponent)
   .name;
 
-export default root;
+export default AppModule;
 ```
 
 **[Kembali ke atas](#daftar-isi)**
 
 ### Modul komponen
 
-Sebuah modul Komponen adalah suatu referensi kontainer untuk semua komponen yang dapat dipakai-ulang. Lihat diatas bagaimana kita mengimpor `Components` dan menginjeksinya ke dalam modul Pangkal, ini memberikan kita satu tempat tunggal untuk mengimpor semua komponen aplikasi. Modul-modul yang kita butuhkan ini dipisahkan dari semua modul lainnya sehingga kita dapat memindahkannya ke aplikasi lain dengan mudah.
+Sebuah modul Komponen adalah suatu referensi kontainer untuk semua komponen yang dapat dipakai-ulang. Lihat diatas bagaimana kita mengimpor `ComponentsModule` dan menginjeksinya ke dalam modul Pangkal, ini memberikan kita satu tempat tunggal untuk mengimpor semua komponen aplikasi. Modul-modul yang kita butuhkan ini dipisahkan dari semua modul lainnya sehingga kita dapat memindahkannya ke aplikasi lain dengan mudah.
 
 ```js
 import angular from 'angular';
-import Calendar from './calendar';
-import Events from './events';
+import CalendarModule from './calendar';
+import EventsModule from './events';
 
-const components = angular
+const ComponentsModule = angular
   .module('app.components', [
-    Calendar,
-    Events
+    CalendarModule,
+    EventsModule
   ])
   .name;
 
-export default components;
+export default ComponentsModule;
 ```
 
 **[Kembali ke atas](#daftar-isi)**
 
 ### Modul umum
 
-Modul Umum adalah refensi kontainer untuk semua komponen-komponen aplikasi yang spesifik, yang tidak ingin kita gunakan di aplikasi yang lain. Seperti tata letak, navigasi, dan kaki halaman. Lihat diatas bagaimana kita mengimpor `Common` dan menginjeksinya ke dalam modul Pangkal, ini memberikan kita satu tempat tunggal untuk mengimpor semua komponen umum untuk aplikasi tersebut.
+Modul Umum adalah refensi kontainer untuk semua komponen-komponen aplikasi yang spesifik, yang tidak ingin kita gunakan di aplikasi yang lain. Seperti tata letak, navigasi, dan kaki halaman. Lihat diatas bagaimana kita mengimpor `CommonModule` dan menginjeksinya ke dalam modul Pangkal, ini memberikan kita satu tempat tunggal untuk mengimpor semua komponen umum untuk aplikasi tersebut.
 
 ```js
 import angular from 'angular';
-import Nav from './nav';
-import Footer from './footer';
+import NavModule from './nav/nav.module';
+import FooterModule from './footer/footer.module';
 
-const common = angular
+const CommonModule = angular
   .module('app.common', [
-    Nav,
-    Footer
+    NavModule,
+    FooterModule
   ])
   .name;
 
-export default common;
+export default CommonModule;
 ```
 
 **[Kembali ke atas](#daftar-isi)**
@@ -151,7 +151,7 @@ import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import CalendarComponent from './calendar.component';
 
-const calendar = angular
+const CalendarModule = angular
   .module('calendar', [
     uiRouter
   ])
@@ -166,17 +166,17 @@ const calendar = angular
   })
   .name;
 
-export default calendar;
+export default CalendarModule;
 ```
 
 **[Kembali ke atas](#daftar-isi)**
 
 # Konvensi penamaan berkas
 
-Buatlah sesederhana mungkin dan berhuruf kecil, gunakan nama komponen, misalnya `calendar.*.js*`, `calendar-grid.*.js` - dengan nama jenis berkasnya di tengah. Gunakan `index.js` untuk berkas penetapan modulnya, sehingga Anda dapat mengimpor modul tersebut berdasarkan nama direktori.
+Buatlah sesederhana mungkin dan berhuruf kecil, gunakan nama komponen, misalnya `calendar.*.js*`, `calendar-grid.*.js` - dengan nama jenis berkasnya di tengah. Gunakan `*.module.js` untuk berkas penetapan modulnya, sehingga Anda dapat mengimpor modul tersebut berdasarkan nama direktori.
 
 ```
-index.js
+calendar.module.js
 calendar.controller.js
 calendar.component.js
 calendar.service.js
@@ -195,45 +195,47 @@ Struktur berkas adalah sangat penting, ini menjelaskan sebuah sebuah struktur ya
 ├── app/
 │   ├── components/
 │   │  ├── calendar/
-│   │  │  ├── index.js
+│   │  │  ├── calendar.module.js
 │   │  │  ├── calendar.controller.js
 │   │  │  ├── calendar.component.js
 │   │  │  ├── calendar.service.js
 │   │  │  ├── calendar.spec.js
 │   │  │  └── calendar-grid/
-│   │  │     ├── index.js
+│   │  │     ├── calendar-grid.module.js
 │   │  │     ├── calendar-grid.controller.js
 │   │  │     ├── calendar-grid.component.js
 │   │  │     ├── calendar-grid.directive.js
 │   │  │     ├── calendar-grid.filter.js
 │   │  │     └── calendar-grid.spec.js
-│   │  └── events/
-│   │     ├── index.js
-│   │     ├── events.controller.js
-│   │     ├── events.component.js
-│   │     ├── events.directive.js
-│   │     ├── events.service.js
-│   │     ├── events.spec.js
-│   │     └── events-signup/
-│   │        ├── index.js
-│   │        ├── events-signup.controller.js
-│   │        ├── events-signup.component.js
-│   │        ├── events-signup.service.js
-│   │        └── events-signup.spec.js
+│   │  ├── events/
+│   │  │  ├── events.module.js
+│   │  │  ├── events.controller.js
+│   │  │  ├── events.component.js
+│   │  │  ├── events.directive.js
+│   │  │  ├── events.service.js
+│   │  │  ├── events.spec.js
+│   │  │  └── events-signup/
+│   │  │     ├── events-signup.module.js
+│   │  │     ├── events-signup.controller.js
+│   │  │     ├── events-signup.component.js
+│   │  │     ├── events-signup.service.js
+│   │  │     └── events-signup.spec.js
+│   │  └── components.module.js
 │   ├── common/
 │   │  ├── nav/
-│   │  │     ├── index.js
+│   │  │     ├── nav.module.js
 │   │  │     ├── nav.controller.js
 │   │  │     ├── nav.component.js
 │   │  │     ├── nav.service.js
 │   │  │     └── nav.spec.js
-│   │  └── footer/
-│   │        ├── index.js
-│   │        ├── footer.controller.js
-│   │        ├── footer.component.js
-│   │        ├── footer.service.js
-│   │        └── footer.spec.js
-│   ├── app.js
+│   │  ├── footer/
+│   │  │     ├── footer.module.js
+│   │  │     ├── footer.controller.js
+│   │  │     ├── footer.component.js
+│   │  │     ├── footer.service.js
+│   │  │     └── footer.spec.js
+│   │  └── common.module.js
+│   ├── app.module.js
 │   └── app.component.js
 └── index.html
 ```
@@ -357,16 +359,16 @@ TodoController.$inject = ['TodoService'];
 
 export default TodoController;
 
-/* ----- todo/index.js ----- */
+/* ----- todo/todo.module.js ----- */
 import angular from 'angular';
 import TodoComponent from './todo.component';
 
-const todo = angular
+const TodoModule = angular
   .module('todo', [])
   .component('todo', TodoComponent)
   .name;
 
-export default todo;
+export default TodoModule;
 ```
 
 Contoh ini menunjukkan sebuah komponen berkondisi, yang menarik suatu kondisi di pengendali, melalui sebuah servis, kemudian melemparnya ke komponen anakan tanpa-kondisi. Perhatikan bagaimana disana tidak ada Direktif yang digunakan seperti misalnya `ng-repeat` dan sebagainya di dalam templat. Melainkan, data dan fungsi yang didelegasikan ke dalam `<todo-form>` dan `<todo-list>` komponen-komponen tanpa-kondisi.
@@ -423,7 +425,7 @@ class TodoFormController {
     this.onAddTodo(
       this.EventEmitter({
         todo: this.todo
-      });
+      })
     );
     // without EventEmitter wrapper
     this.onAddTodo({
@@ -438,17 +440,17 @@ TodoFormController.$inject = ['EventEmitter'];
 
 export default TodoFormController;
 
-/* ----- todo/todo-form/index.js ----- */
+/* ----- todo/todo-form/todo-form.module.js ----- */
 import angular from 'angular';
 import TodoFormComponent from './todo-form.component';
 
-const todoForm = angular
+const TodoFormModule = angular
   .module('todo.form', [])
   .component('todoForm', TodoFormComponent)
   .value('EventEmitter', payload => ({ $event: payload}))
   .name;
 
-export default todoForm;
+export default TodoFormModule; 
 ```
 
 Perhatikan bagaimana komponen `<todo-form>` tidak menarik kondisi apapun, ia hanya menerimanya saja, memutasi sebuah Obyek melalui logika pengendali yang berhubungan dengannya, kemudian melemparnya ke komponen induk melalui properti bindings. Dalam contoh ini, kaitan siklus `$onChanges` mereplika `this.todo` Obyek binding awal dan menetapkannya kembali, yang artinya bahwa data induk tidak terpengaruh sama sekali sampai kita mengirim formnya, bersama dengan sintak `'<'` binding yang baru dari aliran data satu-arah.
@@ -528,13 +530,13 @@ TodoService.$inject = ['$http'];
 
 export default TodoService;
 
-/* ----- todo/index.js ----- */
+/* ----- todo/todo.module.js ----- */
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import TodoComponent from './todo.component';
 import TodoService from './todo.service';
 
-const todo = angular
+const TodoModule = angular
   .module('todo', [
     uiRouter
   ])
@@ -546,14 +548,14 @@ const todo = angular
         url: '/todos',
         component: 'todo',
         resolve: {
-          todoData: TodoService => TodoService.getTodos();
+          todoData: TodoService => TodoService.getTodos()
         }
       });
     $urlRouterProvider.otherwise('/');
   })
   .name;
 
-export default todo;
+export default TodoModule;
 ```
 
 **[Kembali ke atas](#daftar-isi)**
@@ -622,18 +624,18 @@ TodoAutoFocus.$inject = ['$timeout'];
 
 export default TodoAutoFocus;
 
-/* ----- todo/index.js ----- */
+/* ----- todo/todo.module.js ----- */
 import angular from 'angular';
 import TodoComponent from './todo.component';
 import TodoAutofocus from './todo-autofocus.directive';
 
-const todo = angular
+const TodoModule = angular
   .module('todo', [])
   .component('todo', TodoComponent)
   .directive('todoAutofocus', TodoAutoFocus)
   .name;
 
-export default todo;
+export default TodoModule;
 ```
 
 Atau menggunakan `Class` ES2015 (catat pemanggilan `new TodoAutoFocus` secara manual pada saat mendaftarkan direktif) untuk membuat Obyek:
@@ -661,18 +663,18 @@ TodoAutoFocus.$inject = ['$timeout'];
 
 export default TodoAutoFocus;
 
-/* ----- todo/index.js ----- */
+/* ----- todo/todo.module.js ----- */
 import angular from 'angular';
 import TodoComponent from './todo.component';
 import TodoAutofocus from './todo-autofocus.directive';
 
-const todo = angular
+const TodoModule = angular
   .module('todo', [])
   .component('todo', TodoComponent)
   .directive('todoAutofocus', () => new TodoAutoFocus)
   .name;
 
-export default todo;
+export default TodoModule;
 ```
 
 **[Kembali ke atas](#daftar-isi)**
@@ -704,18 +706,18 @@ TodoService.$inject = ['$http'];
 
 export default TodoService;
 
-/* ----- todo/index.js ----- */
+/* ----- todo/todo.module.js ----- */
 import angular from 'angular';
 import TodoComponent from './todo.component';
 import TodoService from './todo.service';
 
-const todo = angular
+const TodoModule = angular
   .module('todo', [])
   .component('todo', TodoComponent)
   .service('TodoService', TodoService)
   .name;
 
-export default todo;
+export default TodoModule;
 ```
 
 **[Kembali ke atas](#daftar-isi)**

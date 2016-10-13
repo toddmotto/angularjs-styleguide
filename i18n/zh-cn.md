@@ -83,22 +83,23 @@ export default AppComponent;
 更进一步我们会导入一些子模块（组件和通用模块）用于引入相关的组件。
 
 ```js
-// app.js
+// app.module.js
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import AppComponent from './app.component';
-import Components from './components/components';
-import Common from './common/common';
+import ComponentsModule from './components/components.module';
+import CommonModule from './common/common.module';
 
-const root = angular
+const AppModule = angular
   .module('app', [
-    Components,
-    Common,
+    ComponentsModule,
+    CommonModule,
     uiRouter
   ])
-  .component('app', AppComponent);
+  .component('app', AppComponent)
+  .name;
 
-export default root;
+export default AppModule;
 ```
 
 **[返回顶部](#table-of-contents)**
@@ -111,17 +112,17 @@ export default root;
 
 ```js
 import angular from 'angular';
-import Calendar from './calendar';
-import Events from './events';
+import CalendarModule from './calendar';
+import EventsModule from './events';
 
-const components = angular
+const ComponentsModule = angular
   .module('app.components', [
-    Calendar,
-    Events
+    CalendarModule,
+    EventsModule
   ])
   .name;
 
-export default components;
+export default ComponentsModule;
 ```
 
 **[返回目录](#table-of-contents)**
@@ -129,20 +130,20 @@ export default components;
 ### 公共模块
 
 公共模块为所有的应用提供一些特殊组件的引用，我们不希望它能够在另一个应用程序中使用。比如布局，导航和页脚。
-前面我们已经知道如何导入`Common`并将其注入到根模块，而这里就是我们导入所有通用组件的地方。
+前面我们已经知道如何导入`CommonModule`并将其注入到根模块，而这里就是我们导入所有通用组件的地方。
 ```js
 import angular from 'angular';
-import Nav from './nav';
-import Footer from './footer';
+import NavModule from './nav/nav.module';
+import FooterModule from './footer/footer.module';
 
-const common = angular
+const CommonModule = angular
   .module('app.common', [
-    Nav,
-    Footer
+    NavModule,
+    FooterModule
   ])
   .name;
 
-export default common;
+export default CommonModule;
 ```
 
 **[返回目录](#table-of-contents)**
@@ -156,7 +157,7 @@ import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import CalendarComponent from './calendar.component';
 
-const calendar = angular
+const CalendarModule = angular
   .module('calendar', [
     uiRouter
   ])
@@ -171,17 +172,17 @@ const calendar = angular
   })
   .name;
 
-export default calendar;
+export default CalendarModule;
 ```
 
 **[返回目录](#table-of-contents)**
 
 # 文件命名规范
 
-使用小写并保持命名的简介, 比如使用组件名称时, e.g. `calendar.*.js*`, `calendar-grid.*.js` - 将名称放到中间. 使用 `index.js` 作为模块的定义文件 ，这样你就可以直接通过目录引入了。
+使用小写并保持命名的简介, 比如使用组件名称时, e.g. `calendar.*.js*`, `calendar-grid.*.js` - 将名称放到中间. 使用 `*.module.js` 作为模块的定义文件 ，这样你就可以直接通过目录引入了。
 
 ```
-index.js
+calendar.module.js
 calendar.controller.js
 calendar.component.js
 calendar.service.js
@@ -200,45 +201,47 @@ calendar.spec.js
 ├── app/
 │   ├── components/
 │   │  ├── calendar/
-│   │  │  ├── index.js
+│   │  │  ├── calendar.module.js
 │   │  │  ├── calendar.controller.js
 │   │  │  ├── calendar.component.js
 │   │  │  ├── calendar.service.js
 │   │  │  ├── calendar.spec.js
 │   │  │  └── calendar-grid/
-│   │  │     ├── index.js
+│   │  │     ├── calendar-grid.module.js
 │   │  │     ├── calendar-grid.controller.js
 │   │  │     ├── calendar-grid.component.js
 │   │  │     ├── calendar-grid.directive.js
 │   │  │     ├── calendar-grid.filter.js
 │   │  │     └── calendar-grid.spec.js
-│   │  └── events/
-│   │     ├── index.js
-│   │     ├── events.controller.js
-│   │     ├── events.component.js
-│   │     ├── events.directive.js
-│   │     ├── events.service.js
-│   │     ├── events.spec.js
-│   │     └── events-signup/
-│   │        ├── index.js
-│   │        ├── events-signup.controller.js
-│   │        ├── events-signup.component.js
-│   │        ├── events-signup.service.js
-│   │        └── events-signup.spec.js
+│   │  ├── events/
+│   │  │  ├── events.module.js
+│   │  │  ├── events.controller.js
+│   │  │  ├── events.component.js
+│   │  │  ├── events.directive.js
+│   │  │  ├── events.service.js
+│   │  │  ├── events.spec.js
+│   │  │  └── events-signup/
+│   │  │     ├── events-signup.module.js
+│   │  │     ├── events-signup.controller.js
+│   │  │     ├── events-signup.component.js
+│   │  │     ├── events-signup.service.js
+│   │  │     └── events-signup.spec.js
+│   │  └── components.module.js
 │   ├── common/
 │   │  ├── nav/
-│   │  │     ├── index.js
+│   │  │     ├── nav.module.js
 │   │  │     ├── nav.controller.js
 │   │  │     ├── nav.component.js
 │   │  │     ├── nav.service.js
 │   │  │     └── nav.spec.js
-│   │  └── footer/
-│   │        ├── index.js
-│   │        ├── footer.controller.js
-│   │        ├── footer.component.js
-│   │        ├── footer.service.js
-│   │        └── footer.spec.js
-│   ├── app.js
+│   │  ├── footer/
+│   │  │     ├── footer.module.js
+│   │  │     ├── footer.controller.js
+│   │  │     ├── footer.component.js
+│   │  │     ├── footer.service.js
+│   │  │     └── footer.spec.js
+│   │  └── common.module.js
+│   ├── app.module.js
 │   └── app.component.js
 └── index.html
 ```
@@ -367,16 +370,16 @@ TodoController.$inject = ['TodoService'];
 
 export default TodoController;
 
-/* ----- todo/index.js ----- */
+/* ----- todo/todo.module.js ----- */
 import angular from 'angular';
 import TodoComponent from './todo.component';
 
-const todo = angular
+const TodoModule = angular
   .module('todo', [])
   .component('todo', TodoComponent)
   .name;
 
-export default todo;
+export default TodoModule;
 ```
 
 这个例子显示了一个有状态的组件，在控制器哪通过服务获取状态，然后再将它传递给无状态的子组件。注意这里并没有在模版使用指令比如`ng-repeat`以及其他指令，相反，数据和功能委托到`<todo-form> `和 `<todo-list>`这两个无状态的组件。
@@ -433,7 +436,7 @@ class TodoFormController {
     this.onAddTodo(
       this.EventEmitter({
         todo: this.todo
-      });
+      })
     );
     // without EventEmitter wrapper
     this.onAddTodo({
@@ -448,16 +451,17 @@ TodoFormController.$inject = ['EventEmitter'];
 
 export default TodoFormController;
 
-/* ----- todo/todo-form/index.js ----- */
+/* ----- todo/todo-form/todo-form.module.js ----- */
 import angular from 'angular';
 import TodoFormComponent from './todo-form.component';
 
-const todoForm = angular
-  .module('todo')
-  .component('todo', TodoFormComponent)
-  .value('EventEmitter', payload => ({ $event: payload});
+const TodoFormModule = angular
+  .module('todo.form', [])
+  .component('todoForm', TodoFormComponent)
+  .value('EventEmitter', payload => ({ $event: payload}))
+  .name;
 
-export default todoForm;
+export default TodoFormModule; 
 ```
 
 请注意`<todo-form>`组件不获取状态，它只是接收，它通过控制器的逻辑去改变一个对象然后通过绑定的属性将改变后的值传回给父组件。
@@ -538,13 +542,13 @@ TodoService.$inject = ['$http'];
 
 export default TodoService;
 
-/* ----- todo/index.js ----- */
+/* ----- todo/todo.module.js ----- */
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import TodoComponent from './todo.component';
 import TodoService from './todo.service';
 
-const todo = angular
+const TodoModule = angular
   .module('todo', [
     uiRouter
   ])
@@ -556,14 +560,14 @@ const todo = angular
         url: '/todos',
         component: 'todo',
         resolve: {
-          todoData: TodoService => TodoService.getTodos();
+          todoData: TodoService => TodoService.getTodos()
         }
       });
     $urlRouterProvider.otherwise('/');
   })
   .name;
 
-export default todo;
+export default TodoModule;
 ```
 
 **[返回目录](#table-of-contents)**
@@ -637,18 +641,18 @@ TodoAutoFocus.$inject = ['$timeout'];
 
 export default TodoAutoFocus;
 
-/* ----- todo/index.js ----- */
+/* ----- todo/todo.module.js ----- */
 import angular from 'angular';
 import TodoComponent from './todo.component';
 import TodoAutofocus from './todo-autofocus.directive';
 
-const todo = angular
+const TodoModule = angular
   .module('todo', [])
   .component('todo', TodoComponent)
   .directive('todoAutofocus', TodoAutoFocus)
   .name;
 
-export default todo;
+export default TodoModule;
 ```
 
 或者用ES2015 Class（注意在注册指令时手动调用 `new TodoAutoFocus`）来创建对象:
@@ -676,18 +680,18 @@ TodoAutoFocus.$inject = ['$timeout'];
 
 export default TodoAutoFocus;
 
-/* ----- todo/index.js ----- */
+/* ----- todo/todo.module.js ----- */
 import angular from 'angular';
 import TodoComponent from './todo.component';
 import TodoAutofocus from './todo-autofocus.directive';
 
-const todo = angular
+const TodoModule = angular
   .module('todo', [])
   .component('todo', TodoComponent)
   .directive('todoAutofocus', () => new TodoAutoFocus)
   .name;
 
-export default todo;
+export default TodoModule;
 ```
 
 **[返回目录](#table-of-contents)**
@@ -719,18 +723,18 @@ TodoService.$inject = ['$http'];
 
 export default TodoService;
 
-/* ----- todo/index.js ----- */
+/* ----- todo/todo.module.js ----- */
 import angular from 'angular';
 import TodoComponent from './todo.component';
 import TodoService from './todo.service';
 
-const todo = angular
+const TodoModule = angular
   .module('todo', [])
   .component('todo', TodoComponent)
   .service('TodoService', TodoService)
   .name;
 
-export default todo;
+export default TodoModule;
 ```
 
 **[返回目录](#table-of-contents)**
