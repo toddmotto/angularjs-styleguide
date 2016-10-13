@@ -107,8 +107,8 @@ export default AppModule;
 
 ```js
 import angular from 'angular';
-import CalendarModule from './calendar';
-import EventsModule from './events';
+import CalendarModule from './calendar/calendar.module';
+import EventsModule from './events/events.module';
 
 const ComponentsModule = angular
   .module('app.components', [

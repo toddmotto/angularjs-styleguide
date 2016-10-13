@@ -133,8 +133,8 @@ The Common module is the container reference for all application specific compon
 
 ```js
 import angular from 'angular';
-import NavModule from './nav';
-import FooterModule from './footer';
+import NavModule from './nav/nav.module';
+import FooterModule from './footer/footer.module';
 
 const CommonModule = angular
   .module('app.common', [
