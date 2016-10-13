@@ -37,7 +37,7 @@ You can find the old styleguide [here](https://github.com/toddmotto/angular-styl
   1. [Services](#services)
     1. [Theory](#service-theory)
     1. [Classes for Service](#classes-for-service)
-  1. [TypeScript and Tooling](#TypeScript-and-tooling)
+  1. [TypeScript and Tooling](#typescript-and-tooling)
   1. [State management](#state-management)
   1. [Resources](#resources)
   1. [Documentation](#documentation)
