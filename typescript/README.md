@@ -510,7 +510,7 @@ For this example, we're going to take the existing `<todo>` component, refactor 
 /* ----- todo/todo.component.ts ----- */
 import controller from './todo.controller';
 
-const TodoComponent = {
+const TodoComponent: angular.IComponentOptions = {
   bindings: {
     todoData: '<'
   },
@@ -529,36 +529,43 @@ const TodoComponent = {
 export default TodoComponent;
 
 /* ----- todo/todo.controller.ts ----- */
+import TodoItem from '../common/model/todo';
+
 class TodoController {
-  constructor() {}
+  todos: TodoItem[] = [];
+
   $onInit() {
-    this.newTodo = {
-      title: '',
-      selected: false
-    };
+    this.newTodo = new TodoItem();
   }
+
   $onChanges(changes) {
     if (changes.todoData) {
       this.todos = Object.assign({}, this.todoData);
     }
   }
+
   addTodo({ todo }) {
     if (!todo) return;
     this.todos.unshift(todo);
-    this.newTodo = {
-      title: '',
-      selected: false
-    };
+    this.newTodo = new TodoItem();
   }
 }
 
 export default TodoController;
 
+/* ----- common/model/todo.ts ----- */
+class TodoItem {
+    constructor(
+        public title: string = '',
+        public completed: boolean = false) { }
+}
+
+export default TodoItem;
+
 /* ----- todo/todo.service.ts ----- */
 class TodoService {
-  constructor($http) {
-    this.$http = $http;
-  }
+  constructor(private $http: angular.IHttpService) { }
+
   getTodos() {
     return this.$http.get('/api/todos').then(response => response.data);
   }
@@ -577,7 +584,7 @@ const todo = angular
   .module('todo', [])
   .component('todo', TodoComponent)
   .service('TodoService', TodoService)
-  .config(($stateProvider, $urlRouterProvider) => {
+  .config(($stateProvider: angular.ui.IStateProvider, $urlRouterProvider: angular.ui.IUrlRouterProvider) => {
     $stateProvider
       .state('todos', {
         url: '/todos',
@@ -643,7 +650,7 @@ Here's an example using a constant with an Arrow function an expression wrapper 
 /* ----- todo/todo-autofocus.directive.ts ----- */
 import angular from 'angular';
 
-const TodoAutoFocus = ($timeout) => ({
+const TodoAutoFocus = ($timeout: angular.ITimeoutService) => (<angular.IDirective> {
   restrict: 'A',
   link($scope, $element, $attrs) {
     $scope.$watch($attrs.todoAutofocus, (newValue, oldValue) => {
@@ -679,21 +686,24 @@ Or using TypeScript `Class` (note manually calling `new TodoAutoFocus` when regi
 /* ----- todo/todo-autofocus.directive.ts ----- */
 import angular from 'angular';
 
-class TodoAutoFocus {
-  constructor() {
+class TodoAutoFocus implements angular.IDirective {
+  static $inject: string[] = ['$timeout'];
+  restrict: string;
+
+  constructor(private $timeout: angular.ITimeoutService) {
     this.restrict = 'A';
   }
-  link($scope, $element, $attrs) {
+
+  link($scope, $element: HTMLElement, $attrs) {
     $scope.$watch($attrs.todoAutofocus, (newValue, oldValue) => {
       if (!newValue) {
         return;
       }
+
       $timeout(() => $element[0].focus());
     });
   }
 }
-
-TodoAutoFocus.$inject = ['$timeout'];
 
 export default TodoAutoFocus;
 
@@ -728,15 +738,13 @@ Here's an example implementation for our `<todo>` app using TypeScript `Class`:
 ```ts
 /* ----- todo/todo.service.ts ----- */
 class TodoService {
-  constructor($http) {
-    this.$http = $http;
-  }
+  static $inject: string[] = ['$http'];
+
+  constructor(private $http: angular.IHttpService) { }
   getTodos() {
     return this.$http.get('/api/todos').then(response => response.data);
   }
 }
-
-TodoService.$inject = ['$http'];
 
 export default TodoService;
 
