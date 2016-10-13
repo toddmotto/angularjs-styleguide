@@ -213,19 +213,20 @@ File structure is extremely important, this describes a scalable and predictable
 │   │  │     ├── calendar-grid.directive.js
 │   │  │     ├── calendar-grid.filter.js
 │   │  │     └── calendar-grid.spec.js
-│   │  └── events/
-│   │     ├── index.js
-│   │     ├── events.controller.js
-│   │     ├── events.component.js
-│   │     ├── events.directive.js
-│   │     ├── events.service.js
-│   │     ├── events.spec.js
-│   │     └── events-signup/
-│   │        ├── index.js
-│   │        ├── events-signup.controller.js
-│   │        ├── events-signup.component.js
-│   │        ├── events-signup.service.js
-│   │        └── events-signup.spec.js
+│   │  ├── events/
+│   │  │  ├── index.js
+│   │  │  ├── events.controller.js
+│   │  │  ├── events.component.js
+│   │  │  ├── events.directive.js
+│   │  │  ├── events.service.js
+│   │  │  ├── events.spec.js
+│   │  │  └── events-signup/
+│   │  │     ├── index.js
+│   │  │     ├── events-signup.controller.js
+│   │  │     ├── events-signup.component.js
+│   │  │     ├── events-signup.service.js
+│   │  │     └── events-signup.spec.js
+│   │  └── components.js
 │   ├── common/
 │   │  ├── nav/
 │   │  │     ├── index.js
@@ -233,12 +234,13 @@ File structure is extremely important, this describes a scalable and predictable
 │   │  │     ├── nav.component.js
 │   │  │     ├── nav.service.js
 │   │  │     └── nav.spec.js
-│   │  └── footer/
-│   │        ├── index.js
-│   │        ├── footer.controller.js
-│   │        ├── footer.component.js
-│   │        ├── footer.service.js
-│   │        └── footer.spec.js
+│   │  ├── footer/
+│   │  │     ├── index.js
+│   │  │     ├── footer.controller.js
+│   │  │     ├── footer.component.js
+│   │  │     ├── footer.service.js
+│   │  │     └── footer.spec.js
+│   │  └── common.js
 │   ├── app.js
 │   └── app.component.js
 └── index.html
