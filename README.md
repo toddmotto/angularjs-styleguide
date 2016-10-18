@@ -282,6 +282,7 @@ Controllers should only be used alongside components, never anywhere else. If yo
 
 Here are some advisories for using `Class` for controllers:
 
+* Drop the name "Controller", i.e. use `controller: class TodoComponent {...}` to aid future Angular 2 migration
 * Always use the `constructor` for dependency injection purposes
 * Use [ng-annotate](https://github.com/olov/ng-annotate)'s `'ngInject';` syntax for `$inject` annotations
 * If you need to access the lexical scope, use arrow functions
