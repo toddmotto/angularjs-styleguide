@@ -735,6 +735,7 @@ Consider using Redux with Angular 1.5 for data management.
 
 # Resources
 
+* [Stateful and stateless components, the missing manual](https://toddmotto.com/stateful-stateless-components)
 * [Understanding the .component() method](https://toddmotto.com/exploring-the-angular-1-5-component-method/)
 * [Using "require" with $onInit](https://toddmotto.com/on-init-require-object-syntax-angular-component/)
 * [Understanding all the lifecycle hooks, $onInit, $onChanges, $postLink, $onDestroy](https://toddmotto.com/angular-1-5-lifecycle-hooks)
