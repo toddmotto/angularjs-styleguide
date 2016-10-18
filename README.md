@@ -441,7 +441,7 @@ import './todo-form.scss';
 export const TodoFormModule = angular
   .module('todo.form', [])
   .component('todoForm', TodoFormComponent)
-  .value('EventEmitter', payload => ({ $event: payload}))
+  .value('EventEmitter', payload => ({ $event: payload }))
   .name;
 ```
 
