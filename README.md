@@ -220,7 +220,6 @@ File structure is extremely important, this describes a scalable and predictable
 │   │  │  ├── events.scss
 │   │  │  └── events-signup/
 │   │  │     ├── events-signup.module.js
-│   │  │     ├── events-signup.controller.js
 │   │  │     ├── events-signup.component.js
 │   │  │     ├── events-signup.service.js
 │   │  │     ├── events-signup.spec.js
