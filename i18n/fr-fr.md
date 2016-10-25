@@ -281,6 +281,7 @@ Les Controllers ne devraient être utilisés qu'aux cotés de components, jamais
 
 Voilà quelques conseils pour l'utilisation de `Class` pour les controllers:
 
+* Enlever le nom "Controller", mais utiliser plutôt `controller: class TodoComponent {...}` pour faciliter la migration vers Angular 2
 * Toujours utiliser le `constructor` pour l'injection de dépendance
 * Ne pas exporter directement la `Class`, exportez son nom pour pouvoir utiliser la notation `$inject`.
 * Si vous avez besoin d'accèder au lexical scope (portée lexicale) utilisez les fonctions flechées (arrow function).
