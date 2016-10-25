@@ -203,47 +203,54 @@ Structurer les dossiers du projet est extrêmement important, cela se transcrit 
 │   ├── components/
 │   │  ├── calendar/
 │   │  │  ├── calendar.module.js
-│   │  │  ├── calendar.controller.js
 │   │  │  ├── calendar.component.js
 │   │  │  ├── calendar.service.js
 │   │  │  ├── calendar.spec.js
+│   │  │  ├── calendar.html
+│   │  │  ├── calendar.scss
 │   │  │  └── calendar-grid/
 │   │  │     ├── calendar-grid.module.js
-│   │  │     ├── calendar-grid.controller.js
 │   │  │     ├── calendar-grid.component.js
 │   │  │     ├── calendar-grid.directive.js
 │   │  │     ├── calendar-grid.filter.js
 │   │  │     └── calendar-grid.spec.js
+│   │  │     └── calendar-grid.html
+│   │  │     └── calendar-grid.scss
 │   │  ├── events/
 │   │  │  ├── events.module.js
-│   │  │  ├── events.controller.js
 │   │  │  ├── events.component.js
 │   │  │  ├── events.directive.js
 │   │  │  ├── events.service.js
 │   │  │  ├── events.spec.js
+│   │  │  ├── events.html
+│   │  │  ├── events.scss
 │   │  │  └── events-signup/
 │   │  │     ├── events-signup.module.js
-│   │  │     ├── events-signup.controller.js
 │   │  │     ├── events-signup.component.js
 │   │  │     ├── events-signup.service.js
 │   │  │     └── events-signup.spec.js
+│   │  │     ├── events-signup.html
+│   │  │     ├── events-signup.scss
 │   │  └── components.module.js
 │   ├── common/
 │   │  ├── nav/
 │   │  │     ├── nav.module.js
-│   │  │     ├── nav.controller.js
 │   │  │     ├── nav.component.js
 │   │  │     ├── nav.service.js
 │   │  │     └── nav.spec.js
+│   │  │     ├── nav.html
+│   │  │     ├── nav.scss
 │   │  ├── footer/
 │   │  │     ├── footer.module.js
-│   │  │     ├── footer.controller.js
 │   │  │     ├── footer.component.js
 │   │  │     ├── footer.service.js
 │   │  │     └── footer.spec.js
+│   │  │     └── footer.html
+│   │  │     └── footer.scss
 │   │  └── common.module.js
 │   ├── app.module.js
 │   └── app.component.js
+│   └── app.scss
 └── index.html
 ```
 
