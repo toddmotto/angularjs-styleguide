@@ -81,7 +81,7 @@ export const AppComponent = {
 };
 ```
 
-A root module is then created, with `AppComponent` imported and registered with `.component('app', AppComponent)`. Further imports for submodules (component and common modules) are made to include all components relevant for the application. Please notice styles are also being imported here, we'll come onto this in later chapters in this guide.
+A root module is then created, with `AppComponent` imported and registered with `.component('app', AppComponent)`. Further imports for submodules (component and common modules) are made to include all components relevant for the application. You'll notice styles are also being imported here, we'll come onto this in later chapters in this guide.
 
 ```js
 // app.module.js
