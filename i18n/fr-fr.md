@@ -37,6 +37,7 @@ Vous pouvez trouver l'ancien guide de style [ici](https://github.com/toddmotto/a
   1. [Services](#services)
     1. [Théorie des services](#théorie-des-services)
     1. [Classes pour les services](#classes-pour-les-services)
+  1. [Styles](#styles)
   1. [ES2015 et outils](#es2015-et-outils)
   1. [State management](#state-management)
   1. [Ressources](#ressources)
@@ -451,7 +452,7 @@ const TodoFormModule = angular
   .value('EventEmitter', payload => ({ $event: payload}))
   .name;
 
-export default TodoFormModule; 
+export default TodoFormModule;
 ```
 
 Notez comme le component `<todo-form>` ne fetch pas de state, il le reçoit simplement, opère une mutation d'un Object via le code logique du controller associé au component, et le rend au component parent au travers des bindings de propriétés. Dans cet exemple, le lifecycle hook `$onChanges` fabrique un clone du binding Object original `this.todo` et le réassigne, ce qui veut dire que les données parentes ne sont pas affectées tant que le formulaire n'est pas soumis, cote a cote avec la nouvelle syntaxe de one-way dataflow `'<'`.
@@ -720,6 +721,14 @@ const TodoModule = angular
 
 export default TodoModule;
 ```
+
+**[Haut de page](#table-des-matieres)**
+
+# Styles
+
+En utilisant [Webpack](https://webpack.github.io/) nous pouvons utiliser la notion d'`import` de nos fichiers `.scss` dans nos fichiers `*.module.js` et laisser Webpack connaitre la manière d'inclure ces fichiers dans nos feuilles CSS. En procédant de cette manière, nous gardons nos composants isolés tant au niveau fonctionnalités que styles, et cela se rapproche plus clairement de l'inclusion de feuilles de styles d'Angular 2. En procédant de cette manière, nous n'allons pas juste isolé nos styles pour ce composant comme en Angular 2, les styles seront quand même utilisable de manière globale dans l'application, mais l'ensemble sera beaucoup plus maintenable et la structure de notre application plus compréhensive.
+
+Si vous avez quelques variables ou des styles globaux comme des champs de formulaires, dans ce cas ces fichiers doivent être placés dans votre dossier `scss`. Par exemple `scss/_forms.scss`. Ces styles globaux peuvent ensuite être `@imported` dans la feuille de style de notre module root (`app.module.js`) comme on procède habituellement.
 
 **[Haut de page](#table-des-matieres)**
 
