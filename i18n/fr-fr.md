@@ -765,6 +765,7 @@ Envisager d'utiliser Redux avec Angular 1.5 pour la gestion des données.
 
 # Ressources
 
+* [Composants stateful et stateless, le manuel](https://toddmotto.com/stateful-stateless-components)
 * [Comprendre la méthode .component()](https://toddmotto.com/exploring-the-angular-1-5-component-method/)
 * [Utilisation de "require" avec $onInit](https://toddmotto.com/on-init-require-object-syntax-angular-component/)
 * [Comprendre tous les lifecycle hooks, $onInit, $onChanges, $postLink, $onDestroy](https://toddmotto.com/angular-1-5-lifecycle-hooks)
