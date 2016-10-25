@@ -2,6 +2,12 @@
 
 ### Architecture, structure de fichier, components (composants), one-way dataflow et bonnes pratiques
 
+---
+
+> Vous voulez découvrir un exemple de structure de projet ? Découvrez cette [architecture d'un projet Angular 1.5](https://github.com/toddmotto/angular-1-5-components-app).
+
+---
+
 *Un guide de style adapté aux équipes par [@toddmotto](//twitter.com/toddmotto)*
 
 Cette architecture et guide de style a été réécrit avec ES2015 en tête, ainsi que les changements d'Angular 1.5+ pour une future mise à jour vers Angular 2. Ce guide inclut les nouvelles bonnes pratiques pour du one-way dataflow, la délégation d'évènements, l'architecture des components et le routing de ceux-ci.
