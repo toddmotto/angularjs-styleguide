@@ -570,7 +570,7 @@ export default todo;
 
 ### Teoria delle direttive
 
-Direttive ci forniscono molti strumenti `template`, associazioni con lo `scope` , `bindToController`,` link` e molte altre cose. L'utilizzo di questi strumenti deve essere valutato attentamentela, ora che esiste `.component()`. Le Direttive non dovrebbero piú dichiarare templates o controllers, o ricevere dati tramite associazioni. Le direttive devono essere utilizzate esclusivamente per la decorazione del DOM. Questo vuol dire che si estende HTML esistente - creato con `.component()`. In un certo senso semplice, se avete bisogno di eventi DOM / API personalizzate e la logica, utilizzare una direttiva e associarlo a un modello all'interno di un componente. Se avete bisogno di una quantità ragionevole di manipolazione del DOM, c'è anche l'hook `$postLink` da prendere in considerazione, ma questo non è un il punto dove migrare tutte le manipolazioni del DOM, utilizzare un direttiva, se è possibile per le cose non-Angular.
+Le direttive ci forniscono molti strumenti `template`, associazioni con lo `scope` , `bindToController`,` link` e molte altre cose. L'utilizzo di questi strumenti deve essere valutato attentamentela, ora che esiste `.component()`. Le Direttive non dovrebbero piú dichiarare templates o controllers, o ricevere dati tramite associazioni. Le direttive devono essere utilizzate esclusivamente per la decorazione del DOM. Questo vuol dire che si estende HTML esistente - creato con `.component()`. In un certo senso semplice, se avete bisogno di eventi DOM / API personalizzate e la logica, utilizzare una direttiva e associarlo a un modello all'interno di un componente. Se avete bisogno di una quantità ragionevole di manipolazione del DOM, c'è anche l'hook `$postLink` da prendere in considerazione, ma questo non è un il punto dove migrare tutte le manipolazioni del DOM, utilizzare un direttiva, se è possibile per le cose non-Angular.
 
 
 Di seguito alcuni consigli per usare le Direttive:
@@ -586,32 +586,34 @@ Di seguito alcuni consigli per usare le Direttive:
 
 ### Recommended properties
 
-Due to the fact directives support most of what `.component()` does (template directives were the original component), I'm recommending limiting your directive Object definitions to only these properties, to avoid using directives incorrectly:
+Dato che le direttive supportano gran parte di quello che `.component()` fa (le direttive erano i components in origine), mi raccomando di limitare la definizione dell'oggetto della direttva a queste proprietà, per evitare di usare le direttive in modo scorretto.
 
-| Property | Use it? | Why |
+
+| Proprietà | Usarla ? | Perché |
 |---|---|---|
-| bindToController | No | Use `bindings` in components |
-| compile | Yes | For pre-compile DOM manipulation/events |
-| controller | No | Use a component |
-| controllerAs | No | Use a component |
-| link functions | Yes | For pre/post DOM manipulation/events |
-| multiElement | Yes | [See docs](https://docs.angularjs.org/api/ng/service/$compile#-multielement-) |
-| priority | Yes | [See docs](https://docs.angularjs.org/api/ng/service/$compile#-priority-) |
-| require | No | Use a component |
-| restrict | Yes | Defines directive usage, always use `'A'` |
-| scope | No | Use a component |
-| template | No | Use a component |
-| templateNamespace | Yes (if you must) | [See docs](https://docs.angularjs.org/api/ng/service/$compile#-templatenamespace-) |
-| templateUrl | No | Use a component |
-| transclude | No | Use a component |
+| bindToController | No | Usare `bindings` nei componenti |
+| compile | Yes | Per pre-compilare la manipolazione del dom e degli eventi |
+| controller | No | Usa un component |
+| controllerAs | No | Usa un component |
+| link functions | Yes | Per la pre/post manipolazione del DOM / Eventi |
+| multiElement | Yes | [Guarda la guida](https://docs.angularjs.org/api/ng/service/$compile#-multielement-) |
+| priority | Yes | [Guarda la guida](https://docs.angularjs.org/api/ng/service/$compile#-priority-) |
+| require | No | Usa un component |
+| restrict | Yes | Definisci l'uso della direttiva, usa sempre `'A'` |
+| scope | No | Usa un component |
+| template | No | Usa un component |
+| templateNamespace | Si (se devi) | [Guarda la guida](https://docs.angularjs.org/api/ng/service/$compile#-templatenamespace-) |
+| templateUrl | No | Usa un component |
+| transclude | No | Usa un component |
 
 **[Torna Su](#tabella-dei-contenuti)**
 
-### Constants or Classes
+### Constants or Classes Costanti e Classi
 
-There are a few ways to approach using ES2015 and directives, either with an arrow function and easier assignment, or using an ES2015 `Class`. Choose what's best for you or your team, keep in mind Angular 2 uses `Class`.
+Ci sono molti modi di approcciare l'utilizzo di ES2015 e direttive, sia con le arrow functions e assegnamento semplice, oppure usando il costruttore `Class` di ES2015. Scegli quello che ritieni migliore per te o per il tuo team, tieni a mente che Angular2 usa `Class`
 
-Here's an example using a constant with an Arrow function an expression wrapper `() => ({})` returning an Object literal (note the usage differences inside `.directive()`):
+Ecco un esempio utilizzando una costante con una funzione freccia un wrapper espressione `() => ({})` che restituisce un oggetto letterale (notare le differenze di utilizzo all'interno `.directive ()`): 
+
 
 ```js
 /* ----- todo/todo-autofocus.directive.js ----- */
@@ -646,8 +648,7 @@ const todo = angular
 
 export default todo;
 ```
-
-Or using ES2015 `Class` (note manually calling `new TodoAutoFocus` when registering the directive) to create the Object:
+O usando ES2015 `Class` (notare la chiamata manuale `new TodoAutoFocus` quando registriamo la direttiva) per creare l'oggetto.
 
 ```js
 /* ----- todo/todo-autofocus.directive.js ----- */
@@ -687,17 +688,17 @@ export default todo;
 
 **[Torna Su](#tabella-dei-contenuti)**
 
-# Services
+# Servizi 
 
-### Service theory
+### Teoria del servizio (Service)
 
-Services are essentially containers for business logic that our components shouldn't request directly. Services contain other built-in or external services such as `$http`, that we can then inject into component controllers elsewhere in our app. We have two ways of doing services, using `.service()` or `.factory()`. With ES2015 `Class`, we should only use `.service()`, complete with dependency injection annotation using `$inject`.
+I Services sono essenzialmente contenitori per la logica di business che i nostri componenti non dovrebbero richiedere direttamente, I services contegono altri services iterni o esterni come `$http`, che possiamo iniettare dentro i controllers dei componenti in qualsiasi punto della nostra app. Abbiamo due modi per creare serivces, usando `.service()` oppure `.factory()`. Con ES2015 `Class`, dovremmo usare solo `.service()` corredato dell'annotazione per la iniezione delle dipendenze `$inject`.
 
 **[Torna Su](#tabella-dei-contenuti)**
 
-### Classes for Service
+### Classes for Service Classi per Service
 
-Here's an example implementation for our `<todo>` app using ES2015 `Class`:
+Qui un esempio dell'implementazione per la nostra `<todo>` app usando ES2015 `Class`:
 
 ```js
 /* ----- todo/todo.service.js ----- */
@@ -734,22 +735,23 @@ export default todo;
 
 ##### ES2015
 
-* Use [Babel](https://babeljs.io/) to compile your ES2015+ code and any polyfills
-* Consider using [TypeScript](http://www.typescriptlang.org/) to make way for any Angular 2 upgrades
+* Usa [Babel](https://babeljs.io/) per compilare il tuo codice ES2015 ed i polyfills
+* Considera l'utilizzo di [TypeScript](http://www.typescriptlang.org/) pre creare un aggiornameni indirizzato ad Angular 2. 
 
-##### Tooling
-* Use `ui-router` [latest alpha](https://github.com/angular-ui/ui-router) (see the Readme) if you want to support component-routing
-  * Otherwise you're stuck with `template: '<component>'` and no `bindings`/resolve mapping
-* Consider preloading templates into `$templateCache` with `angular-templates`
-  * [Gulp version](https://www.npmjs.com/package/gulp-angular-templatecache)
-  * [Grunt version](https://www.npmjs.com/package/grunt-angular-templates)
-* Consider using [Webpack](https://webpack.github.io/) for compiling your ES2015 code
-* Use [ngAnnotate](https://github.com/olov/ng-annotate) to automatically annotate `$inject` properties
-* How to use [ngAnnotate with ES6](https://www.timroes.de/2015/07/29/using-ecmascript-6-es6-with-angularjs-1-x/#ng-annotate)
+
+##### Strumenti
+* Utilizza `ui-router` [ultima alpha](https://github.com/angular-ui/ui-router) (guarda il Readme) se vuoi supportare il component-routing.
+  * Altrimenti rimarrai bloccato con `template: '<component>'` e nessuna mappatura del `bindings`/resolve 
+* Considera di pre-caricare i templates all'interno dei `$templateCache` with `angular-template`
+  * [Versione Gulp](https://www.npmjs.com/package/gulp-angular-templatecache)
+  * [Versione Grunt](https://www.npmjs.com/package/grunt-angular-templates)
+* Considera l'utlizzo di [Webpack](https://webpack.github.io/) per compilare il tuo codice ES2015.
+* Usa [ngAnnotate](https://github.com/olov/ng-annotate) per annotare le proprietà atuomanticamente con `$inject`.
+* Come utilizzarlo [ngAnnotate with ES6](https://www.timroes.de/2015/07/29/using-ecmascript-6-es6-with-angularjs-1-x/#ng-annotate)
 
 **[Torna Su](#tabella-dei-contenuti)**
 
-# State management
+# Gestione dello stato
 
 Considera l'uso di Redux con Angular 1.5 per la gestione dei dati.
 
@@ -768,12 +770,13 @@ Considera l'uso di Redux con Angular 1.5 per la gestione dei dati.
 
 **[Torna Su](#tabella-dei-contenuti)**
 
-# Documentation
-For anything else, including API reference, check the [Angular documentation](//docs.angularjs.org/api).
+# Documentazione
+Per tutto il resto, incluso il riferimento all'API, controller la [documentazione di Angular](//docs.angularjs.org/api). 
 
-# Contributing
 
-Open an issue first to discuss potential changes/additions. Please don't open issues for questions.
+# Contribuire
+Aprire prima un problema per discutere i potenziali cambiamenti e aggiunte.Per favore non aprire problemi per effettuare domande.
+
 
 ## License
 
