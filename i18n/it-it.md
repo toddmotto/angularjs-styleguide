@@ -12,7 +12,6 @@
 
 Questa architettura e linee guida sono state riscritte da capo per ES2015, i cambiamenti di Angular 1.5+ e per un futuro upgrade della tua applicazione ad Angular 2. Questa guida include delle nuove e migliori prassi per il one-way dataflow (flusso di dati unidirezionale), event delegation (delegazione d'evento), component architecture (architettura di un componente) e component routing (rotta del componente).
 
-
 Puoi trovare le vecchie linee guida [qui](https://github.com/toddmotto/angular-styleguide/tree/angular-old-es5), e il ragionameto
 che c'è dietro a quelle nuove [qui](https://toddmotto.com/rewriting-angular-styleguide-angular-2).
 
