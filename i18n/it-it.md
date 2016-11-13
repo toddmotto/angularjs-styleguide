@@ -55,6 +55,7 @@ che c'è dietro a quelle nuove [qui](https://toddmotto.com/rewriting-angular-sty
 Ogni `modulo`(o `module`) in una applicazione Angular è un modulo di tipo `.component`. Un modulo di tipo component è la definizione della radice dello stesso modulo che incapsula la logica, i templates, le rotte e i compoententi figli. 
 
 ### Teoria del modulo
+
 Il design nei moduli rispecchia direttamente la nostra struttura delle cartelle, che mantiene le cose gestibili e prevedibili.
 Dovremmo avere idealmente tre livelli di moduli : root , component e common. Il modulo radice (root) definisce la base del modulo che inizializza la nostra app, e il corrispondente template.
 Successivamente importiamo i nostri moduli componente e common nel modulo radice per includere le nostre dipendenze.
@@ -695,7 +696,7 @@ I Services sono essenzialmente contenitori per la logica di business che i nostr
 
 **[Torna Su](#tabella-dei-contenuti)**
 
-### Classes for Service Classi per Service
+### Classi per Service
 
 Qui un esempio dell'implementazione per la nostra `<todo>` app usando ES2015 `Class`:
 
