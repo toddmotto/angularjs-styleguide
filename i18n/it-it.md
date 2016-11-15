@@ -761,12 +761,12 @@ Considera l'uso di Redux con Angular 1.5 per la gestione dei dati.
 
 # Risorse
 
-* [Understanding the .component() method](https://toddmotto.com/exploring-the-angular-1-5-component-method/)
-* [Using "require" with $onInit](https://toddmotto.com/on-init-require-object-syntax-angular-component/)
-* [Understanding all the lifecycle hooks, $onInit, $onChanges, $postLink, $onDestroy](https://toddmotto.com/angular-1-5-lifecycle-hooks)
-* [Using "resolve" in routes](https://toddmotto.com/resolve-promises-in-angular-routes/)
-* [Redux and Angular state management](http://blog.rangle.io/managing-state-redux-angular/)
-* [Sample Application from Community](https://github.com/chihab/angular-styleguide-sample)
+* [Comprensione del metodo .component()](https://toddmotto.com/exploring-the-angular-1-5-component-method/)
+* [Usare "require" con $onInit](https://toddmotto.com/on-init-require-object-syntax-angular-component/)
+* [Comprensione di tutti i cicli di vita degli hooks, $onInit, $onChanges, $postLink, $onDestroy](https://toddmotto.com/angular-1-5-lifecycle-hooks)
+* [Usare "resolve" nelle rotte (routes) ](https://toddmotto.com/resolve-promises-in-angular-routes/)
+* [Redux e Angular gestione dello stato](http://blog.rangle.io/managing-state-redux-angular/)
+* [Applicazione d'esempio per la community](https://github.com/chihab/angular-styleguide-sample)
 
 **[Torna Su](#tabella-dei-contenuti)**
 
