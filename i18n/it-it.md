@@ -23,32 +23,32 @@ che c'è dietro a quelle nuove [qui](https://toddmotto.com/rewriting-angular-sty
 
   1. [Architettura Modulare](#architettura-modulare)
     1. [Teoria](#teoria-del-modulo)
-    1. [Modulo radice](#root-module)
-    1. [Modulo Component](#component-module)
-    1. [Modulo Common](#common-module)
-    1. [Moduli di basso livello](#low-level-modules)
-    1. [Convenzioni sui nomi dei files](#file-naming-conventions)
-    1. [Struttura files scalabile](#scalable-file-structure)
-  1. [Components](#components)
-    1. [Teoria](#component-theory)
-    1. [Proprietà supportate](#supported-properties)
+    1. [Modulo radice](#modulo-radice)
+    1. [Modulo Component](#modulo-components)
+    1. [Modulo Common](#modulo-common)
+    1. [Moduli di basso livello](#moduli-di-basso-livello)
+    1. [Nomenclatura dei files](#nomenclatura-dei-files)
+    1. [Struttura files scalabile](#struttura-files-scalabile)
+  1. [Componenti](#componenti)
+    1. [Teoria](#teoria-del-component)
+    1. [Proprietá supportate](#proprietá-supportate)
     1. [Controllers](#controllers)
-    1. [Flusso dati unidirezionale ed eventi](#one-way-dataflow-and-events)
+    1. [Flusso dati unidirezionale ed eventi](#flusso-dati-unidirezionale-ed-eventi)
     1. [Componenti con stato](#stateful-components)
-    1. [Componenti privi di stato](#stateless-components)
-    1. [Routed Components](#routed-components)
-  1. [Direttive](#directives)
-    1. [Teoria](#directive-theory)
-    1. [Proprietà raccomandate](#recommended-properties)
-    1. [Costanti e classi](#constants-or-classes)
-  1. [Servizi](#services)
-    1. [Teoria](#service-theory)
-    1. [Classi per servizio](#classes-for-service)
-  1. [ES2015 e strumenti](#es2015-and-tooling)
-  1. [Gestione dello stato](#state-management)
+    1. [Componenti privi di stato](#componenti-con-stato)
+    1. [Componenti Indirizzati](#component-indirizzati)
+  1. [Direttive](#direttive)
+    1. [Teoria](#teoria-della-direttiva)
+    1. [Proprietá raccomandate](#proprietá-raccomandate)
+    1. [Costanti o classi](#costanti-o-classi)
+  1. [Servizi](#servizi)
+    1. [Teoria](#teoria-del-service)
+    1. [Classi per Service](#classi-per-service)
+  1. [ES2015 e strumenti](#es2015-e-strumenti)
+  1. [Gestione dello stato](#gestione-dello-stato)
   1. [Risorse](#risorse)
-  1. [Documentazione](#documentation)
-  1. [Contribuzione](#contributing)
+  1. [Documentazione](#documentazione)
+  1. [Contribuire](#contribuire)
 
 # Architettura Modulare
 
@@ -64,13 +64,13 @@ I moduli component e common dopo richiedono component di più basso livello, che
 
 **[Torna su](#tabella-dei-contenuti)**
 
-### Root module
+### Modulo Radice 
 
 Un modulo radice (root module) inizia con un componente principale che definisce l'elemento di base per l'intera applicazione, con un'instradamento (routing outlet) definito, nell'esempio mostrato usando `ui-view` da` ui-router`. 
 
 ```js
 // app.component.js
-const AppComponent = {
+export const AppComponent = {
   template: `
     <header>
         Hello world
@@ -83,10 +83,8 @@ const AppComponent = {
     </footer>
   `
 };
-
-export default AppComponent;
 ```
-Il modulo radice è successivamente creato, con `AppComponent` ed importato e registrato con `.component('app', AppComponent)`. Ulteriori importazioni di sotto-moduli (`components` e `commons`) sono fatti per includere tutti i componenti dell'applicazione. Noterai che anche gli stili sono importati qui, arriveremo a questo nei capitoli successivi in questa guida.
+Il modulo radice è successivamente creato con `AppComponent` ed importato e registrato con `.component('app', AppComponent)`. Ulteriori importazioni di sotto-moduli (`app.components` e `app.commons`) sono fatti per includere tutti i componenti dell'applicazione. Noterai che anche gli stili sono importati qui, arriveremo a questo nei capitoli successivi di questa guida.
 
 ```js
 // app.module.js
@@ -111,9 +109,9 @@ export const AppModule = angular
 
 ### Modulo Components
 
-Il modulo `app.components` è il contenitore per tutti i componenti riutilizzabili. 
+Il modulo Components (`app.components`) è il contenitore per tutti i componenti riutilizzabili. 
 Guarda nell'esempio di prima importavamo i `ComponentsModule` e li iniettavamo nel modulo radice (root module). Questo ci fornisce un singolo luogo dove importare tutti questi componenti riutilizzabili dell'applicazione. 
-Questi moduli che richiediamo sono disaccoppiati da tutti gli altri moduli, e quindi possono essere spostati in qualsiasi altra applicazione con facilità.
+Questi moduli che richiediamo sono disaccoppiati da tutti gli altri moduli, e quindi possono essere spostati in qualsiasi altra applicazione con facilitá.
 
 ```js
 import angular from 'angular';
@@ -132,7 +130,7 @@ export const ComponentsModule = angular
 
 ### Modulo Common
 
-Il modulo `Common` (`app.common`) è il contenitore di riferimento per tutti i componenti specifici dell'applicazione che non vogliamo riutilizzare in un'altra applicazione.
+Il modulo (`app.common`) è il contenitore di riferimento per tutti i componenti specifici dell'applicazione che non vogliamo riutilizzare in un'altra applicazione.
 Questi possono essere il layout, la navigazione o i footers. Guarda come nell'esempio di prima importavamo `CommonModule` e gli iniettavamo nel modulo radice (Root module), questo ci fornisce un singolo posto 
 dove importare tutti i componenti comuni dell'applicazione.
 
@@ -154,7 +152,7 @@ export const CommonModule = angular
 
 ### Moduli di basso livello
 
-I moduli di basso livello sono moduli `component` individuali che contengono la logica per ogni blocco di funzionalità. Questi definiscono moduli da importare di seguito a livello superiore, come in un component module o common module, un esempio di seguito. 
+I moduli di basso livello sono moduli `component` individuali che contengono la logica per ogni blocco di funzionalitá. Questi definiscono moduli da importare di seguito a livello superiore, come in un `ComponentsModule` o `CommonModule`, un esempio di seguito. 
 Ricordati sempre di aggiungere un suffisso `.name` and ogni `export` quando crei un _nuovo_ module, non quando lo state referenziando. Come avrete notato la definizione delle rotte esiste anche qui, lo approfondiremo nei capitoli successivi.
 
 ```js
@@ -182,8 +180,8 @@ export const CalendarModule = angular
 
 **[Torna Su](#tabella-dei-contenuti)**
 
-### Convezioni sui nomi dei files
-Mantenerli semplici e minuscolo, usa il nome del componente , es. `calendar.*.js*`, `calendar-grid.*.js` con il nome del tipo di file contenuto al centro. Usa *.module.js come nome del file della definizione del modulo principale, cosí è consistente con le linee di guida di Angular 2.
+### Nomenclatura dei files
+Mantenerli semplici e minuscolo, usa il nome del componente , es. `calendar.*.js*`, `calendar-grid.*.js` con il nome del tipo di file contenuto al centro. Usa *.module.js come nome del file della definizione del modulo principale, cosí è consistente con le linee guida di Angular 2.
 
 ```
 calendar.module.js
@@ -201,7 +199,6 @@ calendar.scss
 ### Struttura files scalabile
 
 La struttura dei files è estremamente importante, questa descrive una struttura scalabile e prevedibile. Un esempio di struttura dei files per illustrare un'architettura a componenti modulare.
-
 
 ```
 ├── app/
@@ -259,25 +256,25 @@ La struttura dei files è estremamente importante, questa descrive una struttura
 └── index.html
 ```
 
-La cartella di più alto livello contiene semplicemente index.html and app/ , la directory dove tutti, root components, common modules e i moduli di basso livello risiedono, insieme con i loro template e stili.
+La cartella di più alto livello contiene semplicemente index.html and app/, la directory dove tutti, root components, common modules e i moduli di basso livello risiedono, insieme con i loro template e stili.
 
 **[Torna Su](#tabella-dei-contenuti)**
 
-# Components
+# Componenti
 
-### Component theory
+### Teoria del componente
 
-I Components sono essenzialmente templates con un controller. Essi _non_ sono delle direttive, né si dovrebbe sostituire la direttive con i components, fino a che non effettui un upgrade dei "templates delle direttive" con controllers, che sono più adatte come componente. I components contengono anche dei legami che definiscono entrata ed uscita dei dati e degli eventi, i punti di ancoraggio del ciclo di vita del componente e l'abilità di usare il flusso dati unidirezionale ed oggetti di tipo evento (event objects) per ottenere i dati dal componente genitore. Questi sono di fatto lo standard in Angular 1.5 e superiori. Tutto quello che è basato su controllers e templates somiglierà a un component, che potrebbe essere dinamico , privo di stato o un componente mappato. Puoi pensare ad un "component" come un pezzo di codice completo, non solo come la definzione dell'oggetto `.component()`.Esploriamo alcune linee guida e consigli per i components, per poi passare ai concetti di come dovrebbero essere strutturati in modo dinamico , privo di stato e mappato.
+I Componenti sono essenzialmente templates con un controller. Essi _non_ sono delle direttive, né si dovrebbe sostituire la direttive con i components, fino a che non effettui un upgrade dei "templates delle direttive" con controllers, che sono più adatte come componente. I components contengono anche dei legami che definiscono entrata ed uscita dei dati e degli eventi, i punti di ancoraggio del ciclo di vita del componente e l'abilitá di usare il flusso dati unidirezionale ed oggetti di tipo evento (event objects) per ottenere i dati dal componente genitore. Questi sono di fatto lo standard in Angular 1.5 e superiori. Tutto quello che è basato su controllers e templates somiglierá a un component, che potrebbe essere dinamico , privo di stato o un componente mappato. Puoi pensare ad un "component" come un pezzo di codice completo, non solo come la definzione dell'oggetto `.component()`.Esploriamo alcune linee guida e consigli per i components, per poi passare ai concetti di come dovrebbero essere strutturati in modo dinamico , privo di stato e mappato.
 
 **[Torna Su](#tabella-dei-contenuti)**
 
-### Proprietà supportate
-Ci sono delle proprietà supportate per il metodo `.component()` che potresti/dovresti usare:
+### Proprietá supportate
 
+Ci sono delle proprietá supportate per il metodo `.component()` che potresti/dovresti usare:
 
-| Proprietà | Supporto |
+| Proprietá | Supporto |
 |---|---|
-| bindings | Si, use `'@'`, `'<'`, `'&'` only |
+| bindings | Si, usa solamente `'@'`, `'<'`, `'&'` |
 | controller | Si |
 | controllerAs | Si, di default è `$ctrl` |
 | require | Si (nuova sintassi Object) |
@@ -294,10 +291,10 @@ I controllers dovrebbero essere usati solamente a fianco dei components, mai in 
 Di seguito alcuni consigli per usare `Class` per i controllers:
 
 * Non utilizzare il suffisso "Controller", cioè utilizzi controller: class TodoComponent {...} per essere più vicino a come si fa in Angular 2
-* Usare sempre il `construttore` per l'iniezione delle dipendenze.
+* Usare sempre il construttore (`constructor()`) per l'iniezione delle dipendenze.
 * Usa la sintassi [ng-annotate](https://github.com/olov/ng-annotate) `'ngInject';` per iniettare (`$inject`) le annotazioni.
 * Non esportare il `Class` direttamente, esporta il suo nome per permettere l'utilizzo della notazione con l'`$inject`
-* Se hai bisogno di acceredere al blocco lessicale, utilizza le arrow functions ( ()=>{} ).
+* Se hai bisogno di acceredere al blocco lessicale, utilizza le arrow functions ( `() => {}` ).
 * Alternativamente alle arrow functions, `let ctrl = this` è anche accettabile e potrebbe avere più senso ma dipende dai casi d'uso.
 * Lega tutte le funzioni pubbliche direttamente al `Class`
 * Assicurati di utilizzare i punti d'ancoraggio del ciclo di vita del componente, `$onInit`, `$onChanges`, `$postLink` and `$onDestroy`
@@ -308,7 +305,7 @@ Di seguito alcuni consigli per usare `Class` per i controllers:
 
 **[Torna Su](#tabella-dei-contenuti)**
 
-### Flusso dati uni-direzionale ed Eventi
+### Flusso dati unidirezionale ed eventi
 
 IL flusso dati unidirezionale è stato introdotto in Angular 1.5 e ridefinisce la comunicazione dei componenti. 
 
@@ -320,12 +317,13 @@ Di seguito alcuni consigli per usare il flusso dati unidirezionale:
 * Usare `$event` come argomento della funzione nel metodo genitore (guarda l'esempio stateful sotto `$ctrl.addTodo($event)`)
 * Passare un `$event: {}` oggetto di backup da un componente senza stato (vedi esempio sotto apolidi `this.onAddTodo`).
   * Bonus : Usa un `EventEmitter` come contenitore con `.value()` per rispecchiare Angular2, evitare la crezione manuale di un oggetto `$event` 
-* Perchè? Questo rispecchia Angular2 e mantiene una consistenza all'interno di ogni componente.Questo rende lo stato prevedibile.
+* Perchè? Questo rispecchia Angular2 e mantiene una consistenza all'interno di ogni componente. Questo rende lo stato prevedibile.
 
 
 **[Torna Su](#tabella-dei-contenuti)**
 
 ### Componente Stateful 
+
 Definiamo ciò che noi chiameremmo un "componente stateful". 
 
 * Recupera lo stato essenzialmente comunicando con un'API backend attraverso un service
@@ -333,64 +331,56 @@ Definiamo ciò che noi chiameremmo un "componente stateful".
 * Genera i componenti figlio che mutano lo stato
 * Definiti anche componenti intelligenti/contenitore
 
-Un esempio di un componente con stato, completo del suo modulo di basso livello definito (solo a scopo dimostrativo), parte del codice é stato omesso per brevitá
+Un esempio di un componente con stato (stateful), completo del suo modulo di basso livello definito (solo a scopo dimostrativo), parte del codice é stato omesso per brevitá
 
 ```js
 /* ----- todo/todo.component.js ----- */
-import controller from './todo.controller';
+import templateUrl from './todo.html';
 
-const TodoComponent = {
-  controller,
-  template: `
-    <div class="todo">
-      <todo-form
-        todo="$ctrl.newTodo"
-        on-add-todo="$ctrl.addTodo($event);"></todo-form>
-      <todo-list
-        todos="$ctrl.todos"></todo-list>
-    </div>
-  `
+export const TodoComponent = {
+  templateUrl,
+  controller: class TodoComponent {
+    constructor(TodoService) {
+      'ngInject';
+      this.todoService = TodoService;
+    }
+    $onInit() {
+      this.newTodo = {
+        title: '',
+        selected: false
+      };
+      this.todos = [];
+      this.todoService.getTodos().then(response => this.todos = response);
+    }
+    addTodo({ todo }) {
+      if (!todo) return;
+      this.todos.unshift(todo);
+      this.newTodo = {
+        title: '',
+        selected: false
+      };
+    }
+  }
 };
 
-export default TodoComponent;
+/* ----- todo/todo.html ----- */
+<div class="todo">
+  <todo-form
+    todo="$ctrl.newTodo"
+    on-add-todo="$ctrl.addTodo($event);"></todo-form>
+  <todo-list
+    todos="$ctrl.todos"></todo-list>
+</div>
 
-/* ----- todo/todo.controller.js ----- */
-class TodoController {
-  constructor(TodoService) {
-    this.todoService = TodoService;
-  }
-  $onInit() {
-    this.newTodo = {
-      title: '',
-      selected: false
-    };
-    this.todos = [];
-    this.todoService.getTodos().then(response => this.todos = response);
-  }
-  addTodo({ todo }) {
-    if (!todo) return;
-    this.todos.unshift(todo);
-    this.newTodo = {
-      title: '',
-      selected: false
-    };
-  }
-}
-
-TodoController.$inject = ['TodoService'];
-
-export default TodoController;
-
-/* ----- todo/index.js ----- */
+/* ----- todo/todo.module.js ----- */
 import angular from 'angular';
-import TodoComponent from './todo.component';
+import { TodoComponent } from './todo.component';
+import './todo.scss';
 
-const todo = angular
+export const TodoModule = angular
   .module('todo', [])
   .component('todo', TodoComponent)
   .name;
-
-export default todo;
 ```
 Questo esempio mostra un componente di tipo stateful, che legge lo stato all'interno del controller, attraverso un service e dopo lo passa ai componenti figli di tipo stateless. Note come non ci siano direttive utilizzate  come ad esempio `ng-repeat` and simili all'interno del template. Invece dati e funzioni sono delegati all'interno `<todo-form>` e `<todo-list>` che sono dei componenti di tipo stateless.
 
@@ -398,7 +388,7 @@ Questo esempio mostra un componente di tipo stateful, che legge lo stato all'int
 
 ### Componenti privi di stato
 
-Andiamo a definire quelli che chiamiamo "componenti stateless"
+Andiamo a definire quelli che chiamiamo componenti privi di stato (stateless)
 
 * Hanno dati in entrata ed uscita definiti usando `bindings:{}`
 * I dati arrivano al componente attraverso l'attributo bindings (inputs)
@@ -413,72 +403,68 @@ Un esempio di componente stateless (useremo `<todo-form>` come esempio), complet
 
 ```js
 /* ----- todo/todo-form/todo-form.component.js ----- */
-import controller from './todo-form.controller';
+import templateUrl from './todo-form.html';
 
-const TodoFormComponent = {
+export const TodoFormComponent = {
   bindings: {
     todo: '<',
     onAddTodo: '&'
   },
-  controller,
-  template: `
-    <form name="todoForm" ng-submit="$ctrl.onSubmit();">
-      <input type="text" ng-model="$ctrl.todo.title">
-      <button type="submit">Submit</button>
-    </form>
-  `
-};
-
-export default TodoFormComponent;
-
-/* ----- todo/todo-form/todo-form.controller.js ----- */
-class TodoFormController {
-  constructor(EventEmitter) {}
-  $onChanges(changes) {
-    if (changes.todo) {
-      this.todo = Object.assign({}, this.todo);
+  templateUrl,
+  controller: class TodoFormComponent {
+    constructor(EventEmitter) {
+        'ngInject';
+        this.EventEmitter = EventEmitter;
+    }
+    $onChanges(changes) {
+      if (changes.todo) {
+        this.todo = Object.assign({}, this.todo);
+      }
+    }
+    onSubmit() {
+      if (!this.todo.title) return;
+      // with EventEmitter wrapper
+      this.onAddTodo(
+        this.EventEmitter({
+          todo: this.todo
+        })
+      );
+      // without EventEmitter wrapper
+      this.onAddTodo({
+        $event: {
+          todo: this.todo
+        }
+      });
     }
   }
-  onSubmit() {
-    if (!this.todo.title) return;
-    // with EventEmitter wrapper
-    this.onAddTodo(
-      EventEmitter({
-        todo: this.todo
-      });
-    );
-    // without EventEmitter wrapper
-    this.onAddTodo({
-      $event: {
-        todo: this.todo
-      }
-    });
-  }
-}
+};
 
-TodoFormController.$inject = ['EventEmitter'];
 
-export default TodoFormController;
+/* ----- todo/todo-form/todo-form.html ----- */
+<form name="todoForm" ng-submit="$ctrl.onSubmit();">
+  <input type="text" ng-model="$ctrl.todo.title">
+  <button type="submit">Submit</button>
+</form>
 
-/* ----- todo/todo-form/index.js ----- */
+/* ----- todo/todo-form/todo-form.module.js ----- */
 import angular from 'angular';
-import TodoFormComponent from './todo-form.component';
+import { TodoFormComponent } from './todo-form.component';
+import './todo-form.scss';
 
-const todoForm = angular
+export const TodoFormModule = angular
   .module('todo.form', [])
   .component('todoForm', TodoFormComponent)
-  .value('EventEmitter', payload => ({ $event: payload}))
+  .value('EventEmitter', payload => ({ $event: payload }))
   .name;
-
-export default todoForm;
 ```
-Nota come il componente `<todo-form>` non recupera nessuno stato, semplicemente lo riceve, muta un oggetto attraverso la logica del controller associato ad esso e lo passa al component parent attraverso le proprietà di bindings. In questo esempio l'hook `$onChanges` del ciclo di vita del componente crea un clone del suo stato iniziale `this.todo` aggancia l'oggetto e lo riassegna, questo significa che i date del componente genitore non vengono alaterati fino a che non inviamo il form a fianco al flusso unidirezionale con la nuova sintassi `'<'`.
+
+Nota come il componente `<todo-form>` non recupera nessuno stato, semplicemente lo riceve, muta un oggetto attraverso la logica del controller associato ad esso e lo passa al component parent attraverso le proprietá di bindings. In questo esempio l'hook `$onChanges` del ciclo di vita del componente crea un clone del suo stato iniziale `this.todo` aggancia l'oggetto e lo riassegna, questo significa che i date del componente genitore non vengono alaterati fino a che non inviamo il form a fianco al flusso unidirezionale con la nuova sintassi `'<'`.
 
 **[Torna Su](#tabella-dei-contenuti)**
 
-### Componenti con rotte
+### Componenti con indirizzamento 
 
-Andiamo a definire quello che chiamiamo un "componente con rotte"
+Andiamo a definire quello che chiamiamo un componente con indirizzamento (routed components)
 
 * É essenzialmente un componente di tipo stateful, con una definizione di un rotta (route)
 * Non utilizzeremo piú files `router.js`
@@ -491,55 +477,52 @@ viene mappata per noi direttamente attraverso il `bindings`). Lo tratteremo come
 
 ```js
 /* ----- todo/todo.component.js ----- */
-import controller from './todo.controller';
+import templateUrl from './todo.html';
 
-const TodoComponent = {
+export const TodoComponent = {
   bindings: {
     todoData: '<'
   },
-  controller,
-  template: `
-    <div class="todo">
-      <todo-form
-        todo="$ctrl.newTodo"
-        on-add-todo="$ctrl.addTodo($event);"></todo-form>
-      <todo-list
-        todos="$ctrl.todos"></todo-list>
-    </div>
-  `
-};
-
-export default TodoComponent;
-
-/* ----- todo/todo.controller.js ----- */
-class TodoController {
-  constructor() {}
-  $onInit() {
-    this.newTodo = {
-      title: '',
-      selected: false
-    };
-  }
-  $onChanges(changes) {
-    if (changes.todoData) {
-      this.todos = Object.assign({}, this.todoData);
+  templateUrl,
+  controller: class TodoComponent {
+    constructor() {
+      'ngInject'; // Not actually needed but best practice to keep here incase dependencies needed in the future
+    }
+    $onInit() {
+      this.newTodo = {
+        title: '',
+        selected: false
+      };
+    }
+    $onChanges(changes) {
+      if (changes.todoData) {
+        this.todos = Object.assign({}, this.todoData);
+      }
+    }
+    addTodo({ todo }) {
+      if (!todo) return;
+      this.todos.unshift(todo);
+      this.newTodo = {
+        title: '',
+        selected: false
+      };
     }
   }
-  addTodo({ todo }) {
-    if (!todo) return;
-    this.todos.unshift(todo);
-    this.newTodo = {
-      title: '',
-      selected: false
-    };
-  }
-}
+};
 
-export default TodoController;
+/* ----- todo/todo.html ----- */
+<div class="todo">
+  <todo-form
+    todo="$ctrl.newTodo"
+    on-add-todo="$ctrl.addTodo($event);"></todo-form>
+  <todo-list
+    todos="$ctrl.todos"></todo-list>
+</div>
 
 /* ----- todo/todo.service.js ----- */
-class TodoService {
+export class TodoService {
   constructor($http) {
+    'ngInject';
     this.$http = $http;
   }
   getTodos() {
@@ -547,36 +530,32 @@ class TodoService {
   }
 }
 
-TodoService.$inject = ['$http'];
-
-export default TodoService;
-
-/* ----- todo/index.js ----- */
+/* ----- todo/todo.module.js ----- */
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
-import TodoComponent from './todo.component';
-import TodoService from './todo.service';
+import { TodoComponent } from './todo.component';
+import { TodoService } from './todo.service';
+import './todo.scss';
 
-const todo = angular
+export const TodoModule = angular
   .module('todo', [
     uiRouter
   ])
   .component('todo', TodoComponent)
   .service('TodoService', TodoService)
   .config(($stateProvider, $urlRouterProvider) => {
+    'ngInject';
     $stateProvider
       .state('todos', {
         url: '/todos',
         component: 'todo',
         resolve: {
-          todoData: TodoService => TodoService.getTodos();
+          todoData: TodoService => TodoService.getTodos()
         }
       });
     $urlRouterProvider.otherwise('/');
   })
   .name;
-
-export default todo;
 ```
 
 **[Torna Su](#tabella-dei-contenuti)**
@@ -585,7 +564,7 @@ export default todo;
 
 ### Teoria delle direttive
 
-Le direttive ci forniscono molti strumenti `template`, associazioni con lo `scope` , `bindToController`,` link` e molte altre cose. L'utilizzo di questi strumenti deve essere valutato attentamente, ora che esiste `.component()`. Le Direttive non dovrebbero piú dichiarare templates o controllers, o ricevere dati tramite associazioni. Le direttive devono essere utilizzate esclusivamente per la decorazione del DOM. Questo vuol dire che si estende HTML esistente - creato con `.component()`. In un certo senso semplice, se avete bisogno di eventi DOM / API personalizzate e la logica, utilizzare una direttiva e associarlo a un modello all'interno di un componente. Se avete bisogno di una quantità ragionevole di manipolazione del DOM, c'è anche l'hook `$postLink` da prendere in considerazione, ma questo non è un il punto dove migrare tutte le manipolazioni del DOM, utilizzare un direttiva, se è possibile per le cose non-Angular.
+Le direttive ci forniscono molti strumenti `template`, associazioni con lo `scope` , `bindToController`,` link` e molte altre cose. L'utilizzo di questi strumenti deve essere valutato attentamente, ora che esiste `.component()`. Le Direttive non dovrebbero piú dichiarare templates o controllers, o ricevere dati tramite associazioni. Le direttive devono essere utilizzate esclusivamente per la decorazione del DOM. Questo vuol dire che si estende HTML esistente - creato con `.component()`. In un certo senso semplice, se avete bisogno di eventi DOM / API personalizzate e la logica, utilizzare una direttiva e associarlo a un modello all'interno di un componente. Se avete bisogno di una quantitá ragionevole di manipolazione del DOM, c'è anche l'hook `$postLink` da prendere in considerazione, ma questo non è un il punto dove migrare tutte le manipolazioni del DOM, utilizzare un direttiva, se è possibile per le cose non-Angular.
 
 
 Di seguito alcuni consigli per usare le Direttive:
@@ -601,10 +580,10 @@ Di seguito alcuni consigli per usare le Direttive:
 
 ### Recommended properties
 
-Dato che le direttive supportano gran parte di quello che `.component()` fa (le direttive erano i components in origine), mi raccomando di limitare la definizione dell'oggetto della direttva a queste proprietà, per evitare di usare le direttive in modo scorretto.
+Dato che le direttive supportano gran parte di quello che `.component()` fa (le direttive erano i components in origine), mi raccomando di limitare la definizione dell'oggetto della direttva a queste proprietá, per evitare di usare le direttive in modo scorretto.
 
 
-| Proprietà | Usarla ? | Perché |
+| Proprietá | Usarla ? | Perché |
 |---|---|---|
 | bindToController | No | Usare `bindings` nei componenti |
 | compile | Yes | Per pre-compilare la manipolazione del dom e degli eventi |
@@ -741,22 +720,17 @@ export const TodoModule = angular
 
 # Stili
 
-Usando [Webpack](https://webpack.github.io/) possiamo utlizzare lo statement `import nel nostro file `*.module.js` per permettere a Webpack  d'includere questo file nel nostro foglio di stile.
-In questo modo ci permette di mantenere i nostri componenti isolati sia per funzionalità e stile, si allinea molto più da vicino a come fogli di stile sono dichiarati per l'uso in Angular 2. 
+Usando [Webpack](https://webpack.github.io/) possiamo utlizzare lo statement `import` nel nostro file `*.module.js` per permettere a Webpack  d'includere questo file nel nostro foglio di stile.
+In questo modo ci permette di mantenere i nostri componenti isolati sia per funzionalitá e stile, si allinea molto più da vicino a come fogli di stile sono dichiarati per l'uso in Angular 2. 
 In questo modo non si isolano i nostri stili per questo questo determinato componente come fa Angular 2,
 gli stili saranno ancora utilizzabili per tutta l'applicazione, ma è più gestibile e rende la nostra struttura delle applicazioni più facile per ragionarci.
 Se si dispone di alcune variabili o stili utilizzati a livello globale come elementi di input di un form, allora questi files devono ancora essere messi nella root della cartella `scss`. per esempio. `SCSS / _forms.scss`. 
-Questi stili globali possono essere importati (`@imported`) nel vostro modulo principale (`app.module.js`) come faresti normalmente.
-
-
-Doing this lets us keep our components isolated for both functionality and style, it also aligns more closely to how stylesheets are declared for use in Angular 2. Doing this won't isolate our styles to just that component like it does with Angular 2, 
-the styles will still be usable application wide but its more manageable and makes our applications structure easier to reason about.
-If you have some variables or globally used styles like form input elements then these files should still be placed into the root `scss` folder. e.g. `scss/_forms.scss`. These global styles can the be `@imported` into your root module (`app.module.js`) stylesheet like you would normally do.
+Questi stili globali possono essere `@importati` nel vostro modulo principale (`app.module.js`) come faresti normalmente.
 
 
 **[Torna Su](#tabella-dei-contenuti)**
 
-# ES2015 and Tooling
+# ES2015 e Strumenti
 
 ##### ES2015
 
@@ -772,7 +746,7 @@ If you have some variables or globally used styles like form input elements then
   * [Versione Grunt](https://www.npmjs.com/package/grunt-angular-templates)
   * [Versione Webpack](https://github.com/WearyMonkey/ngtemplate-loader)
 * Considera l'utlizzo di [Webpack](https://webpack.github.io/) per compilare il tuo codice ES2015.
-* Usa [ngAnnotate](https://github.com/olov/ng-annotate) per annotare le proprietà atuomanticamente con `$inject`.
+* Usa [ngAnnotate](https://github.com/olov/ng-annotate) per annotare le proprietá atuomanticamente con `$inject`.
 * Come utilizzarlo [ngAnnotate with ES6](https://www.timroes.de/2015/07/29/using-ecmascript-6-es6-with-angularjs-1-x/#ng-annotate)
 
 **[Torna Su](#tabella-dei-contenuti)**
