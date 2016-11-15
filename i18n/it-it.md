@@ -683,7 +683,7 @@ export const TodoModule = angular
 
 ### Teoria del servizio (Service)
 
-I Services sono essenzialmente contenitori per la logica di business che i nostri componenti non dovrebbero richiedere direttamente, I services contegono altri services iterni o esterni come `$http`, che possiamo iniettare dentro i controllers dei componenti in qualsiasi punto della nostra app. Abbiamo due modi per creare serivces, usando `.service()` oppure `.factory()`. Con ES2015 `Class`, dovremmo usare solo `.service()` corredato dell'annotazione per la iniezione delle dipendenze `$inject`.
+I Services sono essenzialmente contenitori per la logica di business che i nostri componenti non dovrebbero richiedere direttamente, I services contengono altri services iterni o esterni come `$http`, che possiamo iniettare dentro i controllers dei componenti in qualsiasi punto della nostra app. Abbiamo due modi per creare serivces, usando `.service()` oppure `.factory()`. Con ES2015 `Class`, dovremmo usare solo `.service()` corredato dell'annotazione per la iniezione delle dipendenze `$inject`.
 
 **[Torna Su](#tabella-dei-contenuti)**
 
