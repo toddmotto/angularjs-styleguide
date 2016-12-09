@@ -273,7 +273,6 @@ Controllers devem ser utilizados juntamente com componentes, e nunca em qualquer
 
 Algumas conselhos para utilizar `Class` para controllers:
 
-* Utilizar sempre o `constructor` para propósitos de dependency injection
 * Não exportar a `Class` diretamnete mas sim o nome para permitir `$inject` annotations
 * Se for preciso aceder ao lexical scope utilizar arrow functions
 * Como alternativa a arrow functions `let ctrl = this;` também é aceitavel e pode até fazer mais sentido dependendo do use caso
@@ -332,19 +331,18 @@ const TodoComponent = {
 export default TodoComponent;
 
 /* ----- todo/todo.controller.js ----- */
-class TodoController {
-  constructor(TodoService) {
-    this.todoService = TodoService;
-  }
-  $onInit() {
+function TodoController(TodoService) {
+  'ngInject';
+
+  this.$onInit = function() {
     this.newTodo = {
       title: '',
       selected: false
     };
     this.todos = [];
-    this.todoService.getTodos().then(response => this.todos = response);
-  }
-  addTodo({ todo }) {
+    TodoService.this.getTodos = function().then(response => this.todos = response);
+  };
+  this.addTodo = function({ todo }) {
     if (!todo) return;
     this.todos.unshift(todo);
     this.newTodo = {
@@ -353,8 +351,6 @@ class TodoController {
     };
   }
 }
-
-TodoController.$inject = ['TodoService'];
 
 export default TodoController;
 
@@ -409,20 +405,19 @@ const TodoFormComponent = {
 export default TodoFormComponent;
 
 /* ----- todo/todo-form/todo-form.controller.js ----- */
-class TodoFormController {
-  constructor(EventEmitter) {
-      this.EventEmitter = EventEmitter;
-  }
-  $onChanges(changes) {
+function TodoFormController(EventEmitter) {
+  'ngInject';
+
+  this.$onChanges = function(changes) {
     if (changes.todo) {
       this.todo = Object.assign({}, this.todo);
     }
-  }
-  onSubmit() {
+  };
+  this.onSubmit = function() {
     if (!this.todo.title) return;
     // with EventEmitter wrapper
-    this.onAddTodo(
-      this.EventEmitter({
+    this.onAddTodo({
+      EventEmitter({
         todo: this.todo
       })
     );
@@ -432,10 +427,8 @@ class TodoFormController {
         todo: this.todo
       }
     });
-  }
+  };
 }
-
-TodoFormController.$inject = ['EventEmitter'];
 
 export default TodoFormController;
 
@@ -491,20 +484,21 @@ const TodoComponent = {
 export default TodoComponent;
 
 /* ----- todo/todo.controller.js ----- */
-class TodoController {
-  constructor() {}
-  $onInit() {
+function TodoController() {
+  'ngInject';
+
+  this.$onInit = function() {
     this.newTodo = {
       title: '',
       selected: false
     };
   }
-  $onChanges(changes) {
+  this.$onChanges = function(changes) {
     if (changes.todoData) {
       this.todos = Object.assign({}, this.todoData);
     }
   }
-  addTodo({ todo }) {
+  this.addTodo = function({ todo }) {
     if (!todo) return;
     this.todos.unshift(todo);
     this.newTodo = {
@@ -517,16 +511,12 @@ class TodoController {
 export default TodoController;
 
 /* ----- todo/todo.service.js ----- */
-class TodoService {
-  constructor($http) {
-    this.$http = $http;
-  }
-  getTodos() {
-    return this.$http.get('/api/todos').then(response => response.data);
-  }
+function TodoService($http) {
+  'ngInject';
+  this.getTodos = function() {
+    return $http.get('/api/todos').then(response => response.data);
+  };
 }
-
-TodoService.$inject = ['$http'];
 
 export default TodoService;
 
@@ -644,22 +634,17 @@ Ou utilizando ES2015 `Class` (de notar a chamada manual de `new TodoAutoFocus` a
 /* ----- todo/todo-autofocus.directive.js ----- */
 import angular from 'angular';
 
-class TodoAutoFocus {
-  constructor($timeout) {
-    this.restrict = 'A';
-    this.$timeout = $timeout;
-  }
-  link($scope, $element, $attrs) {
+function TodoAutoFocus($timeout) {
+  this.restrict = 'A';
+  this.link = function($scope, $element, $attrs) {
     $scope.$watch($attrs.todoAutofocus, (newValue, oldValue) => {
       if (!newValue) {
         return;
       }
-      this.$timeout(() => $element[0].focus());
+      $timeout(() => $element[0].focus());
     });
-  }
+  };
 }
-
-TodoAutoFocus.$inject = ['$timeout'];
 
 export default TodoAutoFocus;
 
@@ -693,16 +678,11 @@ Aqui está um exemplo de implementação da nossa `<todo>` app utilizando ES2015
 
 ```js
 /* ----- todo/todo.service.js ----- */
-class TodoService {
-  constructor($http) {
-    this.$http = $http;
-  }
-  getTodos() {
-    return this.$http.get('/api/todos').then(response => response.data);
-  }
+function TodoService($http) {
+  this.getTodos = function() {
+    return $http.get('/api/todos').then(response => response.data);
+  };
 }
-
-TodoService.$inject = ['$http'];
 
 export default TodoService;
 

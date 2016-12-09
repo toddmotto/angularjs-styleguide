@@ -274,7 +274,6 @@ Pengendali harus digunakan bersama komponen, jangan pernah di tempat lain. Bila 
 
 Berikut adalah beberapa saran tentang pemakaian `Class` untuk pengendali:
 
-* Selalu gunakan `constructor` untuk tujuan-tujuan injeksi dependensi
 * Tidak mengekspor `Class` secara langsung, ekspor namanya untuk menerangkan `$inject`
 * Bila Anda perlu mengakses lingkup bahasa, gunakan fungsi panah
 * Alternatif lain fungsi panah, `let ctrl = this;` juga dapat diterima dan mungkin lebih masuk akal tergantung kasusnya
@@ -333,19 +332,16 @@ const TodoComponent = {
 export default TodoComponent;
 
 /* ----- todo/todo.controller.js ----- */
-class TodoController {
-  constructor(TodoService) {
-    this.todoService = TodoService;
-  }
-  $onInit() {
+function TodoController(TodoService) {
+  this.$onInit = function() {
     this.newTodo = {
       title: '',
       selected: false
     };
     this.todos = [];
-    this.todoService.getTodos().then(response => this.todos = response);
+    TodoService.this.getTodos = function().then(response => this.todos = response);
   }
-  addTodo({ todo }) {
+  this.addTodo = function({ todo }) {
     if (!todo) return;
     this.todos.unshift(todo);
     this.newTodo = {
@@ -354,8 +350,6 @@ class TodoController {
     };
   }
 }
-
-TodoController.$inject = ['TodoService'];
 
 export default TodoController;
 
@@ -410,20 +404,19 @@ const TodoFormComponent = {
 export default TodoFormComponent;
 
 /* ----- todo/todo-form/todo-form.controller.js ----- */
-class TodoFormController {
-  constructor(EventEmitter) {
-      this.EventEmitter = EventEmitter;
-  }
-  $onChanges(changes) {
+function TodoFormController(EventEmitter) {
+  'ngInject';
+
+  this.$onChanges = function(changes) {
     if (changes.todo) {
       this.todo = Object.assign({}, this.todo);
     }
-  }
-  onSubmit() {
+  };
+  this.onSubmit = function() {
     if (!this.todo.title) return;
     // with EventEmitter wrapper
-    this.onAddTodo(
-      this.EventEmitter({
+    this.onAddTodo({
+      EventEmitter({
         todo: this.todo
       })
     );
@@ -433,10 +426,8 @@ class TodoFormController {
         todo: this.todo
       }
     });
-  }
+  };
 }
-
-TodoFormController.$inject = ['EventEmitter'];
 
 export default TodoFormController;
 
@@ -450,7 +441,7 @@ const TodoFormModule = angular
   .value('EventEmitter', payload => ({ $event: payload}))
   .name;
 
-export default TodoFormModule; 
+export default TodoFormModule;
 ```
 
 Perhatikan bagaimana komponen `<todo-form>` tidak menarik kondisi apapun, ia hanya menerimanya saja, memutasi sebuah Obyek melalui logika pengendali yang berhubungan dengannya, kemudian melemparnya ke komponen induk melalui properti bindings. Dalam contoh ini, kaitan siklus `$onChanges` mereplika `this.todo` Obyek binding awal dan menetapkannya kembali, yang artinya bahwa data induk tidak terpengaruh sama sekali sampai kita mengirim formnya, bersama dengan sintak `'<'` binding yang baru dari aliran data satu-arah.
@@ -491,42 +482,38 @@ const TodoComponent = {
 export default TodoComponent;
 
 /* ----- todo/todo.controller.js ----- */
-class TodoController {
-  constructor() {}
-  $onInit() {
+function TodoController() {
+  'ngInject';
+
+  this.$onInit = function() {
     this.newTodo = {
       title: '',
       selected: false
     };
-  }
-  $onChanges(changes) {
+  };
+  this.$onChanges = function(changes) {
     if (changes.todoData) {
       this.todos = Object.assign({}, this.todoData);
     }
-  }
-  addTodo({ todo }) {
+  };
+  this.addTodo = function({ todo }) {
     if (!todo) return;
     this.todos.unshift(todo);
     this.newTodo = {
       title: '',
       selected: false
     };
-  }
+  };
 }
 
 export default TodoController;
 
 /* ----- todo/todo.service.js ----- */
-class TodoService {
-  constructor($http) {
-    this.$http = $http;
-  }
-  getTodos() {
-    return this.$http.get('/api/todos').then(response => response.data);
+function TodoService($http) {
+  this.getTodos = function() {
+    return $http.get('/api/todos').then(response => response.data);
   }
 }
-
-TodoService.$inject = ['$http'];
 
 export default TodoService;
 
@@ -644,22 +631,19 @@ Atau menggunakan `Class` ES2015 (catat pemanggilan `new TodoAutoFocus` secara ma
 /* ----- todo/todo-autofocus.directive.js ----- */
 import angular from 'angular';
 
-class TodoAutoFocus {
-  constructor($timeout) {
-    this.restrict = 'A';
-    this.$timeout = $timeout;
-  }
-  link($scope, $element, $attrs) {
+function TodoAutoFocus($timeout) {
+  'ngInject';
+
+  this.restrict = 'A';
+  this.link = function($scope, $element, $attrs) {
     $scope.$watch($attrs.todoAutofocus, (newValue, oldValue) => {
       if (!newValue) {
         return;
       }
-      this.$timeout(() => $element[0].focus());
+      $timeout(() => $element[0].focus());
     });
   }
 }
-
-TodoAutoFocus.$inject = ['$timeout'];
 
 export default TodoAutoFocus;
 
@@ -693,16 +677,13 @@ Berikut adalah beberapa contoh implementasi untuk aplikasi `<todo>` kita menggun
 
 ```js
 /* ----- todo/todo.service.js ----- */
-class TodoService {
-  constructor($http) {
-    this.$http = $http;
-  }
-  getTodos() {
-    return this.$http.get('/api/todos').then(response => response.data);
-  }
-}
+function TodoService($http) {
+  'ngInject';
 
-TodoService.$inject = ['$http'];
+  this.getTodos = function() {
+    return $http.get('/api/todos').then(response => response.data);
+  };
+}
 
 export default TodoService;
 
