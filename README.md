@@ -1,6 +1,6 @@
 # Angular 1.x styleguide (ES2015)
 
-### Architecture, file structure, components, one-way dataflow and best practices
+### Up-to-date with Angular 1.6 best practices. Architecture, file structure, components, one-way dataflow, lifecycle hooks.
 
 ---
 
