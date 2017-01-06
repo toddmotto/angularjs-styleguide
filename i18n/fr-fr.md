@@ -282,8 +282,7 @@ Les Controllers ne devraient être utilisés qu'aux cotés de components, jamais
 
 Voilà quelques conseils pour l'utilisation de `Class` pour les controllers:
 
-* Enlever le nom "Controller", mais utiliser plutôt `controller: class TodoComponent {...}` pour faciliter la migration vers Angular 2
-* Toujours utiliser le `constructor` pour l'injection de dépendance
+* Enlever le nom "Controller", mais utiliser plutôt `controller: function TodoController {...}` pour faciliter la migration vers Angular 2
 * Utiliser la syntaxe [ng-annotate](https://github.com/olov/ng-annotate)'s `'ngInject';` pour les annotations `$inject`
 * Si vous avez besoin d'accèder au lexical scope (portée lexicale) utilisez les fonctions flechées (arrow function).
 * Une alternative aux fonctions flechées pour acceder au lexical scope `let ctrl = this;` est aussi acceptable et peut etre plus logique en fonction du cas.
@@ -328,27 +327,25 @@ import templateUrl from './todo.html';
 
 export const TodoComponent = {
   templateUrl,
-  controller: class TodoComponent {
-    constructor(TodoService) {
-      'ngInject';
-      this.todoService = TodoService;
-    }
-    $onInit() {
+  controller: function TodoController(TodoService) {
+    'ngInject';
+
+    this.$onInit = function() {
       this.newTodo = {
         title: '',
         selected: false
       };
       this.todos = [];
-      this.todoService.getTodos().then(response => this.todos = response);
-    }
-    addTodo({ todo }) {
+      TodoService.this.getTodos = function().then(response => this.todos = response);
+    };
+    this.addTodo = function({ todo }) {
       if (!todo) return;
       this.todos.unshift(todo);
       this.newTodo = {
         title: '',
         selected: false
       };
-    }
+    };
   }
 };
 
@@ -394,27 +391,25 @@ Un exemple de component stateless (utilisons `<todo-form>` comme exemple), compl
 ```js
 export const TodoComponent = {
   templateUrl,
-  controller: class TodoComponent {
-    constructor(TodoService) {
-      'ngInject';
-      this.todoService = TodoService;
-    }
-    $onInit() {
+  controller: function TodoController(TodoService) {
+    'ngInject';
+
+    this.$onInit = function() {
       this.newTodo = {
         title: '',
         selected: false
       };
       this.todos = [];
-      this.todoService.getTodos().then(response => this.todos = response);
-    }
-    addTodo({ todo }) {
+      TodoService.this.getTodos = function().then(response => this.todos = response);
+    };
+    this.addTodo = function({ todo }) {
       if (!todo) return;
       this.todos.unshift(todo);
       this.newTodo = {
         title: '',
         selected: false
       };
-    }
+    };
   }
 };
 
@@ -456,27 +451,25 @@ Pour cet exemple, nous allons prendre le component existant `<todo>`, le refacto
 ```js
 export const TodoComponent = {
   templateUrl,
-  controller: class TodoComponent {
-    constructor(TodoService) {
-      'ngInject';
-      this.todoService = TodoService;
-    }
-    $onInit() {
+  controller: function TodoController(TodoService) {
+    'ngInject';
+
+    this.$onInit = function() {
       this.newTodo = {
         title: '',
         selected: false
       };
       this.todos = [];
-      this.todoService.getTodos().then(response => this.todos = response);
-    }
-    addTodo({ todo }) {
+      TodoService.this.getTodos = function().then(response => this.todos = response);
+    };
+    this.addTodo = function({ todo }) {
       if (!todo) return;
       this.todos.unshift(todo);
       this.newTodo = {
         title: '',
         selected: false
       };
-    }
+    };
   }
 };
 
@@ -584,20 +577,18 @@ Ou en utilisant les `Class` d'ES2015 (notez qu'appeler manuellement `new TodoAut
 /* ----- todo/todo-autofocus.directive.js ----- */
 import angular from 'angular';
 
-export class TodoAutoFocus {
-  constructor($timeout) {
-    'ngInject';
-    this.restrict = 'A';
-    this.$timeout = $timeout;
-  }
-  link($scope, $element, $attrs) {
+export function TodoAutoFocus($timeout) {
+  'ngInject';
+
+  this.restrict = 'A';
+  this.link = function($scope, $element, $attrs) {
     $scope.$watch($attrs.todoAutofocus, (newValue, oldValue) => {
       if (!newValue) {
         return;
       }
-      this.$timeout(() => $element[0].focus());
+      $timeout(() => $element[0].focus());
     });
-  }
+  };
 }
 
 /* ----- todo/todo.module.js ----- */
@@ -629,14 +620,12 @@ Voici un exemple d'implémentation pour notre app `<todo>` utilisant les `Class`
 
 ```js
 /* ----- todo/todo.service.js ----- */
-export class TodoService {
-  constructor($http) {
-    'ngInject;'
-    this.$http = $http;
-  }
-  getTodos() {
-    return this.$http.get('/api/todos').then(response => response.data);
-  }
+export function TodoService($http) {
+  'ngInject;'
+
+  this.getTodos = function() {
+    return $http.get('/api/todos').then(response => response.data);
+  };
 }
 
 /* ----- todo/todo.module.js ----- */

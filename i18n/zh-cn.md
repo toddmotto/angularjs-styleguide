@@ -286,7 +286,6 @@ calendar.spec.js
 
 这里有一些使用`Class`构建controller的建议:
 
-* 始终使用 `constructor` 用于依赖注入；
 * 不要直接导出 `Class`,导出它的名称，并允许`$inject`;
 * 如果你需访问到 scope 里的语法，使用箭头函数；
 * 另外关于箭头 函数, `let ctrl = this;` 也是可以接受的，当然这更取决于使用场景；
@@ -344,29 +343,26 @@ const TodoComponent = {
 export default TodoComponent;
 
 /* ----- todo/todo.controller.js ----- */
-class TodoController {
-  constructor(TodoService) {
-    this.todoService = TodoService;
-  }
-  $onInit() {
+function TodoController(TodoService) {
+  'ngInject';
+
+  this.$onInit = function() {
     this.newTodo = {
       title: '',
       selected: false
     };
     this.todos = [];
-    this.todoService.getTodos().then(response => this.todos = response);
-  }
-  addTodo({ todo }) {
+    TodoService.this.getTodos = function().then(response => this.todos = response);
+  };
+  this.addTodo = function({ todo }) {
     if (!todo) return;
     this.todos.unshift(todo);
     this.newTodo = {
       title: '',
       selected: false
     };
-  }
+  };
 }
-
-TodoController.$inject = ['TodoService'];
 
 export default TodoController;
 
@@ -421,20 +417,19 @@ const TodoFormComponent = {
 export default TodoFormComponent;
 
 /* ----- todo/todo-form/todo-form.controller.js ----- */
-class TodoFormController {
-  constructor(EventEmitter) {
-      this.EventEmitter = EventEmitter;
-  }
-  $onChanges(changes) {
+function TodoFormController(EventEmitter) {
+  'ngInject';
+
+  this.$onChanges = function(changes) {
     if (changes.todo) {
       this.todo = Object.assign({}, this.todo);
     }
-  }
-  onSubmit() {
+  };
+  this.onSubmit = function() {
     if (!this.todo.title) return;
     // with EventEmitter wrapper
-    this.onAddTodo(
-      this.EventEmitter({
+    this.onAddTodo({
+      EventEmitter({
         todo: this.todo
       })
     );
@@ -444,10 +439,8 @@ class TodoFormController {
         todo: this.todo
       }
     });
-  }
+  };
 }
-
-TodoFormController.$inject = ['EventEmitter'];
 
 export default TodoFormController;
 
@@ -503,42 +496,40 @@ const TodoComponent = {
 export default TodoComponent;
 
 /* ----- todo/todo.controller.js ----- */
-class TodoController {
-  constructor() {}
-  $onInit() {
+function TodoController() {
+  'ngInject';
+
+  this.$onInit = function() {
     this.newTodo = {
       title: '',
       selected: false
     };
-  }
-  $onChanges(changes) {
+  };
+  this.$onChanges = function(changes) {
     if (changes.todoData) {
       this.todos = Object.assign({}, this.todoData);
     }
-  }
-  addTodo({ todo }) {
+  };
+  this.addTodo = function({ todo }) {
     if (!todo) return;
     this.todos.unshift(todo);
     this.newTodo = {
       title: '',
       selected: false
     };
-  }
+  };
 }
 
 export default TodoController;
 
 /* ----- todo/todo.service.js ----- */
-class TodoService {
-  constructor($http) {
-    this.$http = $http;
-  }
-  getTodos() {
-    return this.$http.get('/api/todos').then(response => response.data);
-  }
-}
+function TodoService($http) {
+  'ngInject';
 
-TodoService.$inject = ['$http'];
+  this.getTodos = function() {
+    return $http.get('/api/todos').then(response => response.data);
+  };
+}
 
 export default TodoService;
 
@@ -661,22 +652,19 @@ export default TodoModule;
 /* ----- todo/todo-autofocus.directive.js ----- */
 import angular from 'angular';
 
-class TodoAutoFocus {
-  constructor($timeout) {
-    this.restrict = 'A';
-    this.$timeout = $timeout;
-  }
-  link($scope, $element, $attrs) {
+function TodoAutoFocus($timeout) {
+  'ngInject';
+
+  this.restrict = 'A';
+  this.link = function($scope, $element, $attrs) {
     $scope.$watch($attrs.todoAutofocus, (newValue, oldValue) => {
       if (!newValue) {
         return;
       }
-      this.$timeout(() => $element[0].focus());
+      $timeout(() => $element[0].focus());
     });
-  }
+  };
 }
-
-TodoAutoFocus.$inject = ['$timeout'];
 
 export default TodoAutoFocus;
 
@@ -710,16 +698,13 @@ export default TodoModule;
 
 ```js
 /* ----- todo/todo.service.js ----- */
-class TodoService {
-  constructor($http) {
-    this.$http = $http;
-  }
-  getTodos() {
-    return this.$http.get('/api/todos').then(response => response.data);
-  }
-}
+function TodoService($http) {
+  'ngInject';
 
-TodoService.$inject = ['$http'];
+  this.getTodos = function() {
+    return $http.get('/api/todos').then(response => response.data);
+  };
+}
 
 export default TodoService;
 

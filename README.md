@@ -282,8 +282,7 @@ Controllers should only be used alongside components, never anywhere else. If yo
 
 Here are some advisories for using `Class` for controllers:
 
-* Drop the name "Controller", i.e. use `controller: class TodoComponent {...}` to aid future Angular 2 migration
-* Always use the `constructor` for dependency injection purposes
+* Drop the name "Controller", i.e. use `controller: function TodoController() {...}` to aid future Angular 2 migration
 * Use [ng-annotate](https://github.com/olov/ng-annotate)'s `'ngInject';` syntax for `$inject` annotations
 * If you need to access the lexical scope, use arrow functions
 * Alternatively to arrow functions, `let ctrl = this;` is also acceptable and may make more sense depending on the use case
@@ -328,27 +327,25 @@ import templateUrl from './todo.html';
 
 export const TodoComponent = {
   templateUrl,
-  controller: class TodoComponent {
-    constructor(TodoService) {
-      'ngInject';
-      this.todoService = TodoService;
-    }
-    $onInit() {
+  controller: function TodoController(TodoService) {
+    'ngInject';
+
+    this.$onInit = function() {
       this.newTodo = {
         title: '',
         selected: false
       };
       this.todos = [];
-      this.todoService.getTodos().then(response => this.todos = response);
-    }
-    addTodo({ todo }) {
+      TodoService.this.getTodos = function().then(response => this.todos = response);
+    };
+    this.addTodo = function({ todo }) {
       if (!todo) return;
       this.todos.unshift(todo);
       this.newTodo = {
         title: '',
         selected: false
       };
-    }
+    };
   }
 };
 
@@ -400,21 +397,19 @@ export const TodoFormComponent = {
     onAddTodo: '&'
   },
   templateUrl,
-  controller: class TodoFormComponent {
-    constructor(EventEmitter) {
-        'ngInject';
-        this.EventEmitter = EventEmitter;
-    }
-    $onChanges(changes) {
+  controller: function TodoFormController(EventEmitter) {
+    'ngInject';
+
+    this.$onChanges = function(changes) {
       if (changes.todo) {
         this.todo = Object.assign({}, this.todo);
       }
-    }
-    onSubmit() {
+    };
+    this.onSubmit = function() {
       if (!this.todo.title) return;
       // with EventEmitter wrapper
-      this.onAddTodo(
-        this.EventEmitter({
+      this.onAddTodo({
+        EventEmitter({
           todo: this.todo
         })
       );
@@ -424,9 +419,11 @@ export const TodoFormComponent = {
           todo: this.todo
         }
       });
-    }
+    };
   }
 };
+
+export { TodoFormComponent };
 
 /* ----- todo/todo-form/todo-form.html ----- */
 <form name="todoForm" ng-submit="$ctrl.onSubmit();">
@@ -470,29 +467,28 @@ export const TodoComponent = {
     todoData: '<'
   },
   templateUrl,
-  controller: class TodoComponent {
-    constructor() {
-      'ngInject'; // Not actually needed but best practice to keep here incase dependencies needed in the future
-    }
-    $onInit() {
+  controller: function TodoController() {
+    'ngInject'; // Not actually needed but best practice to keep here incase dependencies needed in the future
+
+    this.$onInit = function() {
       this.newTodo = {
         title: '',
         selected: false
       };
-    }
-    $onChanges(changes) {
+    };
+    this.$onChanges = function(changes) {
       if (changes.todoData) {
         this.todos = Object.assign({}, this.todoData);
       }
-    }
-    addTodo({ todo }) {
+    };
+    this.addTodo = function({ todo }) {
       if (!todo) return;
       this.todos.unshift(todo);
       this.newTodo = {
         title: '',
         selected: false
       };
-    }
+    };
   }
 };
 
@@ -506,14 +502,12 @@ export const TodoComponent = {
 </div>
 
 /* ----- todo/todo.service.js ----- */
-export class TodoService {
-  constructor($http) {
-    'ngInject';
-    this.$http = $http;
-  }
-  getTodos() {
-    return this.$http.get('/api/todos').then(response => response.data);
-  }
+export function TodoService($http) {
+  'ngInject';
+
+  this.getTodos = function() {
+    return $http.get('/api/todos').then(response => response.data);
+  };
 }
 
 /* ----- todo/todo.module.js ----- */
@@ -628,20 +622,18 @@ Or using ES2015 `Class` (note manually calling `new TodoAutoFocus` when register
 /* ----- todo/todo-autofocus.directive.js ----- */
 import angular from 'angular';
 
-export class TodoAutoFocus {
-  constructor($timeout) {
-    'ngInject';
-    this.restrict = 'A';
-    this.$timeout = $timeout;
-  }
-  link($scope, $element, $attrs) {
+export function TodoAutoFocus($timeout) {
+  'ngInject';
+
+  this.restrict = 'A';
+  this.link = function($scope, $element, $attrs) {
     $scope.$watch($attrs.todoAutofocus, (newValue, oldValue) => {
       if (!newValue) {
         return;
       }
-      this.$timeout(() => $element[0].focus());
+      $timeout(() => $element[0].focus());
     });
-  }
+  };
 }
 
 /* ----- todo/todo.module.js ----- */
@@ -673,14 +665,12 @@ Here's an example implementation for our `<todo>` app using ES2015 `Class`:
 
 ```js
 /* ----- todo/todo.service.js ----- */
-export class TodoService {
-  constructor($http) {
-    'ngInject;'
-    this.$http = $http;
-  }
-  getTodos() {
-    return this.$http.get('/api/todos').then(response => response.data);
-  }
+export function TodoService($http) {
+  'ngInject;'
+
+  this.getTodos = function() {
+    return $http.get('/api/todos').then(response => response.data);
+  };
 }
 
 /* ----- todo/todo.module.js ----- */
