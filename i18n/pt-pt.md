@@ -1,10 +1,10 @@
-# Guia de Estilo 1.x (ES2015)
+# Guia de AngularJS (ES2015)
 
 ### Arquitetura, estrutura de ficheiros, componentes, fluxo de data unidireccional e boas práticas
 
 *Um guia de estilo sensato para equipas [@toddmotto](//twitter.com/toddmotto)*
 
-Esta arquitetura e guia de estilo foi totalmente reescrita para ES2015, mudanças em Angular 1.5+ para futuro upgrade para Angular 2. Este guia de estilo contem boas práticas para fluxo de data unidirecional, delegação de eventos, arquitetura por componentes e component routing.
+Esta arquitetura e guia de estilo foi totalmente reescrita para ES2015, mudanças em AngularJS 1.5+ para futuro upgrade para Angular. Este guia de estilo contem boas práticas para fluxo de data unidirecional, delegação de eventos, arquitetura por componentes e component routing.
 
 O guia de estilo antigo pode ser encontrado [aqui](https://github.com/toddmotto/angular-styleguide/tree/angular-old-es5), e os motivos para a criação de um novo [aqui](https://toddmotto.com/rewriting-angular-styleguide-angular-2).
 
@@ -247,7 +247,7 @@ A primeira diretoria de topo apenas contém um `index.html` e `app/`, a diretori
 
 ### Componentes Teoria
 
-Componentes são essencialmente templates com controllers. Eles _não_ são diretivas, nem se deve tentar substituir diretivas com componentes, a não ser que esteja a atualizar "template Directives" com controllers, que funcionam melhor como componentes. Componentes também contêm bindings que definem inputs e outputs para dados e eventos, lifecycle hooks e a habilidade de utilizar fluxo de dados unidirecional e Objetos de eventos para enviar dados para o topo para um parent component. Estes são os novos standards para Angular 1.5 e para cima. Tudo o que for template e controller driven que criarmos e muito provável que seja um componente, que pode ser stateful, stateless ou um routed component. Pode-se pensar num componente como um pedaço de código completo e não só o `.component()` definition Object. Vamos analisar algumas boas práticas e conselhos para componentes, e depois entrar em como se deve organizá-los em conceitos de stateful, stateless e routed components.
+Componentes são essencialmente templates com controllers. Eles _não_ são diretivas, nem se deve tentar substituir diretivas com componentes, a não ser que esteja a atualizar "template Directives" com controllers, que funcionam melhor como componentes. Componentes também contêm bindings que definem inputs e outputs para dados e eventos, lifecycle hooks e a habilidade de utilizar fluxo de dados unidirecional e Objetos de eventos para enviar dados para o topo para um parent component. Estes são os novos standards para AngularJS 1.5 e para cima. Tudo o que for template e controller driven que criarmos e muito provável que seja um componente, que pode ser stateful, stateless ou um routed component. Pode-se pensar num componente como um pedaço de código completo e não só o `.component()` definition Object. Vamos analisar algumas boas práticas e conselhos para componentes, e depois entrar em como se deve organizá-los em conceitos de stateful, stateless e routed components.
 
 **[Voltar ao topo](#tabela-de-conteúdos)**
 
@@ -287,7 +287,7 @@ Algumas conselhos para utilizar `Class` para controllers:
 
 ### Fluxo de dados unidireccional e Eventos
 
-Fluxo de dados unidireccional foi introduzido com Angular 1.5 e redefine a comunicação entre componentes
+Fluxo de dados unidireccional foi introduzido com AngularJS 1.5 e redefine a comunicação entre componentes
 
 Alguns conselhos ao utilizar fluxo de dados unidireccional:
 
@@ -600,7 +600,7 @@ Devido ao facto de suportarem a maioria do que `.component()` suporta (template 
 
 ### Classes e Constantes
 
-Existem algumas formas de abordar ES2015 e diretivas, sendo com arrow function e easier assignment, ou utilizando uma ES2015 `Class`. Recomenda-se escolher que for melhor para a equipa, tendo em mente que Angular 2 utiliza `Class`.
+Existem algumas formas de abordar ES2015 e diretivas, sendo com arrow function e easier assignment, ou utilizando uma ES2015 `Class`. Recomenda-se escolher que for melhor para a equipa, tendo em mente que Angular utiliza `Class`.
 
 Um exemplo de utilização de uma constante com arrow function `() => ({})` devolvendo um Object literal (de notar as diferenças dentro de `.directive()`):
 
@@ -727,7 +727,7 @@ export default TodoModule;
 ##### ES2015
 
 * Utilizar [Babel](https://babeljs.io/) para compilar código ES2015+ e outros polyfills
-* Considerar utilizar [TypeScript](http://www.typescriptlang.org/) para abrir caminho para qualquer upgrade para Angular 2
+* Considerar utilizar [TypeScript](http://www.typescriptlang.org/) para abrir caminho para qualquer upgrade para Angular
 
 ##### Tooling
 * Utilizar `ui-router` [ultima alpha](https://github.com/angular-ui/ui-router) (ver Readme) se queremos suportar component routing
@@ -740,7 +740,7 @@ export default TodoModule;
 
 # State management
 
-Considerar utilizar Redux com Angular 1.5 para data management.
+Considerar utilizar Redux com AngularJS 1.5 para data management.
 
 * [Angular Redux](https://github.com/angular-redux/ng-redux)
 
@@ -758,7 +758,7 @@ Considerar utilizar Redux com Angular 1.5 para data management.
 **[Voltar ao topo](#tabela-de-conteúdos)**
 
 # Documentação
-Para qualquer outra informação, incluindo referências de API, consultar [Documentação de Angular](//docs.angularjs.org/api).
+Para qualquer outra informação, incluindo referências de API, consultar [Documentação de AngularJS](//docs.angularjs.org/api).
 
 # Contribuições
 

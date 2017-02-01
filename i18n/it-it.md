@@ -1,4 +1,4 @@
-# Linee guida per Angular 1.x (ES2015)
+# Linee guida per AngularJS (ES2015)
 
 ### Architettura, struttura dei files, componenti, flusso dati unidirezionale (one-way dataflow) e migliori prassi.
 
@@ -10,7 +10,7 @@
 
 *Una guida di stile sensata per i teams, da [@toddmotto](//twitter.com/toddmotto)*
 
-Questa architettura e linee guida sono state riscritte da capo per ES2015, i cambiamenti di Angular 1.5+ e per un futuro upgrade della tua applicazione ad Angular 2. Questa guida include delle nuove e migliori prassi per il one-way dataflow (flusso di dati unidirezionale), event delegation (delegazione d'evento), component architecture (architettura di un componente) e component routing (rotta del componente).
+Questa architettura e linee guida sono state riscritte da capo per ES2015, i cambiamenti di AngularJS 1.5+ e per un futuro upgrade della tua applicazione ad Angular. Questa guida include delle nuove e migliori prassi per il one-way dataflow (flusso di dati unidirezionale), event delegation (delegazione d'evento), component architecture (architettura di un componente) e component routing (rotta del componente).
 
 Puoi trovare le vecchie linee guida [qui](https://github.com/toddmotto/angular-styleguide/tree/angular-old-es5), e il ragionameto
 che c'è dietro a quelle nuove [qui](https://toddmotto.com/rewriting-angular-styleguide-angular-2).
@@ -181,7 +181,7 @@ export const CalendarModule = angular
 **[Torna Su](#tabella-dei-contenuti)**
 
 ### Nomenclatura dei files
-Mantenerli semplici e minuscolo, usa il nome del componente , es. `calendar.*.js*`, `calendar-grid.*.js` con il nome del tipo di file contenuto al centro. Usa *.module.js come nome del file della definizione del modulo principale, cosí è consistente con le linee guida di Angular 2.
+Mantenerli semplici e minuscolo, usa il nome del componente , es. `calendar.*.js*`, `calendar-grid.*.js` con il nome del tipo di file contenuto al centro. Usa *.module.js come nome del file della definizione del modulo principale, cosí è consistente con le linee guida di Angular.
 
 ```
 calendar.module.js
@@ -264,7 +264,7 @@ La cartella di più alto livello contiene semplicemente index.html and app/, la 
 
 ### Teoria del componente
 
-I Componenti sono essenzialmente templates con un controller. Essi _non_ sono delle direttive, né si dovrebbe sostituire la direttive con i components, fino a che non effettui un upgrade dei "templates delle direttive" con controllers, che sono più adatte come componente. I components contengono anche dei legami che definiscono entrata ed uscita dei dati e degli eventi, i punti di ancoraggio del ciclo di vita del componente e l'abilitá di usare il flusso dati unidirezionale ed oggetti di tipo evento (event objects) per ottenere i dati dal componente genitore. Questi sono di fatto lo standard in Angular 1.5 e superiori. Tutto quello che è basato su controllers e templates somiglierá a un component, che potrebbe essere dinamico , privo di stato o un componente mappato. Puoi pensare ad un "component" come un pezzo di codice completo, non solo come la definzione dell'oggetto `.component()`.Esploriamo alcune linee guida e consigli per i components, per poi passare ai concetti di come dovrebbero essere strutturati in modo dinamico , privo di stato e mappato.
+I Componenti sono essenzialmente templates con un controller. Essi _non_ sono delle direttive, né si dovrebbe sostituire la direttive con i components, fino a che non effettui un upgrade dei "templates delle direttive" con controllers, che sono più adatte come componente. I components contengono anche dei legami che definiscono entrata ed uscita dei dati e degli eventi, i punti di ancoraggio del ciclo di vita del componente e l'abilitá di usare il flusso dati unidirezionale ed oggetti di tipo evento (event objects) per ottenere i dati dal componente genitore. Questi sono di fatto lo standard in AngularJS 1.5 e superiori. Tutto quello che è basato su controllers e templates somiglierá a un component, che potrebbe essere dinamico , privo di stato o un componente mappato. Puoi pensare ad un "component" come un pezzo di codice completo, non solo come la definzione dell'oggetto `.component()`.Esploriamo alcune linee guida e consigli per i components, per poi passare ai concetti di come dovrebbero essere strutturati in modo dinamico , privo di stato e mappato.
 
 **[Torna Su](#tabella-dei-contenuti)**
 
@@ -290,7 +290,7 @@ I controllers dovrebbero essere usati solamente a fianco dei components, mai in 
 
 Di seguito alcuni consigli per usare `Class` per i controllers:
 
-* Non utilizzare il suffisso "Controller", cioè utilizzi controller: class TodoComponent {...} per essere più vicino a come si fa in Angular 2
+* Non utilizzare il suffisso "Controller", cioè utilizzi controller: class TodoComponent {...} per essere più vicino a come si fa in Angular
 * Usare sempre il construttore (`constructor()`) per l'iniezione delle dipendenze.
 * Usa la sintassi [ng-annotate](https://github.com/olov/ng-annotate) `'ngInject';` per iniettare (`$inject`) le annotazioni.
 * Non esportare il `Class` direttamente, esporta il suo nome per permettere l'utilizzo della notazione con l'`$inject`
@@ -307,7 +307,7 @@ Di seguito alcuni consigli per usare `Class` per i controllers:
 
 ### Flusso dati unidirezionale ed eventi
 
-IL flusso dati unidirezionale è stato introdotto in Angular 1.5 e ridefinisce la comunicazione dei componenti. 
+IL flusso dati unidirezionale è stato introdotto in AngularJS 1.5 e ridefinisce la comunicazione dei componenti. 
 
 Di seguito alcuni consigli per usare il flusso dati unidirezionale:
 
@@ -721,8 +721,8 @@ export const TodoModule = angular
 # Stili
 
 Usando [Webpack](https://webpack.github.io/) possiamo utlizzare lo statement `import` nel nostro file `*.module.js` per permettere a Webpack  d'includere questo file nel nostro foglio di stile.
-In questo modo ci permette di mantenere i nostri componenti isolati sia per funzionalitá e stile, si allinea molto più da vicino a come fogli di stile sono dichiarati per l'uso in Angular 2. 
-In questo modo non si isolano i nostri stili per questo questo determinato componente come fa Angular 2,
+In questo modo ci permette di mantenere i nostri componenti isolati sia per funzionalitá e stile, si allinea molto più da vicino a come fogli di stile sono dichiarati per l'uso in Angular. 
+In questo modo non si isolano i nostri stili per questo questo determinato componente come fa Angular,
 gli stili saranno ancora utilizzabili per tutta l'applicazione, ma è più gestibile e rende la nostra struttura delle applicazioni più facile per ragionarci.
 Se si dispone di alcune variabili o stili utilizzati a livello globale come elementi di input di un form, allora questi files devono ancora essere messi nella root della cartella `scss`. per esempio. `SCSS / _forms.scss`. 
 Questi stili globali possono essere `@importati` nel vostro modulo principale (`app.module.js`) come faresti normalmente.
@@ -735,7 +735,7 @@ Questi stili globali possono essere `@importati` nel vostro modulo principale (`
 ##### ES2015
 
 * Usa [Babel](https://babeljs.io/) per compilare il tuo codice ES2015 ed i polyfills
-* Considera l'utilizzo di [TypeScript](http://www.typescriptlang.org/) pre creare un aggiornameni indirizzato ad Angular 2. 
+* Considera l'utilizzo di [TypeScript](http://www.typescriptlang.org/) pre creare un aggiornameni indirizzato ad Angular. 
 
 
 ##### Strumenti
@@ -753,7 +753,7 @@ Questi stili globali possono essere `@importati` nel vostro modulo principale (`
 
 # Gestione dello stato
 
-Considera l'uso di Redux con Angular 1.5 per la gestione dei dati.
+Considera l'uso di Redux con AngularJS 1.5 per la gestione dei dati.
 
 * [Angular Redux](https://github.com/angular-redux/ng-redux)
 
@@ -771,7 +771,7 @@ Considera l'uso di Redux con Angular 1.5 per la gestione dei dati.
 **[Torna Su](#tabella-dei-contenuti)**
 
 # Documentazione
-Per tutto il resto, incluso il riferimento all'API, controller la [documentazione di Angular](//docs.angularjs.org/api). 
+Per tutto il resto, incluso il riferimento all'API, controller la [documentazione di AngularJS](//docs.angularjs.org/api). 
 
 
 # Contribuire

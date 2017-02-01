@@ -1,6 +1,6 @@
-# AngularJs styleguide (ES2015)
+# AngularJS styleguide (ES2015)
 
-### Up-to-date with AngularJs 1.6 best practices. Architecture, file structure, components, one-way dataflow, lifecycle hooks.
+### Up-to-date with AngularJS 1.6 best practices. Architecture, file structure, components, one-way dataflow, lifecycle hooks.
 
 ---
 
@@ -10,11 +10,11 @@
 
 *A sensible styleguide for teams by [@toddmotto](//twitter.com/toddmotto)*
 
-This architecture and styleguide has been rewritten from the ground up for ES2015, the changes in AngularJs 1.5+ for future-upgrading your application to Angular. This guide includes new best practices for one-way dataflow, event delegation, component architecture and component routing.
+This architecture and styleguide has been rewritten from the ground up for ES2015, the changes in AngularJS 1.5+ for future-upgrading your application to Angular. This guide includes new best practices for one-way dataflow, event delegation, component architecture and component routing.
 
 You can find the old styleguide [here](https://github.com/toddmotto/angular-styleguide/tree/angular-old-es5), and the reasoning behind the new one [here](https://toddmotto.com/rewriting-angular-styleguide-angular-2).
 
-> Join the Ultimate AngularJS learning experience to fully master beginner and advanced AngularJs features to build real-world apps that are fast, and scale.
+> Join the Ultimate AngularJS learning experience to fully master beginner and advanced AngularJS features to build real-world apps that are fast, and scale.
 
 <a href="https://ultimateangular.com" target="_blank"><img src="https://toddmotto.com/img/ua.png?ua"></a>
 
@@ -256,7 +256,7 @@ The high level folder structure simply contains `index.html` and `app/`, a direc
 
 ### Component theory
 
-Components are essentially templates with a controller. They are _not_ Directives, nor should you replace Directives with Components, unless you are upgrading "template Directives" with controllers, which are best suited as a component. Components also contain bindings that define inputs and outputs for data and events, lifecycle hooks and the ability to use one-way data flow and event Objects to get data back up to a parent component. These are the new defacto standard in AngularJs 1.5 and above. Everything template and controller driven that we create will likely be a component, which may be a stateful, stateless or routed component. You can think of a "component" as a complete piece of code, not just the `.component()` definition Object. Let's explore some best practices and advisories for components, then dive into how you should be structuring them via stateful, stateless and routed component concepts.
+Components are essentially templates with a controller. They are _not_ Directives, nor should you replace Directives with Components, unless you are upgrading "template Directives" with controllers, which are best suited as a component. Components also contain bindings that define inputs and outputs for data and events, lifecycle hooks and the ability to use one-way data flow and event Objects to get data back up to a parent component. These are the new defacto standard in AngularJS 1.5 and above. Everything template and controller driven that we create will likely be a component, which may be a stateful, stateless or routed component. You can think of a "component" as a complete piece of code, not just the `.component()` definition Object. Let's explore some best practices and advisories for components, then dive into how you should be structuring them via stateful, stateless and routed component concepts.
 
 **[Back to top](#table-of-contents)**
 
@@ -297,7 +297,7 @@ Here are some advisories for using `Class` for controllers:
 
 ### One-way dataflow and Events
 
-One-way dataflow was introduced in AngularJs 1.5, and redefines component communication.
+One-way dataflow was introduced in AngularJS 1.5, and redefines component communication.
 
 Here are some advisories for using one-way dataflow:
 
@@ -728,7 +728,7 @@ If you have some variables or globally used styles like form input elements then
 
 # State management
 
-Consider using Redux with AngularJs 1.5 for data management.
+Consider using Redux with AngularJS 1.5 for data management.
 
 * [Angular Redux](https://github.com/angular-redux/ng-redux)
 
@@ -747,7 +747,7 @@ Consider using Redux with AngularJs 1.5 for data management.
 **[Back to top](#table-of-contents)**
 
 # Documentation
-For anything else, including API reference, check the [Angular documentation](//docs.angularjs.org/api).
+For anything else, including API reference, check the [AngularJS documentation](//docs.angularjs.org/api).
 
 # Contributing
 

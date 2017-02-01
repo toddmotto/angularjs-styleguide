@@ -1,14 +1,14 @@
-# Guía de estilo Angular 1.x (ES2015)
+# Guía de estilo AngularJS (ES2015)
 
 ### Arquitectura, estructura de archivos, componentes, one-way dataflow y buenas prácticas.
 
 *Una guía de estilos sensata par equipos, por [@toddmotto](//twitter.com/toddmotto)*
 
-Esta arquitectura y guía de estilo ha sido reescrita desde cero para ES2015, los cambios en Angular 1.5+ para la futura actualización de tu aplicación a Angular 2. Esta guía incluye nuevas buenas prácticas para flujos de datos en una dirección, delegación de eventos, arquitectura de componentes y enrutamiento de componentes.
+Esta arquitectura y guía de estilo ha sido reescrita desde cero para ES2015, los cambios en AngularJS 1.5+ para la futura actualización de tu aplicación a Angular. Esta guía incluye nuevas buenas prácticas para flujos de datos en una dirección, delegación de eventos, arquitectura de componentes y enrutamiento de componentes.
 
 Puedes encontrar la vieja guía de estilo [aquí](https://github.com/toddmotto/angular-styleguide/tree/angular-old-es5), y el razonamiento detrás de la nueva [aquí](https://toddmotto.com/rewriting-angular-styleguide-angular-2).
 
-> Unete a la experiencia Ultimate de AngularJS y domina completamente características básicas y avanzadas de Angular para desarrollar aplicaciones del mundo real que son rápidas y escalables.
+> Unete a la experiencia Ultimate de AngularJS y domina completamente características básicas y avanzadas de AngularJS para desarrollar aplicaciones del mundo real que son rápidas y escalables.
 
 <a href="https://courses.toddmotto.com" target="_blank"><img src="https://toddmotto.com/img/ua.png"></a>
 
@@ -248,7 +248,7 @@ El nivel más alto de la estructura del directorio contiene simplemente `index.h
 
 ### Teoría
 
-Los componentes son esencialmente plantillas con un controlador. _No_ son directivas, ni debe sustituir las directivas con Componentes, a menos que estes actuliazando "template Directives" con controladores, que son los más adecuados para un componente. Los componentes tambien contienen bindings que definen los inputs y outputs de datos y eventos, lifecycle hooks y la habilidad de utilizar flujos de datos unidireccionales y eventos de objetos para obtener copias de seguridad de un componente padre. Estos son el nuevo estándar de facto en Angular 1.5 y superior. Cualquier template y controlador que creemos será un componente, que puede ser `stateful`, `stateless` o `routed component`. Se puede pensar en un "component" como una pieza completa de código, no solo la definción de objeto del `.component()`. Vamos a explorar algunas de las mejores prácticas y advertencias de los componentes y exploraremos la forma en que deben estructurarse a través de conceptos de componentes stateful, stateless y routed.
+Los componentes son esencialmente plantillas con un controlador. _No_ son directivas, ni debe sustituir las directivas con Componentes, a menos que estes actuliazando "template Directives" con controladores, que son los más adecuados para un componente. Los componentes tambien contienen bindings que definen los inputs y outputs de datos y eventos, lifecycle hooks y la habilidad de utilizar flujos de datos unidireccionales y eventos de objetos para obtener copias de seguridad de un componente padre. Estos son el nuevo estándar de facto en AngularJS 1.5 y superior. Cualquier template y controlador que creemos será un componente, que puede ser `stateful`, `stateless` o `routed component`. Se puede pensar en un "component" como una pieza completa de código, no solo la definción de objeto del `.component()`. Vamos a explorar algunas de las mejores prácticas y advertencias de los componentes y exploraremos la forma en que deben estructurarse a través de conceptos de componentes stateful, stateless y routed.
 
 **[Volver arriba](#table-de-contenidos)**
 
@@ -288,7 +288,7 @@ Estas son algunas advertencias para usar `Class` en un controlador:
 
 ### One-way dataflow y Eventos
 
-One-way dataflow fue introducido en Angular 1.5, y redefine la comunicación de componentes.
+One-way dataflow fue introducido en AngularJS 1.5, y redefine la comunicación de componentes.
 
 Estas son algunas advertencias para usar one-way dataflow:
 
@@ -297,8 +297,8 @@ Estas son algunas advertencias para usar one-way dataflow:
 * Los componentes que tengan `bindings` deben itilizar `$onChanges` para clonar el one-way binding data para romper los objetos que para por referencia y actualizar la información de los padres.
 * Utiliza `$event` como un argumento de la función en el método padre (mirá el ejemplo stateful abajo `$ctrl.addTodo($event)`)
 * Pasa un objeto de respaldo `$event: {}` de un stateless component (mirá el ejemplo stateless abajo `this.onAddTodo`)
-  * Bonus: Utiliza una wrapper `EventEmitter` con `.value()` para reflejar Angular 2,evita la creación manual de objetos `$event`.
-* ¿Por qué? Este refleja Angular 2 y mantiene la consistencia dentro de cada componente. Si no que también hace un estado predecible.
+  * Bonus: Utiliza una wrapper `EventEmitter` con `.value()` para reflejar Angular,evita la creación manual de objetos `$event`.
+* ¿Por qué? Este refleja Angular y mantiene la consistencia dentro de cada componente. Si no que también hace un estado predecible.
 
 **[Volver arriba](#table-de-contenidos)**
 
@@ -582,7 +582,7 @@ Debido al hecho de que las directivas soportan más que lo hace `.component()` (
 
 ### Constantes o Clases
 
-Hay algunas maneras de abordar el uso de ES2015 y directivas, ya sea con una `arrow function` y la asignación más sencilla, o utilizando una `Clase` de ES2015. Selecciona lo mejor que sea para ti y tu equipo, manten en mente que Angular 2 utiliza clases.
+Hay algunas maneras de abordar el uso de ES2015 y directivas, ya sea con una `arrow function` y la asignación más sencilla, o utilizando una `Clase` de ES2015. Selecciona lo mejor que sea para ti y tu equipo, manten en mente que Angular utiliza clases.
 
 Aquí hay un ejemplo utilizando una constante con una `Arrow function` y `expression wrapper`, `() => ({})` regresa un Objeto, (toma en cuenta las diferencias de uso en el interior de `.directive()` ):
 
@@ -709,7 +709,7 @@ export default TodoModule;
 ##### ES2015
 
 * Utiliza [Babel](https://babeljs.io/) para compilar tu código ES2015+ code y cualquier polyfills
-* Considera utilizar [TypeScript](http://www.typescriptlang.org/) para dar paso a cualquier actualización de Angular 2
+* Considera utilizar [TypeScript](http://www.typescriptlang.org/) para dar paso a cualquier actualización de Angular
 
 ##### Herramientas
 * Utiliza `ui-router` [latest alpha](https://github.com/angular-ui/ui-router) (ve el Readme) si tu quiere soporte de component-routing
@@ -721,7 +721,7 @@ export default TodoModule;
 
 # State management
 
-Considera el uso de Redux con Angular 1.5 para la gestión de datos.
+Considera el uso de Redux con AngularJS 1.5 para la gestión de datos.
 
 * [Angular Redux](https://github.com/angular-redux/ng-redux)
 
@@ -739,7 +739,7 @@ Considera el uso de Redux con Angular 1.5 para la gestión de datos.
 **[Volver arriba](#table-de-contenidos)**
 
 # Documentación
-Para algo más, incluyendo referencia al API, revisa la [documentación de Angular](//docs.angularjs.org/api).
+Para algo más, incluyendo referencia al API, revisa la [documentación de AngularJS](//docs.angularjs.org/api).
 
 # Contribuyendo
 

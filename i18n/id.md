@@ -1,10 +1,10 @@
-# Panduan Gaya Angular 1.x (ES2015)
+# Panduan Gaya AngularJS (ES2015)
 
 ### Arsitektur, struktur berkas, komponen, aliran data satu-arah dan contoh-contoh praktis
 
 *Panduan gaya yang mudah dipahami untuk tim oleh [@toddmotto](//twitter.com/toddmotto)*
 
-Arsitektur dan panduan gaya ini telah ditulis kembali secara lengkap untuk ES2015, perubahan-perubahan yang ada di Angular 1.5+ untuk Anda yang ingin melakukan upgrade aplikasi ke Angular 2 nantinya. Panduan ini menyertakan contoh-contoh praktis aliran data satu-arah, delegasi event, arsitektur komponen dan ruting komponen.
+Arsitektur dan panduan gaya ini telah ditulis kembali secara lengkap untuk ES2015, perubahan-perubahan yang ada di AngularJS 1.5+ untuk Anda yang ingin melakukan upgrade aplikasi ke Angular nantinya. Panduan ini menyertakan contoh-contoh praktis aliran data satu-arah, delegasi event, arsitektur komponen dan ruting komponen.
 
 Anda dapat temukan panduan gaya yang lama [disini](https://github.com/toddmotto/angular-styleguide/tree/angular-old-es5), dan latar belakang yang baru [disini](https://toddmotto.com/rewriting-angular-styleguide-angular-2).
 
@@ -248,7 +248,7 @@ Tingkat yang paling tinggi dari struktur folder hanya mengandung `index.html` da
 
 ### Teori komponen
 
-Komponen pada dasarnya adalah templat dengan sebuah pengendali. Mereka _bukan_ Direktif, dan Anda juga seharusnya tidak menggantikan Direktif dengan Komponen, kecuali bila Anda mengupgrade "Direktif templat" dengan pengendali, yang sangat cocok sebagai sebuah komponen. Komponen juga mengandung ikatan yang menentukan input dan output untuk data dan event, kaitan siklus, dan kemampuan untuk menggunakan aliran data satu-arah dan Obyek event untuk mencadangkan data ke sebuah komponen induk. Ini adalah standar defacto yang baru di Angular 1.5 dan versi berikutnya. Semua yang didorong oleh templat dan pengendali yang kita buat akan mirip seperti sebuah komponen, yang mungkin saja berupa komponen berkondisi, tanpa-kondisi, atau memiliki rute. Anda bisa bayangkan "komponen" itu seperti sebuah potongan kode yang lengkap, bukan hanya sekedar Obyek penetapan `.component()` saja. Mari kita telusuri beberapa contoh praktis dan saran-saran tentang komponen, untuk selanjutnya menyelam lebih dalam tentang bagaimana seharusnya Anda menyusunnya melalui konsep-konsep komponen berkondisi, tanpa-kondisi dan memiliki rute.
+Komponen pada dasarnya adalah templat dengan sebuah pengendali. Mereka _bukan_ Direktif, dan Anda juga seharusnya tidak menggantikan Direktif dengan Komponen, kecuali bila Anda mengupgrade "Direktif templat" dengan pengendali, yang sangat cocok sebagai sebuah komponen. Komponen juga mengandung ikatan yang menentukan input dan output untuk data dan event, kaitan siklus, dan kemampuan untuk menggunakan aliran data satu-arah dan Obyek event untuk mencadangkan data ke sebuah komponen induk. Ini adalah standar defacto yang baru di AngularJS 1.5 dan versi berikutnya. Semua yang didorong oleh templat dan pengendali yang kita buat akan mirip seperti sebuah komponen, yang mungkin saja berupa komponen berkondisi, tanpa-kondisi, atau memiliki rute. Anda bisa bayangkan "komponen" itu seperti sebuah potongan kode yang lengkap, bukan hanya sekedar Obyek penetapan `.component()` saja. Mari kita telusuri beberapa contoh praktis dan saran-saran tentang komponen, untuk selanjutnya menyelam lebih dalam tentang bagaimana seharusnya Anda menyusunnya melalui konsep-konsep komponen berkondisi, tanpa-kondisi dan memiliki rute.
 
 **[Kembali ke atas](#daftar-isi)**
 
@@ -288,7 +288,7 @@ Berikut adalah beberapa saran tentang pemakaian `Class` untuk pengendali:
 
 ### Aliran data satu-arah dan Event
 
-Aliran data satu-arah diperkenalkan di Angular 1.5, dan mengubah komunikasi komponen.
+Aliran data satu-arah diperkenalkan di AngularJS 1.5, dan mengubah komunikasi komponen.
 
 Berikut adalah beberapa saran menggunakan aliran data satu-arah:
 
@@ -297,8 +297,8 @@ Berikut adalah beberapa saran menggunakan aliran data satu-arah:
 * Komponen yang memiliki `bindings` harus menggunakan `$onChanges` untuk mereplika databinding satu-arah guna memenggal Obyek yang diteruskan oleh referensi dan memperbarui data induk
 * Gunakan `$event` sebagai argumen fungsi dalam metoda induknya (lihat contoh berkondisi `$ctrl.addTodo($event)` yang ada dibawah)
 * Lempar sebuah `$event: {}` cadangan Obyek dari sebuah komponen tanpa-kondisi (lihat contoh tanpa-kondisi `this.onAddTodo` dibawah).
-  * Bonus: Gunakan sebuah pembungkus `EventEmitter` dengan `.value()` untuk mencerminkan Angular 2, hindari pembuatan Obyek `$event` manual
-* Mengapa? Ini mencerminkan Angular 2 dan menjaga konsistensi setiap komponen. Juga membuat semua kondisi dapat diprediksi.
+  * Bonus: Gunakan sebuah pembungkus `EventEmitter` dengan `.value()` untuk mencerminkan Angular, hindari pembuatan Obyek `$event` manual
+* Mengapa? Ini mencerminkan Angular dan menjaga konsistensi setiap komponen. Juga membuat semua kondisi dapat diprediksi.
 
 **[Kembali ke atas](#daftar-isi)**
 
@@ -600,7 +600,7 @@ Faktanya direktif mendukung kebanyakan apa yang dilakukan oleh `.component()` (d
 
 ### Konstanta atau Kelas
 
-Ada beberapa pendekatan menggunakan ES2015 dan direktif, baik itu dengan sebuah fungsi panah maupun penetapan yang lebih mudah, atau dengan menggunakan sebuah `Class` ES2015. Pilih mana yang terbaik untuk Anda dan tim, ingatlah Angular 2 menggunakan `Class`.
+Ada beberapa pendekatan menggunakan ES2015 dan direktif, baik itu dengan sebuah fungsi panah maupun penetapan yang lebih mudah, atau dengan menggunakan sebuah `Class` ES2015. Pilih mana yang terbaik untuk Anda dan tim, ingatlah Angular menggunakan `Class`.
 
 Berikut adalah contoh bagaimana menggunakan konstanta dengan fungsi Panah dimana pembungkus eskpresi `() => ({})` mengembalikan sebuah Obyek literal (catat perbedaan pemakaian di dalam `.directive()`):
 
@@ -727,7 +727,7 @@ export default TodoModule;
 ##### ES2015
 
 * Gunakan [Babel](https://babeljs.io/) untuk mengkompilasi kode ES2015+ Anda dan polyfills apapun
-* Pertimbangkan untuk menggunakan [TypeScript](http://www.typescriptlang.org/) untuk memungkinkan upgrade ke Angular 2
+* Pertimbangkan untuk menggunakan [TypeScript](http://www.typescriptlang.org/) untuk memungkinkan upgrade ke Angular
 
 ##### Perangkat
 * Gunakan `ui-router` [versi alfa terakhir](https://github.com/angular-ui/ui-router) (lihat Readme) bila Anda ingin mendukung ruting-komponen
@@ -743,7 +743,7 @@ export default TodoModule;
 
 # Pengelolaan kondisi
 
-Untuk pengelolaan data, pertimbangkan Redux bersama Angular 1.5.
+Untuk pengelolaan data, pertimbangkan Redux bersama AngularJS 1.5.
 
 * [Angular Redux](https://github.com/angular-redux/ng-redux)
 
@@ -761,7 +761,7 @@ Untuk pengelolaan data, pertimbangkan Redux bersama Angular 1.5.
 **[Kembali ke atas](#daftar-isi)**
 
 # Dokumentasi
-Untuk lainnya, termasuk referensi API, periksalah [dokumentasi Angular](//docs.angularjs.org/api).
+Untuk lainnya, termasuk referensi API, periksalah [dokumentasi AngularJS](//docs.angularjs.org/api).
 
 # Berkontribusi
 
