@@ -1,16 +1,16 @@
-# Guide de style Angular 1.x (ES2015)
+# Guide de style AngularJS (ES2015)
 
 ### Architecture, structure de fichier, components (composants), one-way dataflow et bonnes pratiques
 
 ---
 
-> Vous voulez découvrir un exemple de structure de projet ? Découvrez cette [architecture d'un projet Angular 1.5](https://github.com/toddmotto/angular-1-5-components-app).
+> Vous voulez découvrir un exemple de structure de projet ? Découvrez cette [architecture d'un projet AngularJS 1.5](https://github.com/toddmotto/angular-1-5-components-app).
 
 ---
 
 *Un guide de style adapté aux équipes par [@toddmotto](//twitter.com/toddmotto)*
 
-Cette architecture et guide de style a été réécrit avec ES2015 en tête, ainsi que les changements d'Angular 1.5+ pour une future mise à jour vers Angular 2. Ce guide inclut les nouvelles bonnes pratiques pour du one-way dataflow, la délégation d'évènements, l'architecture des components et le routing de ceux-ci.
+Cette architecture et guide de style a été réécrit avec ES2015 en tête, ainsi que les changements d'AngularJS 1.5+ pour une future mise à jour vers Angular. Ce guide inclut les nouvelles bonnes pratiques pour du one-way dataflow, la délégation d'évènements, l'architecture des components et le routing de ceux-ci.
 
 Vous pouvez trouver l'ancien guide de style [ici](https://github.com/toddmotto/angular-styleguide/tree/angular-old-es5), et le raisonnement derrière le nouveau [ici](https://toddmotto.com/rewriting-angular-styleguide-angular-2).
 
@@ -256,7 +256,7 @@ Le dossier racine contient simplement `index.html` et `app/`, un répertoire dan
 
 ### Théorie des components
 
-Les Components sont en fait des templates avec un controller. Ils ne sont _pas_ des Directives, et vous ne devriez pas remplacer les Directives par des components, à moins d'upgrader les "Directives template" avec des controllers, qui sont mieux adaptés en tant que component. Les components contiennent aussi des bindings (liaisons) qui définissent les entrées et sorties pour les données et les évènements, les lifecycle hooks (fonctions qui s'exécutent à des moments clés du cycle de vie d'un component), et la possibilité d'utiliser le one-way data flow (propagation unidirectionnelle des données) et les event Objects (objets evenement) qui permettent de transmettre des données à un component parent. Le Component est le nouveau standard Angular 1.5 et au dessus. Tout ce que l'on créé qui contient un template et un controller sera vraisemblablement un component, qui peut être un component stateful (avec état), stateless (sans état), ou routed (routé). On peut réfléchir à un "component" comme un morceau de code complet, et non pas juste sa definition Object `.component()`. Explorons maintenant quelques bonne pratiques des components, et examinons la façon dont vous devriez les structurer via les concepts de components stateful, stateless, et routed.
+Les Components sont en fait des templates avec un controller. Ils ne sont _pas_ des Directives, et vous ne devriez pas remplacer les Directives par des components, à moins d'upgrader les "Directives template" avec des controllers, qui sont mieux adaptés en tant que component. Les components contiennent aussi des bindings (liaisons) qui définissent les entrées et sorties pour les données et les évènements, les lifecycle hooks (fonctions qui s'exécutent à des moments clés du cycle de vie d'un component), et la possibilité d'utiliser le one-way data flow (propagation unidirectionnelle des données) et les event Objects (objets evenement) qui permettent de transmettre des données à un component parent. Le Component est le nouveau standard AngularJS 1.5 et au dessus. Tout ce que l'on créé qui contient un template et un controller sera vraisemblablement un component, qui peut être un component stateful (avec état), stateless (sans état), ou routed (routé). On peut réfléchir à un "component" comme un morceau de code complet, et non pas juste sa definition Object `.component()`. Explorons maintenant quelques bonne pratiques des components, et examinons la façon dont vous devriez les structurer via les concepts de components stateful, stateless, et routed.
 
 **[Haut de page](#table-des-matieres)**
 
@@ -282,7 +282,7 @@ Les Controllers ne devraient être utilisés qu'aux cotés de components, jamais
 
 Voilà quelques conseils pour l'utilisation de `Class` pour les controllers:
 
-* Enlever le nom "Controller", mais utiliser plutôt `controller: class TodoComponent {...}` pour faciliter la migration vers Angular 2
+* Enlever le nom "Controller", mais utiliser plutôt `controller: class TodoComponent {...}` pour faciliter la migration vers Angular
 * Toujours utiliser le `constructor` pour l'injection de dépendance
 * Utiliser la syntaxe [ng-annotate](https://github.com/olov/ng-annotate)'s `'ngInject';` pour les annotations `$inject`
 * Si vous avez besoin d'accèder au lexical scope (portée lexicale) utilisez les fonctions flechées (arrow function).
@@ -297,7 +297,7 @@ Voilà quelques conseils pour l'utilisation de `Class` pour les controllers:
 
 ### One-way dataflow et évènements
 
-Le one-way dataflow (propagation unidirectionnelle des données) a été introduit dans Angular 1.5, et redéfinit la communication entre components.
+Le one-way dataflow (propagation unidirectionnelle des données) a été introduit dans AngularJS 1.5, et redéfinit la communication entre components.
 
 Voici quelques conseils pour l'utilisation du one-way dataflow
 
@@ -306,8 +306,8 @@ Voici quelques conseils pour l'utilisation du one-way dataflow
 * Les components qui possèdent des `bindings` devraient utiliser `$onChanges` pour cloner les données issues du one-way databinding, casser les passages d'objets par référence, et mettre à jour les données parentes.
 * Utiliser `$event` comme argument de fonction dans la méthode parente (voir exemple stateful dessous `$ctrl.addTodo($event)`).
 * Passer un Object `$event: {}`  depuis un stateless component (voir exemple stateless dessous `this.onAddTodo`).
-  * Bonus: Utiliser un wrapper de `EventEmitter`  avec `.value()` pour mimer le comportement d'Angular 2, cela permet d'éviter la création manuelle d'Object `$event`
-* Pourquoi ? Cela imite le comportement d'Angular 2 et permet de rester cohérent entre chaque components. Cela permet aussi d'avoir un état (state) prédictible.
+  * Bonus: Utiliser un wrapper de `EventEmitter`  avec `.value()` pour mimer le comportement d'Angular, cela permet d'éviter la création manuelle d'Object `$event`
+* Pourquoi ? Cela imite le comportement d'Angular et permet de rester cohérent entre chaque components. Cela permet aussi d'avoir un état (state) prédictible.
 
 **[Haut de page](#table-des-matieres)**
 
@@ -542,7 +542,7 @@ Comme les directives supportent la plupart de ce que fait `.component()` (les di
 
 ### Constantes ou Classes
 
-Il y a quelques façons d'aborder l'utilisation d'ES2015 et des directives, soit avec les "fat arrow functions" et la facilitation d'assignation, soit utiliser une `Class` ES2015. Choisissez ce qui convient le mieux à vous ou votre équipe, garder en tête qu'Angular 2 utilise `Class`.
+Il y a quelques façons d'aborder l'utilisation d'ES2015 et des directives, soit avec les "fat arrow functions" et la facilitation d'assignation, soit utiliser une `Class` ES2015. Choisissez ce qui convient le mieux à vous ou votre équipe, garder en tête qu'Angular utilise `Class`.
 
 Voici un exemple qui utilise une constante avec une  "fat arrow function",  un wrapper d'expression `() => ({})` qui retourne un Object literal (notez les différences d'utilisation dans `.directive()`):
 
@@ -656,7 +656,7 @@ export const TodoModule = angular
 
 # Styles
 
-En utilisant [Webpack](https://webpack.github.io/) nous pouvons utiliser la notion d'`import` de nos fichiers `.scss` dans nos fichiers `*.module.js` et laisser Webpack connaitre la manière d'inclure ces fichiers dans nos feuilles CSS. En procédant de cette manière, nous gardons nos composants isolés tant au niveau fonctionnalités que styles, et cela se rapproche plus clairement de l'inclusion de feuilles de styles d'Angular 2. En procédant de cette manière, nous n'allons pas juste isolé nos styles pour ce composant comme en Angular 2, les styles seront quand même utilisable de manière globale dans l'application, mais l'ensemble sera beaucoup plus maintenable et la structure de notre application plus compréhensive.
+En utilisant [Webpack](https://webpack.github.io/) nous pouvons utiliser la notion d'`import` de nos fichiers `.scss` dans nos fichiers `*.module.js` et laisser Webpack connaitre la manière d'inclure ces fichiers dans nos feuilles CSS. En procédant de cette manière, nous gardons nos composants isolés tant au niveau fonctionnalités que styles, et cela se rapproche plus clairement de l'inclusion de feuilles de styles d'Angular. En procédant de cette manière, nous n'allons pas juste isolé nos styles pour ce composant comme en Angular, les styles seront quand même utilisable de manière globale dans l'application, mais l'ensemble sera beaucoup plus maintenable et la structure de notre application plus compréhensive.
 
 Si vous avez quelques variables ou des styles globaux comme des champs de formulaires, dans ce cas ces fichiers doivent être placés dans votre dossier `scss`. Par exemple `scss/_forms.scss`. Ces styles globaux peuvent ensuite être `@imported` dans la feuille de style de notre module root (`app.module.js`) comme on procède habituellement.
 
@@ -667,7 +667,7 @@ Si vous avez quelques variables ou des styles globaux comme des champs de formul
 ##### ES2015
 
 * Utiliser [Babel](https://babeljs.io/) pour compiler votre code ES2015+ et tous les polyfills
-* Envisager d'utiliser [TypeScript](http://www.typescriptlang.org/) pour simplifier la transition vers Angular 2
+* Envisager d'utiliser [TypeScript](http://www.typescriptlang.org/) pour simplifier la transition vers Angular
 
 ##### Outils
 * Utiliser `ui-router` [la dernière alpha](https://github.com/angular-ui/ui-router) (voir le Readme) si vous voulez supporter le component-routing
@@ -684,7 +684,7 @@ Si vous avez quelques variables ou des styles globaux comme des champs de formul
 
 # State management
 
-Envisager d'utiliser Redux avec Angular 1.5 pour la gestion des données.
+Envisager d'utiliser Redux avec AngularJS 1.5 pour la gestion des données.
 
 * [Angular Redux](https://github.com/angular-redux/ng-redux)
 
@@ -703,7 +703,7 @@ Envisager d'utiliser Redux avec Angular 1.5 pour la gestion des données.
 **[Haut de page](#table-des-matieres)**
 
 # Documentation
-Pour d'autres informations, y compris les références à l'API, voici la [documentation Angular](//docs.angularjs.org/api)
+Pour d'autres informations, y compris les références à l'API, voici la [documentation AngularJS](//docs.angularjs.org/api)
 
 # Contribuer
 

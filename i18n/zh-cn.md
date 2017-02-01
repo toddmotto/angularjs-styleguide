@@ -1,10 +1,10 @@
-# Angular 1.x 编码风格指南(ES2015)
+# AngularJS 编码风格指南(ES2015)
 
 ### 架构, 文件结构, 组件, 单向数据流以及最佳实践
 
 *来自 [@toddmotto](//twitter.com/toddmotto) 团队的编码指南*
 
-Angular 的编码风格以及架构已经使用ES2015进行重写,这些在Angular 1.5+的变化可以更好帮助您的更好的升级到Angular2.。
+Angular 的编码风格以及架构已经使用ES2015进行重写,这些在AngularJS 1.5+的变化可以更好帮助您的更好的升级到Angular2.。
 这份指南包括了新的单向数据流，事件委托，组件架构和组件路由。
 
 老版本的指南你可以在[这里](https://github.com/toddmotto/angular-styleguide/tree/angular-old-es5)找到,  在[这里](https://toddmotto.com/rewriting-angular-styleguide-angular-2)你能看到最新的.
@@ -256,7 +256,7 @@ calendar.spec.js
 
 组件实际上就是带有控制器的模板。他们即不是指令，也不应该使用组件代替指令，除非你正在用控制器升级“模板指令”，
 组件还包含数据事件的输入与输出，生命周期钩子和使用单向数据流以及从父组件上获取数据的事件对象。
-从父组件获取数据备份。这些都是在Angular 1.5及以上推出的新标准。
+从父组件获取数据备份。这些都是在AngularJS 1.5及以上推出的新标准。
 我们创建的一切模板，控制器都可能是一个组件，它们可能是是有状态的，无状态或路由组件。
 你可以把一个“部件”作为一个完整的一段代码，而不仅仅是`.component（）`定义的对象。
 让我们来探讨一些组件最佳实践和建议，然后你应该可以明白如何组织他们。
@@ -614,7 +614,7 @@ export default TodoModule;
 
 ### 常量 和 类
 
-下面有几个使用es2015和指令的方法，无论是带有箭头函数，更容易的操作，或使用ES2015`Class`。记住选择最适合自己或者团队的方法，并且记住 Angular 2中使用 Class.
+下面有几个使用es2015和指令的方法，无论是带有箭头函数，更容易的操作，或使用ES2015`Class`。记住选择最适合自己或者团队的方法，并且记住 Angular 中使用 Class.
 
 
 
@@ -775,7 +775,7 @@ export default TodoModule;
 **[返回目录](#table-of-contents)**
 
 # 文档
-关于Angular API [Angular documentation](//docs.angularjs.org/api).
+关于Angular API [AngularJS documentation](//docs.angularjs.org/api).
 
 # 贡献
 
