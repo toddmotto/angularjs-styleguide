@@ -1,6 +1,6 @@
-# Angular 1.x styleguide (ES2015)
+# AngularJs styleguide (ES2015)
 
-### Up-to-date with Angular 1.6 best practices. Architecture, file structure, components, one-way dataflow, lifecycle hooks.
+### Up-to-date with AngularJs 1.6 best practices. Architecture, file structure, components, one-way dataflow, lifecycle hooks.
 
 ---
 
@@ -10,11 +10,11 @@
 
 *A sensible styleguide for teams by [@toddmotto](//twitter.com/toddmotto)*
 
-This architecture and styleguide has been rewritten from the ground up for ES2015, the changes in Angular 1.5+ for future-upgrading your application to Angular 2. This guide includes new best practices for one-way dataflow, event delegation, component architecture and component routing.
+This architecture and styleguide has been rewritten from the ground up for ES2015, the changes in AngularJs 1.5+ for future-upgrading your application to Angular. This guide includes new best practices for one-way dataflow, event delegation, component architecture and component routing.
 
 You can find the old styleguide [here](https://github.com/toddmotto/angular-styleguide/tree/angular-old-es5), and the reasoning behind the new one [here](https://toddmotto.com/rewriting-angular-styleguide-angular-2).
 
-> Join the Ultimate AngularJS learning experience to fully master beginner and advanced Angular features to build real-world apps that are fast, and scale.
+> Join the Ultimate AngularJS learning experience to fully master beginner and advanced AngularJs features to build real-world apps that are fast, and scale.
 
 <a href="https://ultimateangular.com" target="_blank"><img src="https://toddmotto.com/img/ua.png?ua"></a>
 
@@ -173,7 +173,7 @@ export const CalendarModule = angular
 
 ### File naming conventions
 
-Keep it simple and lowercase, use the component name, e.g. `calendar.*.js*`, `calendar-grid.*.js` - with the name of the type of file in the middle. Use `*.module.js` for the module definition file, as it keeps it verbose and consistent with Angular 2.
+Keep it simple and lowercase, use the component name, e.g. `calendar.*.js*`, `calendar-grid.*.js` - with the name of the type of file in the middle. Use `*.module.js` for the module definition file, as it keeps it verbose and consistent with Angular.
 
 ```
 calendar.module.js
@@ -256,7 +256,7 @@ The high level folder structure simply contains `index.html` and `app/`, a direc
 
 ### Component theory
 
-Components are essentially templates with a controller. They are _not_ Directives, nor should you replace Directives with Components, unless you are upgrading "template Directives" with controllers, which are best suited as a component. Components also contain bindings that define inputs and outputs for data and events, lifecycle hooks and the ability to use one-way data flow and event Objects to get data back up to a parent component. These are the new defacto standard in Angular 1.5 and above. Everything template and controller driven that we create will likely be a component, which may be a stateful, stateless or routed component. You can think of a "component" as a complete piece of code, not just the `.component()` definition Object. Let's explore some best practices and advisories for components, then dive into how you should be structuring them via stateful, stateless and routed component concepts.
+Components are essentially templates with a controller. They are _not_ Directives, nor should you replace Directives with Components, unless you are upgrading "template Directives" with controllers, which are best suited as a component. Components also contain bindings that define inputs and outputs for data and events, lifecycle hooks and the ability to use one-way data flow and event Objects to get data back up to a parent component. These are the new defacto standard in AngularJs 1.5 and above. Everything template and controller driven that we create will likely be a component, which may be a stateful, stateless or routed component. You can think of a "component" as a complete piece of code, not just the `.component()` definition Object. Let's explore some best practices and advisories for components, then dive into how you should be structuring them via stateful, stateless and routed component concepts.
 
 **[Back to top](#table-of-contents)**
 
@@ -282,7 +282,7 @@ Controllers should only be used alongside components, never anywhere else. If yo
 
 Here are some advisories for using `Class` for controllers:
 
-* Drop the name "Controller", i.e. use `controller: class TodoComponent {...}` to aid future Angular 2 migration
+* Drop the name "Controller", i.e. use `controller: class TodoComponent {...}` to aid future Angular migration
 * Always use the `constructor` for dependency injection purposes
 * Use [ng-annotate](https://github.com/olov/ng-annotate)'s `'ngInject';` syntax for `$inject` annotations
 * If you need to access the lexical scope, use arrow functions
@@ -297,7 +297,7 @@ Here are some advisories for using `Class` for controllers:
 
 ### One-way dataflow and Events
 
-One-way dataflow was introduced in Angular 1.5, and redefines component communication.
+One-way dataflow was introduced in AngularJs 1.5, and redefines component communication.
 
 Here are some advisories for using one-way dataflow:
 
@@ -306,8 +306,8 @@ Here are some advisories for using one-way dataflow:
 * Components that have `bindings` should use `$onChanges` to clone the one-way binding data to break Objects passing by reference and updating the parent data
 * Use `$event` as a function argument in the parent method (see stateful example below `$ctrl.addTodo($event)`)
 * Pass an `$event: {}` Object back up from a stateless component (see stateless example below `this.onAddTodo`).
-  * Bonus: Use an `EventEmitter` wrapper with `.value()` to mirror Angular 2, avoids manual `$event` Object creation
-* Why? This mirrors Angular 2 and keeps consistency inside every component. It also makes state predictable.
+  * Bonus: Use an `EventEmitter` wrapper with `.value()` to mirror Angular, avoids manual `$event` Object creation
+* Why? This mirrors Angular and keeps consistency inside every component. It also makes state predictable.
 
 **[Back to top](#table-of-contents)**
 
@@ -586,7 +586,7 @@ Due to the fact directives support most of what `.component()` does (template di
 
 ### Constants or Classes
 
-There are a few ways to approach using ES2015 and directives, either with an arrow function and easier assignment, or using an ES2015 `Class`. Choose what's best for you or your team, keep in mind Angular 2 uses `Class`.
+There are a few ways to approach using ES2015 and directives, either with an arrow function and easier assignment, or using an ES2015 `Class`. Choose what's best for you or your team, keep in mind Angular uses `Class`.
 
 Here's an example using a constant with an Arrow function an expression wrapper `() => ({})` returning an Object literal (note the usage differences inside `.directive()`):
 
@@ -700,7 +700,7 @@ export const TodoModule = angular
 
 # Styles
 
-Using [Webpack](https://webpack.github.io/) we can now use `import` statements on our `.scss` files in our `*.module.js` to let Webpack know to include that file in our stylesheet. Doing this lets us keep our components isolated for both functionality and style, it also aligns more closely to how stylesheets are declared for use in Angular 2. Doing this won't isolate our styles to just that component like it does with Angular 2, the styles will still be usable application wide but its more manageable and makes our applications structure easier to reason about.
+Using [Webpack](https://webpack.github.io/) we can now use `import` statements on our `.scss` files in our `*.module.js` to let Webpack know to include that file in our stylesheet. Doing this lets us keep our components isolated for both functionality and style, it also aligns more closely to how stylesheets are declared for use in Angular. Doing this won't isolate our styles to just that component like it does with Angular, the styles will still be usable application wide but its more manageable and makes our applications structure easier to reason about.
 
 If you have some variables or globally used styles like form input elements then these files should still be placed into the root `scss` folder. e.g. `scss/_forms.scss`. These global styles can the be `@imported` into your root module (`app.module.js`) stylesheet like you would normally do.
 
@@ -711,7 +711,7 @@ If you have some variables or globally used styles like form input elements then
 ##### ES2015
 
 * Use [Babel](https://babeljs.io/) to compile your ES2015+ code and any polyfills
-* Consider using [TypeScript](http://www.typescriptlang.org/) to make way for any Angular 2 upgrades
+* Consider using [TypeScript](http://www.typescriptlang.org/) to make way for any Angular upgrades
 
 ##### Tooling
 * Use `ui-router` [latest alpha](https://github.com/angular-ui/ui-router) (see the Readme) if you want to support component-routing
@@ -728,7 +728,7 @@ If you have some variables or globally used styles like form input elements then
 
 # State management
 
-Consider using Redux with Angular 1.5 for data management.
+Consider using Redux with AngularJs 1.5 for data management.
 
 * [Angular Redux](https://github.com/angular-redux/ng-redux)
 
