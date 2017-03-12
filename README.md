@@ -700,9 +700,9 @@ export const TodoModule = angular
 
 # Styles
 
-Using [Webpack](https://webpack.github.io/) we can now use `import` statements on our `.scss` files in our `*.module.js` to let Webpack know to include that file in our stylesheet. Doing this lets us keep our components isolated for both functionality and style, it also aligns more closely to how stylesheets are declared for use in Angular. Doing this won't isolate our styles to just that component like it does with Angular, the styles will still be usable application wide but its more manageable and makes our applications structure easier to reason about.
+Using [Webpack](https://webpack.github.io/) we can now use `import` statements on our `.scss` files in our `*.module.js` to let Webpack know to include that file in our stylesheet. Doing this lets us keep our components isolated for both functionality and style; it also aligns more closely to how stylesheets are declared for use in Angular. Doing this won't isolate our styles to just that component like it does with Angular; the styles will still be usable application wide but it is more manageable and makes our applications structure easier to reason about.
 
-If you have some variables or globally used styles like form input elements then these files should still be placed into the root `scss` folder. e.g. `scss/_forms.scss`. These global styles can the be `@imported` into your root module (`app.module.js`) stylesheet like you would normally do.
+If you have some variables or globally used styles like form input elements then these files should still be placed into the root `scss` folder. e.g. `scss/_forms.scss`. These global styles can then be `@imported` into your root module (`app.module.js`) stylesheet like you would normally do.
 
 **[Back to top](#table-of-contents)**
 
