@@ -675,7 +675,7 @@ Here's an example implementation for our `<todo>` app using ES2015 `Class`:
 /* ----- todo/todo.service.js ----- */
 export class TodoService {
   constructor($http) {
-    'ngInject;'
+    'ngInject';
     this.$http = $http;
   }
   getTodos() {
