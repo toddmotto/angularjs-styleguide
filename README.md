@@ -16,7 +16,7 @@ You can find the old styleguide [here](https://github.com/toddmotto/angular-styl
 
 > Join the Ultimate AngularJS learning experience to fully master beginner and advanced AngularJS features to build real-world apps that are fast, and scale.
 
-<a href="https://ultimateangular.com" target="_blank"><img src="https://toddmotto.com/img/ua.png?ua"></a>
+<a href="https://ultimateangular.com" target="_blank"><img src="https://ultimateangular.com/assets/img/banner.jpg"></a>
 
 ## Table of Contents
 
