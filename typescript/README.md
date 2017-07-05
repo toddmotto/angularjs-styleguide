@@ -14,7 +14,7 @@ You can find the old styleguide [here](https://github.com/toddmotto/angular-styl
 
 ## Table of Contents
 
-  1. [Modular architecture](#modular-architecture)
+1. [Modular architecture](#modular-architecture)
     1. [Theory](#module-theory)
     1. [Root module](#root-module)
     1. [Component module](#component-module)
@@ -22,7 +22,7 @@ You can find the old styleguide [here](https://github.com/toddmotto/angular-styl
     1. [Low-level modules](#low-level-modules)
     1. [File naming conventions](#file-naming-conventions)
     1. [Scalable file structure](#scalable-file-structure)
-  1. [Components](#components)
+1. [Components](#components)
     1. [Theory](#component-theory)
     1. [Supported properties](#supported-properties)
     1. [Controllers](#controllers)
@@ -30,19 +30,19 @@ You can find the old styleguide [here](https://github.com/toddmotto/angular-styl
     1. [Stateful Components](#stateful-components)
     1. [Stateless Components](#stateless-components)
     1. [Routed Components](#routed-components)
-  1. [Directives](#directives)
+1. [Directives](#directives)
     1. [Theory](#directive-theory)
     1. [Recommended properties](#recommended-properties)
     1. [Constants or Classes](#constants-or-classes)
-  1. [Services](#services)
+1. [Services](#services)
     1. [Theory](#service-theory)
     1. [Classes for Service](#classes-for-service)
-  1. [Styles](#styles)
-  1. [TypeScript and Tooling](#typescript-and-tooling)
-  1. [State management](#state-management)
-  1. [Resources](#resources)
-  1. [Documentation](#documentation)
-  1. [Contributing](#contributing)
+1. [Styles](#styles)
+1. [TypeScript and Tooling](#typescript-and-tooling)
+1. [State management](#state-management)
+1. [Resources](#resources)
+1. [Documentation](#documentation)
+1. [Contributing](#contributing)
 
 # Modular architecture
 
