@@ -653,7 +653,7 @@ import './todo.scss';
 export const TodoModule = angular
   .module('todo', [])
   .component('todo', TodoComponent)
-  .directive('todoAutofocus', () => new TodoAutoFocus())
+  .directive('todoAutofocus', ($timeout) => new TodoAutoFocus($timeout))
   .name;
 ```
 
