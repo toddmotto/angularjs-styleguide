@@ -697,7 +697,7 @@ import { TodoAutofocus } from './todo-autofocus.directive';
 export const TodoModule = angular
   .module('todo', [])
   .component('todo', TodoComponent)
-  .directive('todoAutofocus', () => new TodoAutoFocus)
+  .directive('todoAutofocus', ($timeout: angular.ITimeoutService) => new TodoAutoFocus($timeout))
   .name;
 
 ```
