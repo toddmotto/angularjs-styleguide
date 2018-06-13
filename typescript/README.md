@@ -176,7 +176,7 @@ export const CalendarModule = angular
 Keep it simple and lowercase, use the component name, e.g. `calendar.*.ts*`, `calendar-grid.*.ts` - with the name of the type of file in the middle. Use `index.ts` for the module definition file, so you can import the module by directory name.
 
 ```
-calendar.module.ts
+index.ts
 calendar.component.ts
 calendar.service.ts
 calendar.directive.ts
@@ -196,14 +196,14 @@ File structure is extremely important, this describes a scalable and predictable
 ├── app/
 │   ├── components/
 │   │  ├── calendar/
-│   │  │  ├── calendar.module.ts
+│   │  │  ├── index.ts
 │   │  │  ├── calendar.component.ts
 │   │  │  ├── calendar.service.ts
 │   │  │  ├── calendar.spec.ts
 │   │  │  ├── calendar.html
 │   │  │  ├── calendar.scss
 │   │  │  └── calendar-grid/
-│   │  │     ├── calendar-grid.module.ts
+│   │  │     ├── index.ts
 │   │  │     ├── calendar-grid.component.ts
 │   │  │     ├── calendar-grid.directive.ts
 │   │  │     ├── calendar-grid.filter.ts
@@ -211,7 +211,7 @@ File structure is extremely important, this describes a scalable and predictable
 │   │  │     ├── calendar-grid.html
 │   │  │     └── calendar-grid.scss
 │   │  ├── events/
-│   │  │  ├── events.module.ts
+│   │  │  ├── index.ts
 │   │  │  ├── events.component.ts
 │   │  │  ├── events.directive.ts
 │   │  │  ├── events.service.ts
@@ -219,7 +219,7 @@ File structure is extremely important, this describes a scalable and predictable
 │   │  │  ├── events.html
 │   │  │  ├── events.scss
 │   │  │  └── events-signup/
-│   │  │     ├── events-signup.module.ts
+│   │  │     ├── indx.ts
 │   │  │     ├── events-signup.controller.ts
 │   │  │     ├── events-signup.component.ts
 │   │  │     ├── events-signup.service.ts
@@ -229,21 +229,21 @@ File structure is extremely important, this describes a scalable and predictable
 │   │  └── components.module.ts
 │   ├── common/
 │   │  ├── nav/
-│   │  │     ├── nav.module.ts
+│   │  │     ├── index.ts
 │   │  │     ├── nav.component.ts
 │   │  │     ├── nav.service.ts
 │   │  │     ├── nav.spec.ts
 │   │  │     ├── nav.html
 │   │  │     └── nav.scss
 │   │  ├── footer/
-│   │  │     ├── footer.module.ts
+│   │  │     ├── index.ts
 │   │  │     ├── footer.component.ts
 │   │  │     ├── footer.service.ts
 │   │  │     ├── footer.spec.ts
 │   │  │     ├── footer.html
 │   │  │     └── footer.scss
-│   │  └── common.module.ts
-│   ├── app.module.ts
+│   │  └── index.ts
+│   ├── index.ts
 │   ├── app.component.ts
 │   └── app.scss
 └── index.html
@@ -361,7 +361,7 @@ export class TodoController {
   }
 }
 
-/* ----- todo/todo.module.ts ----- */
+/* ----- todo/index.ts ----- */
 import angular from 'angular';
 import { TodoComponent } from './todo.component';
 
@@ -388,6 +388,7 @@ export class TodoItem {
     constructor(
         public title: string,
         public completed: boolean) { }
+    )    
 }
 
 
