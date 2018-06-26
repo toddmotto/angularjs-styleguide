@@ -109,6 +109,7 @@ export const AppModule = angular
 A Component module is the container reference for all reusable components. See above how we import `ComponentsModule` and inject them into the Root module, this gives us a single place to import all components for the app. These modules we require are decoupled from all other modules and thus can be moved into any other application with ease.
 
 ```js
+// components/components.module.js
 import angular from 'angular';
 import { CalendarModule } from './calendar/calendar.module';
 import { EventsModule } from './events/events.module';
@@ -128,6 +129,7 @@ export const ComponentsModule = angular
 The Common module is the container reference for all application specific components, that we don't want to use in another application. This can be things like layout, navigation and footers. See above how we import `CommonModule` and inject them into the Root module, this gives us a single place to import all common components for the app.
 
 ```js
+// common/common.module.js
 import angular from 'angular';
 import { NavModule } from './nav/nav.module';
 import { FooterModule } from './footer/footer.module';
@@ -147,6 +149,7 @@ export const CommonModule = angular
 Low-level modules are individual component modules that contain the logic for each feature block. These will each define a module, to be imported to a higher-level module, such as a component or common module, an example below. Always remember to add the `.name` suffix to each `export` when creating a _new_ module, not when referencing one. You'll noticed routing definitions also exist here, we'll come onto this in later chapters in this guide.
 
 ```js
+// calendar/calendar.module.js
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import { CalendarComponent } from './calendar.component';
