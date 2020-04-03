@@ -2,6 +2,10 @@
 
 ### Up-to-date with AngularJS 1.6 best practices. Architecture, file structure, components, one-way dataflow, lifecycle hooks.
 
+<div align="center">
+<a href="https://ultimatecourses.com/courses/angular" target="_blank"><img width="100%" src="https://ultimatecourses.com/static/banners/ultimate-angular-github.svg"></a>
+</div>
+
 ---
 
 > Want an example structure as reference? Check out my [component based architecture 1.5 app](https://github.com/toddmotto/angular-1-5-components-app).
