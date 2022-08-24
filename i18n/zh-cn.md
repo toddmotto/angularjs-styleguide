@@ -15,7 +15,7 @@ Angular 的编码风格以及架构已经使用ES2015进行重写,这些在Angul
 
 ## 目录
 
-  1. [模块架构](#module-architecture)
+1. [模块架构](#module-architecture)
     1. [基本概念](#module-theory)
     1. [根 模块](#root-module)
     1. [组件模块](#component-module)
@@ -23,7 +23,7 @@ Angular 的编码风格以及架构已经使用ES2015进行重写,这些在Angul
     1. [低级别模块](#low-level-modules)
     1. [可扩展的文件结构](#scalable-file-structure)
     1. [文件命名规范](#file-naming-conventions)
-  1. [组件](#components)
+1. [组件](#components)
     1. [基本概念](#component-theory)
     1. [支持的属性](#supported-properties)
     1. [控制器](#controllers)
@@ -31,18 +31,18 @@ Angular 的编码风格以及架构已经使用ES2015进行重写,这些在Angul
     1. [状态组件](#stateful-components)
     1. [无状态组件](#stateless-components)
     1. [路由组件](#routed-components)
-  1. [指令](#directives)
+1. [指令](#directives)
     1. [基本概念](#directive-theory)
     1. [建议的属性](#recommended-properties)
     1. [常量和类](#constants-or-classes)
-  1. [服务](#services)
+1. [服务](#services)
     1. [基本概念](#service-theory)
     1. [服务](#classes-for-service)
-  1. [ES2015 和工具推荐](#es2015-and-tooling)
-  1. [状态管理](#state-management)
-  1. [资源](#resources)
-  1. [文档](#documentation)
-  1. [贡献](#contributing)
+1. [ES2015 和工具推荐](#es2015-and-tooling)
+1. [状态管理](#state-management)
+1. [资源](#resources)
+1. [文档](#documentation)
+1. [贡献](#contributing)
 
 # Modular architecture
 

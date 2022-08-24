@@ -14,7 +14,7 @@ Anda dapat temukan panduan gaya yang lama [disini](https://github.com/toddmotto/
 
 ## Daftar Isi
 
-  1. [Arsitektur Modular](#arsitektur-modular)
+1. [Arsitektur Modular](#arsitektur-modular)
     1. [Teori](#teori-modul)
     1. [Modul Pangkal](#modul-pangkal)
     1. [Modul Komponen](#modul-komponen)
@@ -22,7 +22,7 @@ Anda dapat temukan panduan gaya yang lama [disini](https://github.com/toddmotto/
     1. [Modul Tingkat-Rendah](#modul-tingkat-rendah)
     1. [Struktur Berkas Berskala](#struktur-berkas-berskala)
     1. [Konvensi Penamaan Berkas](#konvensi-penamaan-berkas)
-  1. [Komponen](#komponen)
+1. [Komponen](#komponen)
     1. [Teori](#teori-komponen)
     1. [Properti yang Didukung](#properti-yang-didukung)
     1. [Pengendali](#pengendali)
@@ -30,18 +30,18 @@ Anda dapat temukan panduan gaya yang lama [disini](https://github.com/toddmotto/
     1. [Komponen Berkondisi](#komponen-berkondisi)
     1. [Komponen Tanpa Kondisi](#komponen-tanpa-kondisi)
     1. [Komponen yang memiliki Rute](#komponen-yang-memiliki-rute)
-  1. [Direktif](#direktif)
+1. [Direktif](#direktif)
     1. [Teori](#teori-direktif)
     1. [Properti yang Disarankan](#properti-yang-disarankan)
     1. [Konstanta atau Kelas](#konstanta-atau-kelas)
-  1. [Servis](#servis)
+1. [Servis](#servis)
     1. [Teori](#teori-servis)
     1. [Kelas untuk Servis](#kelas-untuk-servis)
-  1. [ES2015 dan Perangkat](#es2015-dan-perangkat)
-  1. [Pengelolaan kondisi](#pengelolaan-kondisi)
-  1. [Sumber](#sumber)
-  1. [Dokumentasi](#dokumentasi)
-  1. [Berkontribusi](#berkontribusi)
+1. [ES2015 dan Perangkat](#es2015-dan-perangkat)
+1. [Pengelolaan kondisi](#pengelolaan-kondisi)
+1. [Sumber](#sumber)
+1. [Dokumentasi](#dokumentasi)
+1. [Berkontribusi](#berkontribusi)
 
 # Arsitektur modular
 

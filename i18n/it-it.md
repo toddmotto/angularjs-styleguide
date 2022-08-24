@@ -21,7 +21,7 @@ che c'è dietro a quelle nuove [qui](https://toddmotto.com/rewriting-angular-sty
 
 # Tabella dei contenuti
 
-  1. [Architettura Modulare](#architettura-modulare)
+1. [Architettura Modulare](#architettura-modulare)
     1. [Teoria](#teoria-del-modulo)
     1. [Modulo radice](#modulo-radice)
     1. [Modulo Component](#modulo-components)
@@ -29,7 +29,7 @@ che c'è dietro a quelle nuove [qui](https://toddmotto.com/rewriting-angular-sty
     1. [Moduli di basso livello](#moduli-di-basso-livello)
     1. [Nomenclatura dei files](#nomenclatura-dei-files)
     1. [Struttura files scalabile](#struttura-files-scalabile)
-  1. [Componenti](#componenti)
+1. [Componenti](#componenti)
     1. [Teoria](#teoria-del-component)
     1. [Proprietá supportate](#proprietá-supportate)
     1. [Controllers](#controllers)
@@ -37,18 +37,18 @@ che c'è dietro a quelle nuove [qui](https://toddmotto.com/rewriting-angular-sty
     1. [Componenti con stato](#stateful-components)
     1. [Componenti privi di stato](#componenti-con-stato)
     1. [Componenti Indirizzati](#component-indirizzati)
-  1. [Direttive](#direttive)
+1. [Direttive](#direttive)
     1. [Teoria](#teoria-della-direttiva)
     1. [Proprietá raccomandate](#proprietá-raccomandate)
     1. [Costanti o classi](#costanti-o-classi)
-  1. [Servizi](#servizi)
+1. [Servizi](#servizi)
     1. [Teoria](#teoria-del-service)
     1. [Classi per Service](#classi-per-service)
-  1. [ES2015 e strumenti](#es2015-e-strumenti)
-  1. [Gestione dello stato](#gestione-dello-stato)
-  1. [Risorse](#risorse)
-  1. [Documentazione](#documentazione)
-  1. [Contribuire](#contribuire)
+1. [ES2015 e strumenti](#es2015-e-strumenti)
+1. [Gestione dello stato](#gestione-dello-stato)
+1. [Risorse](#risorse)
+1. [Documentazione](#documentazione)
+1. [Contribuire](#contribuire)
 
 # Architettura Modulare
 
