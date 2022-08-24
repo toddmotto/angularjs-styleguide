@@ -14,7 +14,7 @@ O guia de estilo antigo pode ser encontrado [aqui](https://github.com/toddmotto/
 
 ## Tabela de conteúdos
 
-  1. [Arquitetura modular](#arquitetura-modular)
+1. [Arquitetura modular](#arquitetura-modular)
     1. [Teoria](#teoria)
     1. [Root module](#root-module)
     1. [Component module](#component-module)
@@ -22,7 +22,7 @@ O guia de estilo antigo pode ser encontrado [aqui](https://github.com/toddmotto/
     1. [Low-level modules](#low-level-modules)
     1. [Estrutura de ficheiros escalável](#estrutura-de-ficheiros-escalável)
     1. [Convenções para nomes de ficheiros](#convenções-para-nomes-de-ficheiros)
-  1. [Componentes](#componentes)
+1. [Componentes](#componentes)
     1. [Teoria](#componentes-teoria)
     1. [Propriedades suportadas](#propriedades-suportadas)
     1. [Controllers](#controllers)
@@ -30,18 +30,18 @@ O guia de estilo antigo pode ser encontrado [aqui](https://github.com/toddmotto/
     1. [Stateful Components](#stateful-components)
     1. [Stateless Components](#stateless-components)
     1. [Routed Components](#routed-components)
-  1. [Diretivas](#diretivas)
+1. [Diretivas](#diretivas)
     1. [Teoria](#diretivas-teoria)
     1. [Propriedades recomendadas](#propriedades-recomendadas)
     1. [Classes e constantes](#classes-e-constantes)
-  1. [Serviços](#serviços)
+1. [Serviços](#serviços)
     1. [Teoria](#serviços-teoria)
     1. [Classes para serviços](#classes-para-serviços)
-  1. [ES2015 e Tooling](#es2015-e-tooling)
-  1. [State management](#state-management)
-  1. [Recursos](#recursos)
-  1. [Documentação](#documentação)
-  1. [Contribuições](#contribuições)
+1. [ES2015 e Tooling](#es2015-e-tooling)
+1. [State management](#state-management)
+1. [Recursos](#recursos)
+1. [Documentação](#documentação)
+1. [Contribuições](#contribuições)
 
 # Arquitetura modular
 
